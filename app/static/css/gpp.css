@@ -1,0 +1,216 @@
+#search-area {
+    margin-left: auto;
+    margin-right: auto;
+    width: 700px;
+    height:100%;
+	overflow: hidden;
+	padding-top: 15%;
+	padding-bottom: 20%;
+}
+
+#search-block {
+	
+	background-color: rgba(255,255,255,0.75);
+	border-color: rgba(255,255,255,0.75);
+
+	border-style: solid;
+
+}
+
+.btn-nyc {
+  color: #fff;
+  background-color: #6b27ca;
+  border-color: #6027ae;
+}
+.btn-nyc:hover,
+.btn-nyc:focus,
+.btn-nyc:active,
+.btn-nyc.active,
+.open .dropdown-toggle.btn-nyc {
+  color: #fff;
+  background-color: #5a1dae;
+  border-color: #3e1c70;
+}
+.btn-nyc:active,
+.btn-nyc.active,
+.open .dropdown-toggle.btn-nyc {
+  background-image: none;
+}
+.btn-nyc.disabled,
+.btn-nyc[disabled],
+fieldset[disabled] .btn-nyc,
+.btn-nyc.disabled:hover,
+.btn-nyc[disabled]:hover,
+fieldset[disabled] .btn-nyc:hover,
+.btn-nyc.disabled:focus,
+.btn-nyc[disabled]:focus,
+fieldset[disabled] .btn-nyc:focus,
+.btn-nyc.disabled:active,
+.btn-nyc[disabled]:active,
+fieldset[disabled] .btn-nyc:active,
+.btn-nyc.disabled.active,
+.btn-nyc[disabled].active,
+fieldset[disabled] .btn-nyc.active {
+  background-color: #8852d4;
+  border-color: #6027ae;
+}
+/* btn-coral */
+.btn-coral {
+  color: #fff;
+  background-color: #ff6666;
+  border-color: #e04a4a;
+}
+.btn-coral:hover,
+.btn-coral:focus,
+.btn-coral:active,
+.btn-coral.active,
+.open .dropdown-toggle.btn-coral {
+  color: #fff;
+  background-color: #ff4444;
+  border-color: #aa1313;
+}
+.btn-coral:active,
+.btn-coral.active,
+.open .dropdown-toggle.btn-coral {
+  background-image: none;
+}
+/* panel-result */
+.panel-result {
+  border-color: #6b27ca;
+}
+.panel-result > .panel-heading {
+  color: #34185a;/*#6734af*/
+  background-color: #bb8ef9;
+  border-color: #6b27ca;
+}
+.panel-result > .panel-heading + .panel-collapse .panel-body {
+  border-top-color: #6b27ca;
+}
+.panel-result > .panel-footer + .panel-collapse .panel-body {
+  border-bottom-color: #6b27ca;
+}
+
+#search {
+	background-color: rgba(255,255,255,0.75);
+	border-width: 1px;
+	border-color: rgba(255,255,255,0.75);
+	border-radius: 4px 4px 4px 4px;
+	box-shadow: none;
+	border-style: solid;
+	padding: 0px;
+	margin-left: auto;
+	margin-right: auto;
+	width: 600px;
+}
+
+#about {
+	float: none;
+	padding: 10px 15px 10px;
+	color: #777777;
+	text-decoration: none;
+	text-shadow: 0 1px 0 #ffffff;
+	margin-top: 6px;
+}
+
+#footer {
+	background-color: #f5f5f5;
+	position: absolute;
+	bottom:0;
+	width: 100%;
+	padding-top: 15px;
+	height:50px;
+}
+
+select {
+	margin-left: 35px;
+}
+
+h2 {
+	color:purple;
+}
+
+#footer-info {
+	float: right;
+}
+
+body,html {
+	height:100%;
+}
+
+body {
+	padding-top: 151px;
+	padding-bottom: 50px;
+/*
+	overflow-x: hidden;
+	overflow-y: auto;
+*/
+	
+}
+
+#sidebar {
+	width: inherit;
+	min-width: 280px;
+	max-width: 280px;
+	background-color:#fff;
+	float: left;
+	height:100%;
+	position:relative;
+	overflow-y:hidden;
+	overflow-x:hidden;
+}
+
+#main {
+	height:100%;
+	overflow:auto;
+	text-align:center;
+}
+
+/* are commas not working or something? */
+.form-control-danger::-moz-placeholder {
+  color: #FF0000;
+}
+
+.form-control-danger::-webkit-input-placeholder {
+  color: #FF0000;
+}
+
+.form-contorl-danger::-ms-input-placeholder {
+  color: #FF0000;
+}
+
+/*
+[placeholder]:focus::-webkit-input-placeholder {
+  transition: opacity 0.25s 0.25s ease;
+  color: purple;
+  opacity: 0;
+}
+*/
+
+.jumbotron {
+    text-align: center;
+    background-color: rgba(255,255,255,0.75);
+	border-color: rgba(255,255,255,0.75);
+	border-style: solid;
+	margin-bottom: 10px;
+}
+
+.dropdown-menu {
+    min-width: 130px;
+    width: 130px;
+}
+
+.return-to-top {
+    /*
+position: fixed;
+    top: 405px;
+    left: 188px;
+*/
+    transform: rotate(270deg);
+    -ms-transform: rotate(270deg); /* IE 9 */
+    -webkit-transform: rotate(270deg); /* Opera, Chrome, and Safari */
+}
+
+.modal-dialog{
+  width: 45%;
+}
+

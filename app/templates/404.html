@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block title %}404{% endblock %}
+
+{% block content %}
+
+    <style> body { padding-top: 50px; } </style>
+    <div class="container">
+        <h2>404 Broken Link</h2>
+        <p>What you are looking for cannot be found</p>
+        <p>Sorry :(</p>
+		<a type="button" class="btn btn-nyc navbar-btn navbar-left" href='{{ url_for('results', back='results') }}'>
+			<span class="glyphicon glyphicon-arrow-left"></span> Back to Results
+		</a>
+    </div>
+
+{% endblock %}
