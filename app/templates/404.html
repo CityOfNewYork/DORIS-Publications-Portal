@@ -5,12 +5,11 @@
 {% block content %}
 
     <style> body { padding-top: 50px; } </style>
-    <div class="container">
-        <h2>404 Broken Link</h2>
-        <p>What you are looking for cannot be found</p>
-        <p>Sorry :(</p>
-		<a type="button" class="btn btn-nyc navbar-btn navbar-left" href='{{ url_for('results', back='results') }}'>
-			<span class="glyphicon glyphicon-arrow-left"></span> Back to Results
+    <div class="container text-center" style="max-width: 960px;">
+        <h2>404 - Broken Link</h2>
+        <p>It appears we don't have what you are looking for.</p>
+		<a type="button" class="btn btn-nyc" href='{{ url }}'>
+			<span class="glyphicon glyphicon-circle-arrow-left"></span>&nbsp Back
 		</a>
     </div>
 

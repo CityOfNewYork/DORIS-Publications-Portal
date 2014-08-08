@@ -14,7 +14,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	</head>
 
-	<body onload="document.getElementById('main').scrollTop = $.jStorage.get('scrollPosition')">
+	<body onload="$('body').scrollTop($.jStorage.get('scrollPosition')); console.log($.jStorage.get('scrollPosition'));">
 
 		<!-- HEADER -->
 		<div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -51,7 +51,7 @@
 		{% endblock %}
 
         <!-- FOOTER -->
-		<div class="navbar navbar-default navbar-fixed-bottom" >
+		<div id="footer" class="navbar navbar-default navbar-fixed-bottom">
 		    <div class="container" style="max-width: 960px;">
 		        <div class="navbar-header">
 		            <p class="navbar-text">&copy; 2014 City of New York</p>
@@ -66,13 +66,14 @@
                 <form role="form" class="form-horizontal" method="post" action="/email">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove-circle
+"></span></button>
                         <h4 class="modal-title">Feedback for D.O.R.I.S.</h4>
                     </div>
                     <div class="modal-body">
                         <div class="tab-pane fade active in" id="signin">                        	
                     		<fieldset>
-                        		<!-- Text input-->
+                        		<!-- text input-->
                         		<div class="control-group">
                             		<div class="form-group" id="name">
                             			<div class="controls">
@@ -120,29 +121,6 @@
 		<script type="text/javascript" src="../static/js/bootstrap.min.js"></script>
         <script type="text/javascript" src="../static/js/jstorage.min.js"></script>
 	    <script type="text/javascript" src="../static/js/gpp.js"></script>
-	    <script type="text/javascript">
-            $(document).ready( function () {
-                $('[data-toggle="offcanvas"]').click(function () {
-/*                     $('.row-offcanvas').toggleClass('active'); */
-                    $('.sidebar-offcanvas').css('display','block');
-                    $('#options').slideToggle();
-                });
-            });
-            
-            $('#options').hover( function() {
-                 $('body').toggleClass('scroll-lock');
-            });
-            
-            $('.row-offcanvas').hover( function() {
-                console.log($('[data-toggle="offcanvas"]').css('display'));
-            });
-            
-            $(window).resize(function() {
-                if ($('[data-toggle="offcanvas"]').css('display') == 'none') {
-                    $('#options').slideDown();
-                }
-            });
-        </script>
     	
 	</body>
 	

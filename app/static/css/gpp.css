@@ -1,22 +1,3 @@
-#search-area {
-    margin-left: auto;
-    margin-right: auto;
-    width: 700px;
-    height:100%;
-	overflow: hidden;
-	padding-top: 15%;
-	padding-bottom: 20%;
-}
-
-#search-block {
-	
-	background-color: rgba(255,255,255,0.75);
-	border-color: rgba(255,255,255,0.75);
-
-	border-style: solid;
-
-}
-
 .btn-nyc {
   color: #fff;
   background-color: #6b27ca;
@@ -90,19 +71,6 @@ fieldset[disabled] .btn-nyc.active {
   border-bottom-color: #6b27ca;
 }
 
-#search {
-	background-color: rgba(255,255,255,0.75);
-	border-width: 1px;
-	border-color: rgba(255,255,255,0.75);
-	border-radius: 4px 4px 4px 4px;
-	box-shadow: none;
-	border-style: solid;
-	padding: 0px;
-	margin-left: auto;
-	margin-right: auto;
-	width: 600px;
-}
-
 #about {
 	float: none;
 	padding: 10px 15px 10px;
@@ -110,15 +78,6 @@ fieldset[disabled] .btn-nyc.active {
 	text-decoration: none;
 	text-shadow: 0 1px 0 #ffffff;
 	margin-top: 6px;
-}
-
-#footer {
-	background-color: #f5f5f5;
-	position: absolute;
-	bottom:0;
-	width: 100%;
-	padding-top: 15px;
-	height:50px;
 }
 
 select {
@@ -139,12 +98,7 @@ body,html {
 
 body {
 	padding-top: 151px;
-	padding-bottom: 50px;
-/*
-	overflow-x: hidden;
-	overflow-y: auto;
-*/
-	
+	padding-bottom: 50px;	
 }
 
 #sidebar {
@@ -162,7 +116,7 @@ body {
 #main {
 	height:100%;
 	overflow:auto;
-	text-align:center;
+	text-align: center;
 }
 
 /* are commas not working or something? */
@@ -178,20 +132,13 @@ body {
   color: #FF0000;
 }
 
-/*
-[placeholder]:focus::-webkit-input-placeholder {
-  transition: opacity 0.25s 0.25s ease;
-  color: purple;
-  opacity: 0;
-}
-*/
 
 .jumbotron {
     text-align: center;
     background-color: rgba(255,255,255,0.75);
 	border-color: rgba(255,255,255,0.75);
 	border-style: solid;
-	margin-bottom: 10px;
+	margin-bottom: 55px;
 }
 
 .dropdown-menu {
@@ -200,11 +147,6 @@ body {
 }
 
 .return-to-top {
-    /*
-position: fixed;
-    top: 405px;
-    left: 188px;
-*/
     transform: rotate(270deg);
     -ms-transform: rotate(270deg); /* IE 9 */
     -webkit-transform: rotate(270deg); /* Opera, Chrome, and Safari */
@@ -214,3 +156,6 @@ position: fixed;
   width: 45%;
 }
 
+.grey{
+	color: #BCC6CC;
+}

@@ -2,21 +2,16 @@
 {% block title %}View Publication{% endblock %}
 {% block content %}
 
-<style>
-	body {
-		padding-top: 101px;
-	}
-</style>
 
-<div class="navbar navbar-default navbar-fixed-top" style="top: 50px; z-index: 1029; border: none; background-color: white" role="navigation">
-	<div class="container" style="max-width: 960px;">
-		<div class="navbar-header">
-		<a type="button" class="btn btn-nyc navbar-btn navbar-left" href='{{ url_for('results', back='results') }}'>
-			<span class="glyphicon glyphicon-arrow-left"></span> Back to Results
-		</a>
-		<span class="navbar-text" style="font-size:18px;color:black;"><strong>{{ document_title }}</strong></span>
-		</div>
-	</div>
+<div class="navbar navbar-default navbar-fixed-top" style="top: 50px; z-index: 1029; border: none; background-color: white;" role="navigation">
+    <div class="container" style="max-width: 960px;">
+	    <div class="navbar-header" style="margin-top:10px;">
+	        <h4>{{ document_title }}</h4>
+	        <a type="button" class="btn btn-nyc navbar-btn" href="{{ url_for('results',back='results') }}">
+                <span class="glyphicon glyphicon-arrow-left"></span> Back to Results
+            </a>
+	    </div>
+    </div>
 </div>
 
 <div id="main">

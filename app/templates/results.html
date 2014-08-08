@@ -3,11 +3,6 @@
 {% block content %}
 
 <style type="text/css">
-/*
- * Off Canvas
- * --------------------------------------------------
- */
-
 @media screen and (max-width: 767px) {
     .sidebar-offcanvas {
         display: none;
@@ -76,8 +71,10 @@ body {
 </div>
 
 <div class="container" style="max-width: 960px;">
+  
     <div class="row row-offcanvas row-offcanvas-right" style="margin-bottom: 50px;">
         <div class="col-xs-12 col-sm-8">
+            
             <div class="row">
                 {% if length %}
             	{% set count = start + 1 %}
@@ -154,13 +151,14 @@ body {
     			    </div>
     			</div>
     			{% endif %}
-    			{{ pagination.links|safe }}
+    			<div class="text-center">
+        			{{ pagination.links|safe }}
+    			</div>
             </div>
         </div>
         <div class="col-xs-6 col-sm-4 sidebar-offcanvas">
-            <div id="options" style="position: fixed; overflow-y: scroll; top: 0; bottom: 0; padding-top: 151px;">
-                <!--
-<form id="result-form" class="form-search" role="form" method="post" action = '/results'>
+            <div id="options" style="position: fixed; overflow-y: scroll; top: 0; bottom: 0; padding-top: 151px; margin-bottom: 51px;">
+                <form id="result-form" class="form-search" role="form" method="post" action = '/results'>
         			<div class="input-group" style="width: 260px;">
         				<input type="text" id="input_text" class="form-control" name="user_input" placeholder="Enter Search">
         				<span class="input-group-btn">
@@ -168,7 +166,7 @@ body {
         				</span>
         			</div>
         			<br>
-        			<input type="checkbox" class="popover-hover" name="fulltext" data-toggle="popover" title="Warning" data-content="Checking this option will enable searching within entire document texts, which may produce a slight negative impact on search speed."> Enable Full-Text Searching
+        			<input type="checkbox" class="popover-hover-right" name="fulltext" data-toggle="popover" data-content="Checking this option will enable searching within entire document texts."> Enable Full-Text Searching
         			<br><br>
         			<div id="selects">
                         <select name="agency[]" id="agencies" class="selectpicker input-medium" multiple data-live-search="true" style="display: none;">
@@ -307,8 +305,7 @@ body {
                     </div>
                 </form>
                 <br>
--->
-                <div class="btn-group btn-group-justified">
+                <div class="btn-group btn-group-justified" style="width: 260px;">
                     <div class="btn-group">
                         <button type="button" class="btn btn-default disabled">Sort By </button>
                     </div>
@@ -358,6 +355,12 @@ body {
         			<a type="button" {% if not list_view %} class="btn btn-default navbar-btn" {% else %} class="btn btn-default navbar-btn disabled" {% endif %} href="{{ url_for('results', list_view=1) }}">
         				<span class="glyphicon glyphicon-list"></span>
         			</a>
+        		</div>
+        		<br>
+        		<div id="2top" style="display: none;" onclick="$('body').animate({ scrollTop: 0 }, 'slow');">
+            		<button type="button" class="btn btn-default">
+                        <span class="glyphicon glyphicon-arrow-up"></span> Return To Top
+                    </button>
         		</div>
             </div>
         </div>

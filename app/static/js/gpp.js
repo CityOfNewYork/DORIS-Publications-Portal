@@ -85,6 +85,12 @@ $(function () {
     $('.popover-hover').popover( {
         trigger: 'hover',
         html: true,
+        placement: 'top',
+    });
+    
+    $('.popover-hover-right').popover( {
+        trigger: 'hover',
+        html: true,
         placement: 'right',
     });
     
@@ -103,33 +109,47 @@ $(function () {
         }
     });
     
-/*
-    $('#result-form').submit(function(event) {
-        if (    ( !$.jStorage.get('inputVal') || isEmpty($.jStorage.get('inputVal')) ) && 
-                ( 
-                    (
-                        JSON.stringify($.jStorage.get('prevAgency')) === JSON.stringify($('#agencies').val()) &&
-                        JSON.stringify($.jStorage.get('prevCategory')) === JSON.stringify($('#categories').val()) &&
-                        JSON.stringify($.jStorage.get('prevType')) === JSON.stringify($('#types').val())
-                    ) 
-                        || 
-                    (
-                        !$('#agencies').val() && !$('#categories').val() && !$('#types').val()
-                    ) 
-                )
-            ) 
-        {
-            event.preventDefault();
-        }
-    });
-*/
-    
 });
 
-$('body').scroll(function() {
-    $.jStorage.set('scrollPosition', this.scrollTop); 
+$(window).scroll( function() {
+    $.jStorage.set('scrollPosition', $('body').scrollTop());
     toggleFadeAtScroll('#2top', 100);
 });
+
+$(document).ready( function () {
+    $('[data-toggle="offcanvas"]').click(function () {
+/*                     $('.row-offcanvas').toggleClass('active'); */
+        $('.sidebar-offcanvas').css('display','block');
+        $('#options').slideToggle();
+    });
+});
+
+$('#options').hover( function() {
+     $('body').toggleClass('scroll-lock');
+});
+
+$(window).resize(function() {
+    if ($('[data-toggle="offcanvas"]').css('display') == 'none') {
+        $('#options').slideDown();
+    }
+/*
+    if ($(window).width() < 767) {
+        $('#footer').removeClass('navbar-fixed-bottom').addClass('navbar-static-bottom');
+    }
+    else {
+        $('#footer').removeClass('navbar-static-bottom').addClass('navbar-fixed-bottom');
+    }
+*/
+});
+
+/*
+if (screen.width < 767) {
+    $('#footer').removeClass('navbar-fixed-bottom').addClass('navbar-static-bottom');
+}
+else {
+    $('#footer').removeClass('navbar-static-bottom').addClass('navbar-fixed-bottom');
+}
+*/
 
 $(window).on('load', function () {
     $('.selectpicker').selectpicker({
@@ -151,7 +171,6 @@ $(window).on('load', function () {
     });
     //make sure paginate works appropriately to boostrap css standard
     $('.pagination').children('ul').attr('class', 'pagination');
-    $('.pagination').addClass('pagination-centered'); ///???????
 
     $.jStorage.set('prevAgency', $('#agencies').val())
     $.jStorage.set('prevCategory', $('#categories').val())
