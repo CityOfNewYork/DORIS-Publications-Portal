@@ -78,7 +78,7 @@ the near future, making it even easier to find the right document.
 your original search query.
 - CSV Export – Users will be able to export their search results to a CSV file 
 for manipulation in a program such as Microsoft Excel.
-- API – Allow other applications to take advantage of our database of documents 
+- API – Allows other applications to take advantage of our database of documents 
 and display them in unique ways to users.
 
 ### Getting Involved
