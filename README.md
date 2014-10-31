@@ -11,9 +11,8 @@ This new portal includes reports from most City offices and agencies. We will
 be adding additional types of information to the portal in the upcoming months 
 and we will continue to solicit past reports and additional government 
 participants. You will not find documents from the following entities on this 
-portal: The Center for Economic Opportunity, the Center for Innovation through 
-Data Intelligence, the Economic Development Corporation, The Health and 
-Hospitals Corporation and the Department of Small Business Services. 
+portal: The Center for Innovation through Data Intelligence, The Economic 
+Development Corporation, and The Health and Hospitals Corporation.
 
 # Github Wiki/Readme
 
