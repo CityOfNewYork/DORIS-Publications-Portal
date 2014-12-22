@@ -70,3 +70,8 @@ app/view_db_functions.py
 
 #Pycharm Files
 .idea/
+
+# Custom
+*.zip
+*prod.*
+*.access

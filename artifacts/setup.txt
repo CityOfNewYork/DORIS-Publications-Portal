@@ -1,0 +1,84 @@
+NOTE: All paths detailed in this are relative to the root of the artifacts folder.
+
+DORIS Government Publications Portal - Server Setup Instructions
+
+Servers:
+	Application Server - XXX.XXX.XXX.XXX (SERVER_NAME_GOES_HERE)
+	Database Server - XXX.XXX.XXX.XXX (SERVER_NAME_GOES_HERE)
+	
+
+Application Server Setup Instructions
+
+PLEASE NOTE: The below scripts can be run automatically by running /scripts/applications_server.sh. Use the below instructions if you would like to be prompted for each action individually.
+
+1. Provisioning
+	Run /scripts/application_server_setup.sh - Interactive script to install the required packages from Yum and the included files in /install/app. Also updates the server to the latest versions of the packages available in the RHEL and EPEL repositories. 
+	
+	This script must be run as the root user on the system.
+	
+	There are sections of the script that require root access to the system. At each of those points please enter the root password to continue with the script.
+
+2. Application Setup
+	Apache
+		Run /scripts//app/apache_setup.sh - This script will setup apache using the PreFork MPM and configure the correct WSGI handlers for the Government Publications Portal Django Application. 
+
+		The apache configuration file is located in /conf/httpd.conf. This file will replace /etc/httpd/conf/httpd.conf, and rename the original to http.conf. Please see apache_setup.sh for more detailed information as to what will occur at setup.
+
+		This script must be run as the local user (admin)
+	
+	Nginx
+		Run /scripts/app/nginx_setup.sh - This script will setup nginx as a reverse proxy for Apache to serve static files to reduce the memory footprint of the application.
+
+		This script must be run as the local user (admin)
+	Python Setup
+		Run /scripts/app/app_python_setup.sh - This script will install Python 2.7.8 (Required by the Django Application) and virtualenv (to containerize the application instance) in the /home/admin directory. 
+
+		This script must be run as the local user (admin)
+
+	Virtualenv Setup
+		Run /scripts/app/gpp_venv_setup.sh - This script will create the environment for the Government Publications Portal. It will install any required packages from the PyPi repository.
+
+		It requires the input of the proxy address, if it is different from: bcpxy.nycnet:8080. 
+
+		This script must be run as the local user (admin)
+
+###############################################################################
+###############################################################################
+
+Database Server Setup Instructions
+
+PLEASE NOTE: The below scripts can be run automatically by running /scripts/database_server.sh. Use the below instructions if you would like to be prompted for each action individually.
+
+1. Provisioning
+	Run /scripts/db/database_server_setup.sh - Interactive script to install the required packages from Yum and the included files in /install/db. Also updates the server to the latest versions of the packages available in the RHEL and EPEL repositories
+
+	This script must be run as the root user on the system.
+
+	There are sections of the script that require root access to the system. At each of these points please enter the root password to continue with the script.
+
+2. Application Setup
+	ElasticSearch
+		Run /scripts/db/es_setup.sh - This script will setup ElasticSearch and install all necessary plugins from the /install/db/es directory. 
+
+		This script must be run as the local user (mysql) 
+
+		PLEASE NOTE: ElasticSearch must be installed in /etc/elasticsearch. The user (mysql) must have read/write/execute access to this directory, all subdirectories, and all files.
+
+	Python Setup
+		Run /scripts/db/db_python_setup.sh - This script will install Python 2.7.8 (Required by the Django Application) and virtualenv (to containerize the application instance) in the /home/mysql directory. 
+
+		This script must be run as the local user (mysql)
+
+	Virtualenv Setup
+		Run /scripts/db/db_venv_setup.sh - This script will create the environment for the Government Publications Portal - Indexing Script. It will install any required packages from the PyPi repository.
+
+		It requires the input of the proxy address, if it is different from: bcpxy.nycnet:8080. 
+
+		This script must be run as the local user (mysql)
+
+	MySQL Setup
+		Run /scripts/db/mysql_setup.sh - This script will configure MySQL for the Government Publications Portal.
+
+		This script must be run as the local user (mysql)
+
+		PLEASE NOTE: MySQL is installed into the default location. The user (mysql) must ahve read/write/execute access to this directory, all subdirectories, and all files.

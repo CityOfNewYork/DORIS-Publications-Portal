@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block title %}View Publication{% endblock %}
+{% block content %}
+
+
+<div id="results-info" class="navbar navbar-default navbar-fixed-top navbar-results">
+    <div class="container" style="max-width: 960px;">
+	    <div id="head" class="navbar-header">
+	        <a type="button" class="navbar-toggle visible-xs" style="width: 44px; padding-left: 13px; color: black;" href="/gpp/results/">
+                <span class="glyphicon glyphicon-arrow-left"></span>
+            </a>
+			<a type="button" class="btn btn-default navbar-btn hidden-xs" href='/gpp/results/' style="float: right;" >
+				<span class="glyphicon glyphicon-arrow-left"></span> Back to Results
+			</a>
+	    </div>
+    </div>
+</div>
+
+<div class="container" id="doc-emb">
+    {% if document_url %}
+	<embed src="http://a860-gpp.ecm.csstg.cs.nycnet/{{ document_url }}" width="100%" height="99%" style="max-width: 960px;"></embed>
+	{% endif %}
+</div>
+
+{% endblock %}
