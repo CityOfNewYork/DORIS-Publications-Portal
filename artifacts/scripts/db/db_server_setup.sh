@@ -27,12 +27,7 @@ enabled=1" >> /etc/yum.repos.d/elasticsearch.repo
 yum -y install elasticsearch
 
 # Setup Repos for Nginx
-touch /etc/yum.repos.d/nginx.repo
-echo "[nginx]
-name=nginx repo
-baseurl=http://nginx.org/packages/centos/$releasever/$basearch/
-gpgcheck=0
-enabled=1" >> /etc/yum.repos.d/nginx.repo
+rpm -ivh ../../install/nginx-release-centos-6-0.el6.ngx.noarch.rpm
 
 # Install Apache
 yum install -y httpd

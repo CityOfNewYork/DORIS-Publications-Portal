@@ -3,6 +3,9 @@
 # Publications Portal
 # This script must be run as the root user
 
+# Setup easyinstall
+yum install -y python-setuptools python-setuptools-devel python-devel
+
 # Install Virtualenv
 easy_install virtualenv
 
@@ -21,4 +24,3 @@ exit
 # Install Requirements
 source /home/apache/.virtualenvs/gpp_venv/bin/activate
 pip install -r ../../conf/requirements.txt
-
