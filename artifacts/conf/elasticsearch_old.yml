@@ -142,18 +142,17 @@ index.number_of_replicas: 1
 
 # Path to directory containing configuration (this file and logging.yml):
 #
-path.conf: /usr/share/es_mysql
+path.conf: /home/mysql/es_conf
 
 # Path to directory where to store index data allocated for this node.
 #
-# path.data: /path/to/data
+path.data: /home/mysql/es_data
 #
 # Can optionally include more than one location, causing data to be striped across
 # the locations (a la RAID 0) on a file level, favouring locations with most free
 # space on creation. For example:
 #
-# path.data: /path/to/data1,/path/to/data2
-path.data: /usr/share/es_mysql/es_data
+#path.data: /path/to/data1,/path/to/data2
 
 # Path to temporary files:
 #
@@ -161,11 +160,11 @@ path.data: /usr/share/es_mysql/es_data
 
 # Path to log files:
 #
-path.logs: /usr/share/es_mysql/es_logs
+path.logs: /home/mysql/logs/es_logs
 
 # Path to where plugins are installed:
 #
-path.plugins: /usr/share/es_mysql/es_plugins
+path.plugins: /home/mysql/es_plugins
 
 
 #################################### Plugin ###################################
@@ -210,7 +209,7 @@ bootstrap.mlockall: true
 
 # Set both 'bind_host' and 'publish_host':
 #
-#network.host: localhost
+network.host: localhost
 
 # Set a custom port for the node to node communication (9300 by default):
 #
