@@ -75,3 +75,4 @@ app/view_db_functions.py
 *.zip
 *prod.*
 *.access
+*.sql

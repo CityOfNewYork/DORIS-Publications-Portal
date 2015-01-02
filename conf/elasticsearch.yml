@@ -44,11 +44,11 @@ node.name: "GPP_data"
 #
 # Allow this node to be eligible as a master node (enabled by default):
 #
-node.master: true
+#node.master: true
 #
 # Allow this node to store data (enabled by default):
 #
-node.data: true
+#node.data: true
 
 # You can exploit these settings to design advanced cluster topologies.
 #
@@ -104,11 +104,11 @@ node.data: true
 
 # Set the number of shards (splits) of an index (5 by default):
 #
-index.number_of_shards: 5
+#index.number_of_shards: 5
 
 # Set the number of replicas (additional copies) of an index (1 by default):
 #
-index.number_of_replicas: 1
+#index.number_of_replicas: 1
 
 # Note, that for development on a local machine, with small indices, it usually
 # makes sense to "disable" the distributed features:
@@ -142,17 +142,18 @@ index.number_of_replicas: 1
 
 # Path to directory containing configuration (this file and logging.yml):
 #
-path.conf: /home/mysql/es_conf
+path.conf: /usr/share/es_mysql
 
 # Path to directory where to store index data allocated for this node.
 #
-path.data: /home/mysql/es_data
+# path.data: /path/to/data
 #
 # Can optionally include more than one location, causing data to be striped across
 # the locations (a la RAID 0) on a file level, favouring locations with most free
 # space on creation. For example:
 #
-#path.data: /path/to/data1,/path/to/data2
+# path.data: /path/to/data1,/path/to/data2
+path.data: /usr/share/es_mysql/es_data
 
 # Path to temporary files:
 #
@@ -160,11 +161,11 @@ path.data: /home/mysql/es_data
 
 # Path to log files:
 #
-path.logs: /home/mysql/logs/es_logs
+path.logs: /usr/share/es_mysql/es_logs
 
 # Path to where plugins are installed:
 #
-path.plugins: /home/mysql/es_plugins
+path.plugins: /usr/share/es_mysql/es_plugins
 
 
 #################################### Plugin ###################################
@@ -181,7 +182,7 @@ path.plugins: /home/mysql/es_plugins
 #
 # Set this property to true to lock the memory:
 #
-bootstrap.mlockall: true
+#bootstrap.mlockall: true
 
 # Make sure that the ES_MIN_MEM and ES_MAX_MEM environment variables are set
 # to the same value, and that the machine has enough memory to allocate
@@ -209,7 +210,7 @@ bootstrap.mlockall: true
 
 # Set both 'bind_host' and 'publish_host':
 #
-network.host: localhost
+#network.host: localhost
 
 # Set a custom port for the node to node communication (9300 by default):
 #
@@ -318,12 +319,13 @@ network.host: localhost
 #
 # 1. Disable multicast discovery (enabled by default):
 #
-discovery.zen.ping.multicast.enabled: false
+#discovery.zen.ping.multicast.enabled: false
 #
 # 2. Configure an initial list of master nodes in the cluster
 #    to perform discovery when new nodes (master or data) are started:
 #
-discovery.zen.ping.unicast.hosts: ["msslvd-recgpp01.csc.nycnet"]
+#discovery.zen.ping.unicast.hosts: ["host1", "host2:port"]
+#discovery.zen.ping.unicast.hosts: ["msslvd-recgpp01.csc.nycnet"]
 
 # EC2 discovery allows to use AWS EC2 API in order to perform discovery.
 #
