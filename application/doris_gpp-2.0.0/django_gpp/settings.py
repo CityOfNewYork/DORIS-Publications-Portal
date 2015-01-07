@@ -67,12 +67,8 @@ WSGI_APPLICATION = 'django_gpp.wsgi.application'
 
 DATABASES = {
 	'default': {
-		'ENGINE': 'django.db.backends.mysql',
-		'HOST': 'localhost',
-		'PORT': '3306',
-		'NAME': 'publications',
-		'USER': 'root',
-		'PASSWORD': '',
+		'ENGINE': 'django.db.backends.sqlite3',
+		'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
 	}
 }
 
@@ -89,7 +85,7 @@ USE_L10N = True
 
 USE_TZ = True
 
-ES_URLS = ['http://localhost:9200']
+ES_URLS = ['http://192.168.10.3:9200']
 ES_INDEXES = {'default': 'main_index'}
 
 # Static files (CSS, JavaScript, Images)

@@ -8,9 +8,6 @@ tracer.setLevel(logging.INFO)
 # add handlers to tracer
 tracer.addHandler(logging.FileHandler('/tmp/out.sh'))
 
-DB = MySQLdb.connect(host='localhost', user='root', passwd='')
-C = DB.cursor()
-URL = 'localhost'
 INDEX = 'publications'
 DOCTYPE = 'document'
 

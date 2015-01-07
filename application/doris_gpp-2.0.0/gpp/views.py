@@ -4,7 +4,6 @@ from models import Document
 from query_functions import process_query
 from django.core.paginator import Paginator
 from math import ceil
-from index_db import indexDB
 
 import logging
 
