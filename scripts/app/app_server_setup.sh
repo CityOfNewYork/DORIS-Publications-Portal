@@ -14,27 +14,37 @@ yum -y update
 yum -y groupinstall "Development tools"
 yum -y install python-devel python-setuptools python-setuptools-devel
 yum -y install zlib-devel bzip2-devel openssl-devel ncurses-devel mysql-devel libxml2-devel libxslt-devel unixODBC-devel sqlite sqlite-devel
+
 # Install Nginx
-rpm -Uhv ../../packages/nginx-release-centos-6-0.el6.ngx.noarch.rpm
+rpm -Uhv $CWD../../packages/nginx-release-centos-6-0.el6.ngx.noarch.rpm
 yum install -y nginx
 
-# Setup Nginx
-mkdir -p /etc/nginx/sites-enabled
-mkdir -p /etc/nginx/sites-available
+# Create folders for application
 mkdir -p /var/www/gpp
 mkdir -p /var/www/logs/nginx
 mkdir -p /var/www/gpp/static
 mkdir -p /var/www/gpp/media
 
-cp ../../conf/uwsgi_params /var/www/gpp/uwsgi_params
+# Setup Nginx
+mkdir -p /etc/nginx/sites-enabled
+mkdir -p /etc/nginx/sites-available
 
+# Backup original Nginx configuration
 mv /etc/nginx/nginx.conf /etc/nginx/nginx.conf.orig
-cp ../../conf/nginx.conf /etc/nginx/nginx.conf
 
-ln -s ../../conf/gpp_django_nginx.conf /etc/nginx/sites-available
+# Copy over Nginx configuration
+cp $CWD../../conf/nginx.conf /etc/nginx/nginx.conf
 
-ln -s /etc/nginx/sites-available/gpp_django_nginx.conf /etc/nginx/sites-enabled/gpp_django_nginx.conf
+# Place site configuration for Nginx in sites-available
+cp $CWD../../conf/gpp_nginx.conf /etc/nginx/sites-available
 
+# Symlink the site configuration to sites-enabled
+ln -s /etc/nginx/sites-available/gpp_nginx.conf /etc/nginx/sites-enabled/gpp_nginx.conf
+
+# uWSGI Configuration
+cp $CWD../../conf/uwsgi_params /var/www/gpp/uwsgi_params
+
+# Restart Nginx
 /etc/init.d/nginx restart
 
 # Install Virtualenv and Pip
@@ -48,10 +58,10 @@ pip install uwsgi
 mkdir -p /var/www/virtualenvs/gpp_venv
 virtualenv /var/www/virtualenvs/gpp_venv
 source /var/www/virtualenvs/gpp_venv/bin/activate
-pip install -r ../../conf/requirements.txt
+pip install -r $CWD../../conf/requirements.txt
 
 # Setup Application
-cp -r ../../application/doris_gpp-2.0.0/* /var/www/gpp
-cp ../../conf/gpp_uwsgi.ini /var/www/gpp
+cp -r $CWD../../application/doris_gpp-2.0.0/* /var/www/gpp
+cp $CWD../../conf/gpp_uwsgi.ini /var/www/gpp
 cd /var/www/gpp
 python manage.py syncdb --noinput

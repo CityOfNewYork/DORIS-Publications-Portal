@@ -14,8 +14,7 @@ yum -y update
 
 #  Install Development Tools
 yum -y groupinstall "Development tools"
-yum -y install python-devel
-yum -y install python-setuptools
+yum -y install python-devel python-setuptools
 easy_install virtualenv
 
 export DB_PASS=$(openssl rand -base64 32)
@@ -27,11 +26,10 @@ echo -e "Django = $DB_DJANGO\nRoot = $DB_PASS\nIndex = $DB_NDX" > /vagrant/db_pa
 # Install Expect
 yum -y install expect
 
-# Install Packages from RHEL Repositories
+# Install MySQL and Dependencies
 yum -y install mysql mysql-server mysql-devel
 
 # Start MySQL
-# /etc/init.d/mysqld start
 service mysqld start
 
 # Configure MySQL
@@ -95,8 +93,7 @@ service elasticsearch start
 service elasticsearch stop
 
 # install elasticsearch head
-/usr/share/elasticsearch/bin/plugin --install head --url file:///vagrant/packages/elasticsearch-head-master.zip
-    # installs to wrong plugin directory (out of many many times, this only worked once!)
+/usr/share/elasticsearch/bin/plugin --install mobz/elasticsearch-head
 
 service elasticsearch restart
 
@@ -115,8 +112,5 @@ mysql -u root -p$DB_PASS -e "GRANT SELECT ON publications.document TO 'index'@'l
 # Index DB
 python $CWD/../../application/index_db.py
 
-# return to intial directory
+# Return to initial directory
 cd $CWD
-
-
-#### publications.sql --- GPP DOCUMENT?!?!??!?!??!?!?!?!?!?!!!?!??!!
