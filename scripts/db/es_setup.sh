@@ -32,7 +32,5 @@ send PASSWORD
 
 openssl req -new -key es_domain.key -out es_domain.csr
 
-
-
 # Start Elasticsearch
 service elasticsearch start

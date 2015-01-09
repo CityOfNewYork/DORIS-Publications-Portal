@@ -14,8 +14,7 @@ DOCTYPE = 'document'
 es = Elasticsearch()
 
 
-def process_query(search, agencies_selected, categories_selected, types_selected, fulltext, start, num_results,
-                  sort_method):
+def process_query(search, agencies_selected, categories_selected, types_selected, fulltext, start, num_results, sort_method):
     start_time = time.clock()
     result_list = []
     if search:

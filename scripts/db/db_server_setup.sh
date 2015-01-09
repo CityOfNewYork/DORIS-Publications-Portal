@@ -4,8 +4,7 @@
 # This script must be run as the root user on the system.
 # This script must be run from within this directory (DORIS-Publications-Portal/artifacts/scripts/db)
 
-
-# INCLUDE ALL TAR PACKAGES ETC.???
+# proxy, useradd mysql
 
 # store current path (directory mentioned above) for later use
 export CWD=$PWD
@@ -23,7 +22,7 @@ export DB_PASS=$(openssl rand -base64 32)
 export DB_NDX=$(openssl rand -base64 32)
 export DB_DJANGO=$(openssl rand -base64 32)
 
-echo -e "Django = $DB_DJANGO\nRoot = $DB_PASS\nIndex = $DB_NDX" >> /vagrant/db_pass.txt
+echo -e "Django = $DB_DJANGO\nRoot = $DB_PASS\nIndex = $DB_NDX" > /vagrant/db_pass.txt
 
 # Install Expect
 yum -y install expect
@@ -57,11 +56,10 @@ mysql -u root -p$DB_PASS -e "CREATE DATABASE publications; USE publications; CRE
 # Download and Install Java (Oracle JDK)
 cd /opt/
 wget --no-cookies --no-check-certificate --header "Cookie: gpw_e24=http%3A%2F%2Fwww.oracle.com%2F; oraclelicense=accept-securebackup-cookie" "http://download.oracle.com/otn-pub/java/jdk/7u72-b14/jdk-7u72-linux-x64.tar.gz"
-tar xzf jdk-7u72-linux-x64.tar.gz #maybe we should just include this so we dont
+tar xzf jdk-7u72-linux-x64.tar.gz
 cd /opt/jdk1.7.0_72/
 alternatives --install /usr/bin/java java /opt/jdk1.7.0_72/bin/java 2
 alternatives --config java
-
 # Press Enter Here
 
 # Install Elasticsearch
@@ -75,6 +73,7 @@ gpgkey=http://packages.elasticsearch.org/GPG-KEY-elasticsearch
 enabled=1" >> /etc/yum.repos.d/elasticsearch.repo
 yum -y install elasticsearch
 
+# configure elasticsearch (give user group-access to certain directories)
 groupadd es_mysql
 mkdir /usr/share/es_mysql
 chown -R root.es_mysql /usr/share/es_mysql
@@ -89,25 +88,35 @@ rm -rf /etc/elasticsearch
 ln -s /usr/share/es_mysql/ /etc/elasticsearch
 mkdir /usr/share/es_mysql/es_data
 mkdir /usr/share/es_mysql/es_logs
-mkdir /usr/share/es_mysql/es_plugins
+ln -s /usr/share/elasticsearch/plugins/ es_plugins
 chmod -R 775 /usr/share/es_mysql
 
 service elasticsearch start
 service elasticsearch stop
-/usr/share/elasticsearch/bin/plugin --install head --url file:///vagrant/packages/elasticsearch-head.zip
+
+# install elasticsearch head
+/usr/share/elasticsearch/bin/plugin --install head --url file:///vagrant/packages/elasticsearch-head-master.zip
+    # installs to wrong plugin directory (out of many many times, this only worked once!)
 
 service elasticsearch restart
 
-# Index DB
+# activate and setup virtual environment
 virtualenv /home/mysql/.virtualenvs/gpp_env
 source /home/mysql/.virtualenvs/gpp_env/bin/activate
 pip install mysql-python elasticsearch
 
+# populate db
 mysql -u root -p$DB_PASS -e "set global net_buffer_length=1000000; set global max_allowed_packet=100000000;"
-mysql -u root -p$DB_PASS publications <$CWD/../../application/publications.sql
+mysql -u root -p$DB_PASS publications <$CWD/../../publications.sql
 
+# create user with select permission
 mysql -u root -p$DB_PASS -e "GRANT SELECT ON publications.gpp_document TO 'index'@'localhost';"
 
+# Index DB
 python $CWD/../../application/index_db.py
 
+# return to intial directory
 cd $CWD
+
+
+#### publications.sql --- GPP DOCUMENT?!?!??!?!??!?!?!?!?!?!!!?!??!!
