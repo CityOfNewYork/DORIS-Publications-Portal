@@ -25,30 +25,15 @@ talented interns from the NYU Polytechnic School of Engineering, Alan Chen,
 Alvi Kabir, and Panagis (Peter) Alisandratos using Python and the Flask 
 microframework. We currently use the following packages in our application:
 
-- Flask 0.10.1
-- Flask-Mail 0.9.0
-- Flask-Migrate 1.2.0
-- Flask-Moment 0.4.0
-- Flask-MySQL 1.2
-- Flask-SQLAlchemy 2.0
-- Flask-Script 2.0.5
-- Flask-WTF 0.10.2
-- Flask-WhooshAlchemy 0.56
-- Jinja2 2.7.3
-- Mako 1.0.0
-- MarkupSafe 0.23
+- Django 1.6.6
+- django-endless-pagination 2.0
+- ecdsa 0.11
+- elasticsearch 1.2.0
 - MySQL-python 1.2.5
-- SQLAlchemy 0.9.7
-- WTForms 2.0.1
-- Werkzeug 0.9.6
-- Whoosh 2.6.0
-- alembic 0.6.7
-- blinker 1.3
-- flask-paginate 0.2.1
-- itsdangerous 0.24
-- marshmallow 0.7.0
-- six 1.8.0
-- wsgiref 0.1.2
+- paramiko 1.15.1
+- pycrypto 2.6.1
+- requests 2.3.0
+- urllib3 1.9
 
 We are also making use of MySQL Community Edition (v 5.1) to house our database.
 
