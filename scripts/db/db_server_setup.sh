@@ -107,10 +107,10 @@ pip install mysql-python elasticsearch
 
 # populate db
 mysql -u root -p$DB_PASS -e "set global net_buffer_length=1000000; set global max_allowed_packet=100000000;"
-mysql -u root -p$DB_PASS publications <$CWD/../../publications.sql
+mysql -u root -p$DB_PASS publications <$CWD/../../../publications.sql
 
 # create user with select permission
-mysql -u root -p$DB_PASS -e "GRANT SELECT ON publications.gpp_document TO 'index'@'localhost';"
+mysql -u root -p$DB_PASS -e "GRANT SELECT ON publications.document TO 'index'@'localhost';"
 
 # Index DB
 python $CWD/../../application/index_db.py
