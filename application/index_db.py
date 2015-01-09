@@ -69,11 +69,11 @@ def indexDB():
 		}
 	})
 
-	num_docs = C.execute("SELECT COUNT(*) FROM gpp_document")
+	num_docs = C.execute("SELECT COUNT(*) FROM document")
 	num_docs = C.fetchone()
-	print str(num_docs[0]) + " gpp_documents"
+	print str(num_docs[0]) + " documents"
 
-	docs = C.execute("SELECT * FROM gpp_document")
+	docs = C.execute("SELECT * FROM document")
 	docs = C.fetchall()
 
 	for doc in docs:
