@@ -4,7 +4,7 @@
 # This script must be run as the root user on the system.
 # This script must be run from within this directory (DORIS-Publications-Portal/artifacts/scripts/db)
 
-# proxy, useradd mysql
+# proxy, useradd mysql, wget
 
 # store current path (directory mentioned above) for later use
 export CWD=$PWD
@@ -21,7 +21,7 @@ export DB_PASS=$(openssl rand -base64 32)
 export DB_NDX=$(openssl rand -base64 32)
 export DB_DJANGO=$(openssl rand -base64 32)
 
-echo -e "Django = $DB_DJANGO\nRoot = $DB_PASS\nIndex = $DB_NDX" > /vagrant/db_pass.txt
+echo -e "Django = $DB_DJANGO\nRoot = $DB_PASS\nIndex = $DB_NDX" > /root/db_pass.txt
 
 # Install Expect
 yum -y install expect
