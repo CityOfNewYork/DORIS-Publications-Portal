@@ -21,7 +21,7 @@ export DB_PASS=$(openssl rand -base64 32)
 export DB_NDX=$(openssl rand -base64 32)
 export DB_DJANGO=$(openssl rand -base64 32)
 
-echo -e "Django = $DB_DJANGO\nRoot = $DB_PASS\nIndex = $DB_NDX" > /root/db_pass.txt
+echo -e "Django = $DB_DJANGO\nRoot = $DB_PASS\nIndex = $DB_NDX" > /home/mysql/.db_pass
 
 # Install Expect
 yum -y install expect
