@@ -86,7 +86,6 @@ rm -rf /etc/elasticsearch
 ln -s /usr/share/es_mysql/ /etc/elasticsearch
 mkdir /usr/share/es_mysql/es_data
 mkdir /usr/share/es_mysql/es_logs
-ln -s /usr/share/elasticsearch/plugins/ es_plugins
 chmod -R 775 /usr/share/es_mysql
 
 service elasticsearch start
@@ -98,13 +97,13 @@ service elasticsearch stop
 service elasticsearch restart
 
 # activate and setup virtual environment
-virtualenv /home/mysql/.virtualenvs/gpp_env
-source /home/mysql/.virtualenvs/gpp_env/bin/activate
+virtualenv /home/mysql/virtualenvs/gpp_env
+source /home/mysql/virtualenvs/gpp_env/bin/activate
 pip install mysql-python elasticsearch
 
 # populate db
 mysql -u root -p$DB_PASS -e "set global net_buffer_length=1000000; set global max_allowed_packet=100000000;"
-mysql -u root -p$DB_PASS publications <$CWD/../../../publications.sql
+mysql -u root -p$DB_PASS publications <$CWD/../../publications.sql
 
 # create user with select permission
 mysql -u root -p$DB_PASS -e "GRANT SELECT ON publications.document TO 'index'@'localhost';"

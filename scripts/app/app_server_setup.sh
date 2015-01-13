@@ -20,10 +20,10 @@ rpm -Uhv $CWD/../../packages/nginx-release-centos-6-0.el6.ngx.noarch.rpm
 yum install -y nginx
 
 # Create folders for application
-mkdir -p /var/www/gpp
+mkdir -p /var/www/gpp_root
 mkdir -p /var/www/logs/nginx
-mkdir -p /var/www/gpp/static
-mkdir -p /var/www/gpp/media
+mkdir -p /var/www/gpp_root/static
+mkdir -p /var/www/gpp_root/media
 
 # Setup Nginx
 mkdir -p /etc/nginx/sites-enabled
@@ -42,7 +42,7 @@ cp $CWD/../../conf/gpp_nginx.conf /etc/nginx/sites-available
 ln -s /etc/nginx/sites-available/gpp_nginx.conf /etc/nginx/sites-enabled/gpp_nginx.conf
 
 # uWSGI Configuration
-cp $CWD/../../conf/uwsgi_params /var/www/gpp/uwsgi_params
+cp $CWD/../../conf/uwsgi_params /var/www/gpp_root/uwsgi_params
 
 # Restart Nginx
 /etc/init.d/nginx restart
@@ -59,9 +59,3 @@ mkdir -p /var/www/virtualenvs/gpp_venv
 virtualenv /var/www/virtualenvs/gpp_venv
 source /var/www/virtualenvs/gpp_venv/bin/activate
 pip install -r $CWD/../../conf/requirements.txt
-
-# Setup Application
-cp -r $CWD/../../application/doris_gpp-2.0.0/* /var/www/gpp
-cp $CWD/../../conf/gpp_uwsgi.ini /var/www/gpp
-cd /var/www/gpp
-python manage.py syncdb --noinput

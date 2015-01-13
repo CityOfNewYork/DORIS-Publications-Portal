@@ -48,8 +48,6 @@ def results(request):
     context = RequestContext(request)
     if not request.session.get('num_results'):
         request.session['num_results'] = 10
-    if not request.session.get('page'):
-        request.session['page'] = 1
     if not request.session.get('sort'):
         request.session['sort'] = 'Relevance'
     if not request.session.get('list_view'):
@@ -104,9 +102,10 @@ def results(request):
     request.session['length'] = results_length
     request.session['num_pages'] = int(ceil(request.session['length'] / float(request.session['num_results'])))
     # initiate pagination
-    paginator = Paginator(range(1, request.session['length'] + 1), request.session['num_results'])
+    # print num_results
+    paginator = Paginator(range(1, request.session['length'] + 1), request.session.get('num_results'))
     pag_res = paginator.page(request.session['page'])
-    print pag_res
+    # print pag_res
     context_dict = {'results': request.session['results_list'],
                     'agencies': ['Aging', 'Buildings', 'Campaign Finance', 'Children\'s Services', 'City Council',
                                  'City Clerk', 'City Planning', 'Citywide Admin Svcs', 'Civilian Complaint',
@@ -141,11 +140,11 @@ def results(request):
                     'length': int(request.session.get('length')),
                     'search': str(request.session.get('search')),
                     'pag_res': pag_res,
+                    'num_results': int(request.session.get('num_results')),
                     'time': query_time,
                     'sort_method': request.session.get('sort'),
                     'list_view': int(request.session.get('list_view')),
-                    'records': range(1, request.session['length'] + 1)}
-
+                    'records': range(1, request.session['length'] + 1)}    
     return render_to_response('results.html', context_dict, context)
 
 
@@ -156,6 +155,7 @@ def about(request):
 
 def publication(request):
     context = RequestContext(request)
+    print context
     id = request.POST['view']
     # print id
     if id:
@@ -166,16 +166,3 @@ def publication(request):
     context_dict = {'id': id,
                     'document_url': document_url}
     return render_to_response('publication.html', context_dict, context)
-
-'''
-Master Node - No data through this node
-1 - 2 Data Nodes
-Replicas - Failover
-
-"mlockall": true
-"refresh_interval_in_millis": 60000,
-
-Alias for index (read/write)
-
-Authentication for elasticsearch
-'''

@@ -6,12 +6,12 @@ from elasticsearch import Elasticsearch
 tracer = logging.getLogger('elasticsearch.trace')
 tracer.setLevel(logging.INFO)
 # add handlers to tracer
-tracer.addHandler(logging.FileHandler('/tmp/out.sh'))
+tracer.addHandler(logging.FileHandler('/var/www/logs/query.log'))
 
 INDEX = 'publications'
 DOCTYPE = 'document'
 
-es = Elasticsearch()
+es = Elasticsearch([{'host': '104.131.122.85'}])
 
 
 def process_query(search, agencies_selected, categories_selected, types_selected, fulltext, start, num_results, sort_method):
