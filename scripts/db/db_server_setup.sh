@@ -71,23 +71,6 @@ gpgkey=http://packages.elasticsearch.org/GPG-KEY-elasticsearch
 enabled=1" >> /etc/yum.repos.d/elasticsearch.repo
 yum -y install elasticsearch
 
-# configure elasticsearch (give user group-access to certain directories)
-groupadd es_mysql
-mkdir /usr/share/es_mysql
-chown -R root.es_mysql /usr/share/es_mysql
-usermod -a -G es_mysql mysql
-usermod -a -G es_mysql elasticsearch
-chmod 775 /usr/share/es_mysql
-chmod 2775 /usr/share/es_mysql
-mv /etc/elasticsearch/elasticsearch.yml /usr/share/es_mysql/elasticsearch.yml.bak
-mv /etc/elasticsearch/logging.yml /usr/share/es_mysql/logging.yml
-cp $CWD/../../conf/elasticsearch.yml /usr/share/es_mysql/elasticsearch.yml
-rm -rf /etc/elasticsearch
-ln -s /usr/share/es_mysql/ /etc/elasticsearch
-mkdir /usr/share/es_mysql/es_data
-mkdir /usr/share/es_mysql/es_logs
-chmod -R 775 /usr/share/es_mysql
-
 service elasticsearch start
 service elasticsearch stop
 
