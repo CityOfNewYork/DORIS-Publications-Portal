@@ -38,28 +38,6 @@ cluster.name: doris_gpp
 #
 node.name: "GPP_data"
 
-#################################### Paths ####################################
-
-# Path to directory containing configuration (this file and logging.yml):
-#
-path.conf: /usr/share/es_mysql
-
-# Path to directory where to store index data allocated for this node.
-# path.data: /path/to/data
-
-# Can optionally include more than one location, causing data to be striped across
-# the locations (a la RAID 0) on a file level, favouring locations with most free
-# space on creation. For example:
-
-# path.data: /path/to/data1,/path/to/data2
-path.data: /usr/share/es_mysql/es_data
-
-# Path to temporary files:
-#path.work: /path/to/work
-
-# Path to log files:
-path.logs: /usr/share/es_mysql/es_logs
-
 ################################### Memory ####################################
 
 # Elasticsearch performs poorly when JVM starts swapping: you should ensure that
@@ -68,3 +46,7 @@ path.logs: /usr/share/es_mysql/es_logs
 # Set this property to true to lock the memory:
 #
 bootstrap.mlockall: true
+
+################################### Custom ####################################
+# Only allow access from within server. All other requests are routed through Nginx
+network.host: localhost

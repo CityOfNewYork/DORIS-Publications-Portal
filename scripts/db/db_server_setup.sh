@@ -49,7 +49,7 @@ interact
 '
 
 # Create mysql user
-mysql -u root -p$DB_PASS -e "CREATE DATABASE publications; USE publications; CREATE USER 'index'@'localhost' IDENTIFIED BY '$DB_NDX';"
+mysql -u root -p$DB_PASS -e "CREATE DATABASE publications; USE publications; CREATE USER 'index'@'localhost' IDENTIFIED BY '$DB_NDX'; CREATE USER 'update_na'@'localhost' IDENTIFIED BY '$DB_UNA'"
 
 # Download and Install Java (Oracle JDK)
 cd /opt/
@@ -71,13 +71,53 @@ gpgkey=http://packages.elasticsearch.org/GPG-KEY-elasticsearch
 enabled=1" >> /etc/yum.repos.d/elasticsearch.repo
 yum -y install elasticsearch
 
+# Copy Elasticsearch Configuration
+mv /etc/elasticsearch/elasticsearch.yml /etc/elasticsearch/elasticsearch.yml.orig
+cp $CWD/../../conf/elasticsearch.yml /etc/elasticsearch/elasticsearch.yml
+
+# Copy Password File
+cp $CWD/../../conf/user.pwd /etc/elasticsearch/user.pwd
+
+# Ensure Elasticsearch Works
 service elasticsearch start
 service elasticsearch stop
 
 # install elasticsearch head
 /usr/share/elasticsearch/bin/plugin --install mobz/elasticsearch-head
 
-service elasticsearch restart
+# Start Elasticsearch
+service elasticsearch start
+
+# Install Nginx
+rpm -Uhv $CWD/../../packages/nginx-release-centos-6-0.el6.ngx.noarch.rpm
+yum install -y nginx
+
+#Set up Nginx
+mkdir -p /etc/nginx/sites-enabled
+mkdir -p /etc/nginx/sites-available
+
+# Backup original Nginx configuration
+mv /etc/nginx/nginx.conf /etc/nginx/nginx.conf.orig
+
+# Copy over Nginx configuration
+cp $CWD/../../conf/db_nginx.conf /etc/nginx/nginx.conf
+
+# Place site configuration for Nginx in sites-available
+cp $CWD/../../conf/es_nginx.conf /etc/nginx/sites-available
+
+# Symlink the site configuration to sites-enabled
+ln -s /etc/nginx/sites-available/es_nginx.conf /etc/nginx/sites-enabled/es_nginx.conf
+
+# Setup SSL for Elasticsearch and Nginx
+mkdir -p /etc/nginx/certs
+cd /etc/nginx/certs
+openssl genrsa 2048 > es.key
+openssl req -new -x509 -nodes -sha1 -days 3650 -key es.key > es.cert
+openssl x509 -noout -fingerprint -text < es.cert > es.info
+cat es.cert es.key > es.pem
+
+# Start Nginx
+service nginx start
 
 # activate and setup virtual environment
 virtualenv /home/mysql/virtualenvs/gpp_env
@@ -86,11 +126,12 @@ pip install mysql-python elasticsearch
 
 # populate db
 mysql -u root -p$DB_PASS -e "set global net_buffer_length=1000000; set global max_allowed_packet=100000000;"
-mysql -u root -p$DB_PASS publications <$CWD/../../publications.sql
+mysql -u root -p$DB_PASS publications <$CWD/../../sql/publications.sql
+mysql -u root -p$DB_PASS publications <$CWD/../../sql/update_num_access.sql
 
 # create user with select permission
 mysql -u root -p$DB_PASS -e "GRANT SELECT ON publications.document TO 'index'@'localhost';"
-
+mysql -u root -p$DB_PASS -e "GRANT EXECUTE ON PROCEDURE publications.update_num_access TO 'update_na'@'$DB_IP' IDENTIFIED BY '$DB_UNA'"
 # Index DB
 python $CWD/../../application/index_db.py
 

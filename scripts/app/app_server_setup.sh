@@ -25,7 +25,7 @@ mkdir -p /var/www/logs/nginx
 mkdir -p /var/www/gpp_root/static
 mkdir -p /var/www/gpp_root/media
 
-# Setup Nginx
+#Set up Nginx
 mkdir -p /etc/nginx/sites-enabled
 mkdir -p /etc/nginx/sites-available
 
