@@ -25,17 +25,16 @@ TEMPLATE_CONTEXT_PROCESSORS += (
 )
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '1+xm(p7v#4wiy^%lg)#^kh8$o%tmcd+%nsr9z8ntc8k5^+1+%p'
+SECRET_KEY = 'rb7hg(_^m%@o&l!@lapt_zs-v(le_fnsze7n=v=&#g&l!px8t('
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 TEMPLATE_DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
-
-# Application definition
+# Application Definition
 
 INSTALLED_APPS = (
 	'django.contrib.admin',
@@ -69,7 +68,10 @@ DATABASES = {
 	'default': {
 		'ENGINE': 'django.db.backends.sqlite3',
 		'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-	}
+	},
+	'OPTIONS': {
+		'timeout': 20,
+	},
 }
 
 # Internationalization

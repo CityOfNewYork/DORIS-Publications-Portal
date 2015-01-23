@@ -1,12 +1,10 @@
 from django.template import RequestContext
 from django.shortcuts import render_to_response
-from models import Document
-from query_functions import process_query
+from django.http import HttpResponseNotFound
+from query_functions import process_query, get_url_by_id
 from django.core.paginator import Paginator
 from math import ceil
-
 import logging
-
 
 def index(request):
     # Request the context of the request.
@@ -101,6 +99,9 @@ def results(request):
 
     request.session['length'] = results_length
     request.session['num_pages'] = int(ceil(request.session['length'] / float(request.session['num_results'])))
+    
+    request.session.set_expiry(3600)
+    
     # initiate pagination
     # print num_results
     paginator = Paginator(range(1, request.session['length'] + 1), request.session.get('num_results'))
@@ -157,12 +158,7 @@ def publication(request):
     context = RequestContext(request)
     print context
     id = request.POST['view']
-    # print id
-    if id:
-        document_url = Document.objects.filter(id=id)[0].url
-    else:
-        document_url = ''
-    # print id, document_url
-    context_dict = {'id': id,
-                    'document_url': document_url}
+    document_url = get_url_by_id(request.POST['view'])
+    
+    context_dict = {'id': id, 'document_url': document_url}
     return render_to_response('publication.html', context_dict, context)

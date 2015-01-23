@@ -51,9 +51,10 @@
                             <button type="submit" class="btn btn-nyc" id="btn" name="btn" value="Refine / Search" onclick="$.jStorage.set('scrollPosition', 0);">Search</button>
                         </span>
                     </div>
+			<!--
                     <br>
                     <input type="checkbox" class="popover-hover-right" name="fulltext" data-toggle="popover" data-content="Checking this option will enable searching within entire document texts."> Enable Full-Text Searching
-                    <br><br>
+                    <br> --> <br>
                     <div id="selects">
                         <select name="agency[]" id="agencies" class="selectpicker input-medium" multiple data-live-search="true" style="display: none;">
                         {% for agency in agencies %}
@@ -158,13 +159,13 @@
                         <h5>{{ result.category | safe }}</h5>
                         <p>
                             <small>{{ result.date_created }}</small>
-                            <small style="padding-left: 2em">{{ result.type }}</small>
+                            <small style="padding-left: 2em">{{ result.type|safe }}</small>
                         </p>
                         <p> {{ result.description | safe }} </p>
                         <p>
                             {% if result.url != '' %}
                             <form method="post" action="/publication/" style="display: inline-block;">{% csrf_token %}
-                                <button type="submit" class="btn btn-sm btn-nyc" name="view" value="{{ result.id }}">
+                                <button type="submit" class="btn btn-sm btn-nyc" name="view" value="{{ result.id }}"> <!-- we can also use result.url so we do not have elastic-search -->
                                     <span class="glyphicon glyphicon-eye-open"></span> View
                                 </button>
                             </form>
@@ -172,8 +173,8 @@
                                 <span class="glyphicon glyphicon-save"></span> Save
                             </a>
                             {% else %}
-                            <form method="post" action="/publication/{{ result.url }}" style="display: inline-block;">{% csrf_token %}
-                                <button type="submit" class="btn btn-sm btn-nyc" name="view">
+                            <form method="post" action="/publication_not_found.html" style="display: inline-block;">{% csrf_token %}
+                                <button type="submit" class="btn btn-sm btn-nyc" name="view" value="{{ result.id }}">
                                     <span class="glyphicon glyphicon-eye-open"></span> View
                                 </button>
                             </form>
@@ -187,7 +188,10 @@
                     </div>
                     {% else %}
                     <div class="panel-heading">
-                        <h3 class="panel-title">{% if result.url != '' %} <a href="http://localhost:8000/{{ result.url }}">{% else %} <a href="#">{% endif %}<b>{{ result.rank }}. <span style="text-decoration: underline;">{{ result.title|safe }}</span></b></a></h3>
+                        <h3 class="panel-title">
+	                        {% if result.url != '' %} 
+	                        	<a href="http://localhost:8000/{{ result.url }}">
+		                    {% else %} <a href="#">{% endif %}<b>{{ result.rank }}. <span style="text-decoration: underline;">{{ result.title|safe }}</span></b></a></h3>
                     </div>
                     <div class="panel-body">
                         <p>

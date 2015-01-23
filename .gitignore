@@ -75,4 +75,5 @@ app/view_db_functions.py
 *.zip
 *prod.*
 *.access
-DORIS/DORIS
+DORIS/*
+*.tar.gz

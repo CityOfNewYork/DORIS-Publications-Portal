@@ -1,130 +1,65 @@
 <!DOCTYPE html>
-
 {% load static %}
-
 <html lang="en">
-
 	<head>
-        <meta charset="utf-8">
-        <meta name="Description" content="Open Data Protal for NYC's Publications">
-        <title> {% block title %}{% endblock %} - Government Publications Portal</title>
-        <link rel="shortcut icon" type="image/x-icon" href="{% static "images/favicon.ico" %}" />
-        <link rel="icon" type="image/x-icon" href="{%  static "images/favicon.ico" %}" />
+		<meta charset="utf-8">
+		<meta name="Description" content="Open Data Protal for NYC's Publications">
+		<title> {% block title %}{% endblock %} - Government Publications Portal</title>
+		<link rel="shortcut icon" type="image/x-icon" href="{% static "images/favicon.ico" %}" />
+		<link rel="icon" type="image/x-icon" href="{%  static "images/favicon.ico" %}" />
 		<link rel="stylesheet" type="text/css" href="{% static "css/bootstrap-select.min.css" %}" />
 		<link rel="stylesheet" type="text/css" href="{% static "css/bootstrap.min.css" %}" />
 		<link rel="stylesheet" type="text/css" href="{% static "css/gpp.css" %}">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	</head>
-
 	<body onload="$('body').scrollTop($.jStorage.get('scrollPosition')); console.log($.jStorage.get('scrollPosition'));">
-
 		<!-- HEADER -->
 		<div id="header" class="navbar navbar-default navbar-fixed-top" role="navigation">
-		    <div class="container" style="max-width: 960px;">
-			    <div class="navbar-header">
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                        <span class="sr-only">Toggle navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-        			<a class="navbar-brand" href="/">
-        				<img src="{% static "images/nyc_purple.gif" %}" alt="NYC" style="width: 80px; height: 30px; margin-top: -7px;">
-        				<span class="hidden-xs">Government Publications Portal</span>
-        			</a>
-			    </div>
-			    <div class="navbar-collapse collapse">
-                    <ul class="nav navbar-nav navbar-right pull-right" style="text-align: right;">
-                        <li><a href = "#" class="modal-link" data-toggle="modal" data-target=".contact-modal">Feedback</a></li>
-                        <li><a href="about/">About</a></li>
-        				<li><a href="http://www.nyc.gov/html/records/html/contact/home.shtml" target="_blank">Contact</a></li>
-        				<li>
-        				    <a href="https://www.facebook.com/nycrecords" target="_blank">
-            				    <img src="{% static "images/facebook.png" %}" alt="facebook" style="width: 24px; height: 24px; margin-top: -7px;">
-            				</a>
-        				</li>
-                    </ul>
-                </div>
-            </div>
+			<div class="container" style="max-width: 960px;">
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					</button>
+					<a class="navbar-brand" href="/">
+						<img src="{% static "images/nyc_purple.gif" %}" alt="NYC" style="width: 80px; height: 30px; margin-top: -7px;">
+						<span class="hidden-xs">Government Publications Portal</span>
+					</a>
+				</div>
+				<div class="navbar-collapse collapse">
+					<ul class="nav navbar-nav navbar-right pull-right" style="text-align: right;">
+						<li><a href="http://www.nyc.gov/html/records/html/contact/publications.shtml" target="_blank">Feedback</a></li>
+						<li><a href="https://github.com/CityOfNewYork/DORIS-Publications-Portal/wiki">About</a></li>
+						<li><a href="http://www.nyc.gov/html/records/html/contact/home.shtml" target="_blank">Contact</a></li>
+						<li>
+							<a href="https://www.facebook.com/nycrecords" target="_blank">
+								<img src="{% static "images/facebook.png" %}" alt="facebook" style="width: 24px; height: 24px; margin-top: -7px;">
+							</a>
+						</li>
+					</ul>
+				</div>
+			</div>
 		</div>
 		<!-- HEADER -->
-
 		{% block content %}
+			
 		{% endblock %}
-
-        <!-- FOOTER -->
+		<!-- FOOTER -->
 		<div id="footer" class="navbar navbar-default navbar-fixed-bottom">
-		    <div class="container" style="max-width: 960px;">
-		        <div class="navbar-header">
-		            <p class="navbar-text nav-text pull-left">&copy; 2014 City of New York</p>
-		        </div>
-		    </div>
+			<div class="container" style="max-width: 960px;">
+				<div class="navbar-header">
+					<p class="navbar-text nav-text pull-left">&copy; 2014 City of New York</p>
+				</div>
+			</div>
 		</div>
 		<!-- FOOTER -->
-
-		<!-- Contact Modal -->
-        <div class="modal fade contact-modal" id="myModal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-lg" style="margin-top: 50px; margin-bottom: 50px">
-                <form role="form" class="form-horizontal" method="post" action="#">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove-circle
-"></span></button>
-                        <h4 class="modal-title">Feedback for D.O.R.I.S.</h4>
-                    </div>
-                    <div class="modal-body">
-                        <div class="tab-pane fade active in" id="signin">
-                    		<fieldset>
-                        		<!-- text input-->
-                        		<div class="control-group">
-                            		<div class="form-group" id="name">
-                            			<div class="controls">
-											<div class = "input-group">
-												<div class = "input-group-addon">
-												    Name
-												</div>
-												<input type="text" class="form-control" name="name" placeholder="John Smith">
-											</div>
-                            			</div>
-                            		</div>
-                            		<div class="form-group" id="email">
-                            			<div class="controls">
-											<div class = "input-group">
-												<div class = "input-group-addon">
-												    Email
-												</div>
-												<input type="email" class="form-control" name="email" placeholder="example@me.com">
-											</div>
-                            			</div>
-                            		</div>
-                        			<div class="form-group" id="message">
-                        				<label for="feedback_msg" style="padding-bottom:10px; margin-left:40%">Send us a suggestion!</label>
-                        				<div class="controls">
-                        					<textarea class="form-control" name="feedback_msg" rows="10" cols="6" style="resize:none;" placeholder="How can we improve?"></textarea>
-                        				</div>
-                        			</div>
-                        		</div>
-                    		</fieldset>
-                        </div>
-                    </div>
-					<div class="modal-footer">
-						<div class="control-group">
-							<input type="submit" class="btn btn-nyc" id="btn" name="send_email" value="Send">
-						</div>
-					</div>
-                </div>
-                </form>
-            </div>
-        </div>
-		<!-- Contact Modal -->
-
 		<!-- JAVASCRIPT -->
 		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-	    <script type="text/javascript" src="{% static "js/bootstrap-select.js" %}"></script>
+		<script type="text/javascript" src="{% static "js/bootstrap-select.js" %}"></script>
 		<script type="text/javascript" src="{% static "js/bootstrap.min.js" %}"></script>
-        <script type="text/javascript" src="{% static "js/jstorage.min.js" %}"></script>
-	    <script type="text/javascript" src="{% static "js/gpp.js" %}"></script>
-
+		<script type="text/javascript" src="{% static "js/jstorage.min.js" %}"></script>
+		<script type="text/javascript" src="{% static "js/gpp.js" %}"></script>
 	</body>
-
 </html>

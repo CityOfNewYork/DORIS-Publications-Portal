@@ -9,6 +9,12 @@
 # store current path (directory mentioned above) for later use
 export CWD=$PWD
 
+# Reset Path to Use Python 2.6.6
+export PATH="/usr/lib64/qt-3.3/bin::/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin:/opt/CA/AccessControl/bin:/opt/CA/AccessControl/lbin"
+
+# Setup Passwords
+source prod.password_store.sh
+
 # Update the server
 yum -y update
 
@@ -30,7 +36,7 @@ service mysqld start
 expect -c '
 spawn "mysql_secure_installation"
 
-expect "(enter for none):" { send -- "\r" }
+expect "(enter for none):" { send "gpp369063\r" }
 expect "Set root password?" { send "Y\r" }
 expect "New password:" { send "$env(DB_PASS)\r" }
 expect "Re-enter new password:" { send "$env(DB_PASS)\r" }
@@ -43,12 +49,11 @@ interact
 '
 
 # Create mysql user
-mysql -u root -p$DB_PASS -e "CREATE DATABASE publications; USE publications; CREATE USER 'index'@'localhost' IDENTIFIED BY '$DB_NDX'; CREATE USER 'update_na'@'localhost' IDENTIFIED BY '$DB_UNA'"
+mysql -u root -p$DB_PASS -e "CREATE DATABASE publications; USE publications; CREATE USER 'index'@'localhost' IDENTIFIED BY '$DB_NDX';"
 
 # Download and Install Java (Oracle JDK)
 cd /opt/
-wget --no-cookies --no-check-certificate --header "Cookie: gpw_e24=http%3A%2F%2Fwww.oracle.com%2F; oraclelicense=accept-securebackup-cookie" "http://download.oracle.com/otn-pub/java/jdk/7u72-b14/jdk-7u72-linux-x64.tar.gz"
-tar xzf jdk-7u72-linux-x64.tar.gz
+tar xzf $CWD/../../packages/jdk-7u72-linux-x64.tar.gz
 cd /opt/jdk1.7.0_72/
 alternatives --install /usr/bin/java java /opt/jdk1.7.0_72/bin/java 2
 alternatives --config java
@@ -114,20 +119,16 @@ cat es.cert es.key > es.pem
 service nginx start
 
 # Activate and Setup Virtual Environment
-virtualenv /home/mysql/virtualenvs/gpp_env
-source /home/mysql/virtualenvs/gpp_env/bin/activate
+virtualenv /var/lib/mysql/virtualenvs/gpp_env
+source /var/lib/mysql/virtualenvs/gpp_env/bin/activate
 pip install mysql-python elasticsearch
 
 # Populate DB
 mysql -u root -p$DB_PASS -e "set global net_buffer_length=1000000; set global max_allowed_packet=100000000;"
 mysql -u root -p$DB_PASS publications <$CWD/../../sql/publications.sql
 
-# Insert Stored Procedure for Update Num Access
-mysql -u root -p$DB_PASS publications <$CWD/../../sql/update_num_access.sql
-
 # create user with select permission
 mysql -u root -p$DB_PASS -e "GRANT SELECT ON publications.document TO 'index'@'localhost';"
-mysql -u root -p$DB_PASS -e "GRANT EXECUTE ON PROCEDURE publications.update_num_access TO 'update_na'@'XXX.XXX.XXX.XXX' IDENTIFIED BY '$DB_UNA'"
 
 # Index DB
 python $CWD/../../application/index_db.py

@@ -11,7 +11,20 @@ tracer.addHandler(logging.FileHandler('/var/www/logs/query.log'))
 INDEX = 'publications'
 DOCTYPE = 'document'
 
-es = Elasticsearch([{'host': '104.131.122.85'}])
+host_params = {'host':'10.155.145.28', 'port':443, 'use_ssl':True}
+
+es = Elasticsearch([host_params], use_ssl=True)
+
+
+def get_url_by_id(id):
+    result = es.search(index='publications', body={
+        "query": {
+            "match": {
+                "id": id
+            }
+        }
+    })
+    return result['hits']['hits'][0][u'_source'][u'url']
 
 
 def process_query(search, agencies_selected, categories_selected, types_selected, fulltext, start, num_results, sort_method):

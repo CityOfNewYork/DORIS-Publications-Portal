@@ -7,6 +7,9 @@
 # Store current path (directory mentioned above) for later use
 export CWD=$PWD
 
+# Reset Path to Use Python 2.6.6
+export PATH="/usr/lib64/qt-3.3/bin::/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin:/opt/CA/AccessControl/bin:/opt/CA/AccessControl/lbin"
+
 # Update the Server
 yum -y update
 
@@ -33,7 +36,7 @@ mkdir -p /etc/nginx/sites-available
 mv /etc/nginx/nginx.conf /etc/nginx/nginx.conf.orig
 
 # Copy over Nginx configuration
-cp $CWD/../../conf/nginx.conf /etc/nginx/nginx.conf
+cp $CWD/../../conf/app_nginx.conf /etc/nginx/nginx.conf
 
 # Place site configuration for Nginx in sites-available
 cp $CWD/../../conf/gpp_nginx.conf /etc/nginx/sites-available
