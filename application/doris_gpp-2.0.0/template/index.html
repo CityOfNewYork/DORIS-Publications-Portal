@@ -1,59 +1,59 @@
-{% extends "base.html" %}
-{% block title %}Home{% endblock %}
-{% block content %}
-{% load static %}
+{% extends "base.html" %} {% block title %}Home{% endblock %} {% block content %} {% load static %}
 <style>
-	body {
-		background-image: url({% static "images/background.jpg" %});
-		background-size: cover;
-	}
+  body {
+    background-image: url({% static "images/background.jpg" %});
+    background-size: cover;
+  }
 </style>
 
 <div class="container" style="max-width: 700px; padding-top: 50px;">
-    <div class="jumbotron">
-        <h2>Search Publications</h2>
-        <form id="index-form"  role="form" method="get" action="results">
-            <p>
-                <input type="text" id="input_text" class="form-control" name="user_input" style="text-align: center">
-				<label for="input_text" style="height:10px; top: -31px;position: relative;display:block; cursor: pointer;float:right; margin-right:5px;"></label>
-            </p>
-            <p>
-                <button type="submit" class="btn btn-nyc" id="btn" name="btn" value="Search">
-					Search
-				</button>
-            </p>
-            <p>
-                <button type="button" class="btn btn-nyc" id="btn" onclick="toggleSlide('#hidden-selects');">
-                    Filter&nbsp;
-                    <span class="caret"></span>
-                </button>
-            </p>
+  <div class="jumbotron">
+    <h2>Search Publications</h2>
+    <form id="index-form" role="form" method="get" action="results">
+      <p>
+        <input type="text" id="input_text" class="form-control" name="user_input" style="text-align: center">
+        <label for="input_text" style="height:10px; top: -31px;position: relative;display:block; cursor: pointer;float:right; margin-right:5px;"></label>
+      </p>
+      <p>
+        <button type="submit" class="btn btn-nyc" id="btn" name="btn" value="Search">
+          Search
+        </button>
+      </p>
+      <p>
+        <button type="button" class="btn btn-nyc" id="btn" onclick="toggleSlide('#hidden-selects');">
+          Filter&nbsp;
+          <span class="caret"></span>
+        </button>
+      </p>
 
-            <div id="hidden-selects" style="display: none;">
-                <div id="selects">
-                    <select name="agency[]" id="agencies" class="selectpicker input-medium" multiple data-live-search="true" style="display: none;">
-                    {% for agency in agencies %}
-                        <option value="{{ agency }}">{% if agency == 'Metropolitan Transportation Authority' %}MTA {% else %}{{ agency }} {% endif %}</option>
-                    {% endfor %}
-                    </select>
-                    <br><br>
-                    <select name="category[]" id="categories" class="selectpicker" multiple data-live-search="true" style="display: none;">
-                    {% for category in categories %}
-                        <option value="{{ category }}">{{ category }}</option>
-                    {% endfor %}
-                    </select>
-                    <br><br>
-                    <select name="type[]" id="types" onfocus="skipcycle=true" onblur="skipcycle=false" class="selectpicker" multiple data-live-search="true" style="display: none;">
-                    {% for type in types %}
-                        <option value="{{ type }}">{% if type == 'Bond Offering - Official Statements' %}Bond Offering {% else %}{{ type }} {% endif %}</option>
-                    {% endfor %}
-                    </select>
-                    <br><br>
-                    <button type="button" class="btn btn-coral" id="btn" value="Remove All">Remove All</button>
-                </div>
-            </div>
-        </form>
-    </div>
+      <div id="hidden-selects" style="display: none;">
+        <div id="selects">
+          <select name="agency[]" id="agencies" class="selectpicker input-medium" multiple data-live-search="true" style="display: none;">
+            {% for agency in agencies %}
+            <option value="{{ agency }}">{% if agency == 'Metropolitan Transportation Authority' %}MTA {% else %}{{ agency }} {% endif %}</option>
+            {% endfor %}
+          </select>
+          <br>
+          <br>
+          <select name="category[]" id="categories" class="selectpicker" multiple data-live-search="true" style="display: none;">
+            {% for category in categories %}
+            <option value="{{ category }}">{{ category }}</option>
+            {% endfor %}
+          </select>
+          <br>
+          <br>
+          <select name="type[]" id="types" onfocus="skipcycle=true" onblur="skipcycle=false" class="selectpicker" multiple data-live-search="true" style="display: none;">
+            {% for type in types %}
+            <option value="{{ type }}">{% if type == 'Bond Offering - Official Statements' %}Bond Offering {% else %}{{ type }} {% endif %}</option>
+            {% endfor %}
+          </select>
+          <br>
+          <br>
+          <button type="button" class="btn btn-coral" id="btn" value="Remove All">Remove All</button>
+        </div>
+      </div>
+    </form>
+  </div>
 </div>
 
 {% endblock %}
