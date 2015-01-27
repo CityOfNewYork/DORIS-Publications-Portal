@@ -108,10 +108,10 @@ mv /etc/nginx/conf.d/example_ssl.conf /etc/nginx/conf.d/example_ssl.conf.bak
 cp $CWD/../../conf/db_nginx.conf /etc/nginx/nginx.conf
 
 # Place site configuration for Nginx in sites-available
-cp $CWD/../../conf/es_nginx.conf /etc/nginx/sites-available
+cp $CWD/../../conf/elasticsearch.conf /etc/nginx/sites-available
 
 # Symlink the site configuration to sites-enabled
-ln -s /etc/nginx/sites-available/es_nginx.conf /etc/nginx/sites-enabled/es_nginx.conf
+ln -s /etc/nginx/sites-available/elasticsearch.conf /etc/nginx/sites-enabled/elasticsearch.conf
 
 # Setup SSL for Elasticsearch and Nginx
 mkdir -p /etc/nginx/certs
@@ -136,7 +136,7 @@ mysql -u root -p$DB_PASS publications <$CWD/../../publications.sql
 
 # create user with select permission
 mysql -u root -p$DB_PASS -e "GRANT SELECT ON publications.document TO 'index'@'localhost';"
-mysql -u root -p$DB_PASS -e "GRANT EXECUTE ON PROCEDURE publications.update_num_access TO 'update_na'@'$DB_IP' IDENTIFIED BY '$DB_UNA'"
+
 # Index DB
 python $CWD/../../application/index_db.py
 
