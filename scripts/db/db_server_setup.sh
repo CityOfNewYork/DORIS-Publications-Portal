@@ -1,6 +1,6 @@
 # Database Server Setup (Initial installations)
 # ---------------------------------------------
-# PLEASE NOTE: 
+# PLEASE NOTE:
 # This script must be run as the root user on the system.
 # This script must be run from within this directory (DORIS-Publications-Portal/artifacts/scripts/db)
 
@@ -10,7 +10,7 @@
 export CWD=$PWD
 
 # Reset Path to Use Python 2.6.6
-export PATH="/usr/lib64/qt-3.3/bin::/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin:/opt/CA/AccessControl/bin:/opt/CA/AccessControl/lbin"
+export PATH="/usr/lib64/qt-3.3/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin:/opt/CA/AccessControl/bin:/opt/CA/AccessControl/lbin"
 
 # Setup Passwords
 source prod.password_store.sh
@@ -22,6 +22,8 @@ yum -y update
 yum -y groupinstall "Development tools"
 yum -y install python-devel python-setuptools
 easy_install virtualenv
+
+echo -e "Django = $DB_DJANGO\nRoot = $DB_PASS\nIndex = $DB_NDX" > /home/mysql/.db_pass
 
 # Install Expect
 yum -y install expect
@@ -36,7 +38,7 @@ service mysqld start
 expect -c '
 spawn "mysql_secure_installation"
 
-expect "(enter for none):" { send "gpp369063\r" }
+expect "(enter for none):" { send "\r" }
 expect "Set root password?" { send "Y\r" }
 expect "New password:" { send "$env(DB_PASS)\r" }
 expect "Re-enter new password:" { send "$env(DB_PASS)\r" }
@@ -81,7 +83,7 @@ cp $CWD/../../conf/user.pwd /etc/elasticsearch/user.pwd
 service elasticsearch start
 service elasticsearch stop
 
-# Install elasticsearch head
+# install elasticsearch head
 /usr/share/elasticsearch/bin/plugin --install mobz/elasticsearch-head
 
 # Start Elasticsearch
@@ -91,7 +93,7 @@ service elasticsearch start
 rpm -Uhv $CWD/../../packages/nginx-release-centos-6-0.el6.ngx.noarch.rpm
 yum install -y nginx
 
-# Set up Nginx
+#Set up Nginx
 mkdir -p /etc/nginx/sites-enabled
 mkdir -p /etc/nginx/sites-available
 
@@ -123,13 +125,14 @@ virtualenv /var/lib/mysql/virtualenvs/gpp_env
 source /var/lib/mysql/virtualenvs/gpp_env/bin/activate
 pip install mysql-python elasticsearch
 
-# Populate DB
+# populate db
 mysql -u root -p$DB_PASS -e "set global net_buffer_length=1000000; set global max_allowed_packet=100000000;"
 mysql -u root -p$DB_PASS publications <$CWD/../../sql/publications.sql
+mysql -u root -p$DB_PASS publications <$CWD/../../sql/update_num_access.sql
 
 # create user with select permission
 mysql -u root -p$DB_PASS -e "GRANT SELECT ON publications.document TO 'index'@'localhost';"
-
+mysql -u root -p$DB_PASS -e "GRANT EXECUTE ON PROCEDURE publications.update_num_access TO 'update_na'@'$DB_IP' IDENTIFIED BY '$DB_UNA'"
 # Index DB
 python $CWD/../../application/index_db.py
 
