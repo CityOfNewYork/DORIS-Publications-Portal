@@ -1,6 +1,6 @@
 # Application Server Setup (Initial installations)
 # ---------------------------------------------
-# PLEASE NOTE: 
+# PLEASE NOTE:
 # This script must be run as the root user on the system.
 # This script must be run from within this directory (DORIS-Publications-Portal/artifacts/scripts/app)
 
@@ -8,7 +8,7 @@
 export CWD=$PWD
 
 # Reset Path to Use Python 2.6.6
-export PATH="/usr/lib64/qt-3.3/bin::/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin:/opt/CA/AccessControl/bin:/opt/CA/AccessControl/lbin"
+export PATH="/usr/lib64/qt-3.3/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin:/opt/CA/AccessControl/bin:/opt/CA/AccessControl/lbin"
 
 # Update the Server
 yum -y update
@@ -35,6 +35,10 @@ mkdir -p /etc/nginx/sites-available
 # Backup original Nginx configuration
 mv /etc/nginx/nginx.conf /etc/nginx/nginx.conf.orig
 
+# Backup default Nginx sites
+mv /etc/nginx/conf.d/default.conf /etc/nginx/conf.d/default.conf.bak
+mv /etc/nginx/conf.d/example_ssl.conf /etc/nginx/conf.d/example_ssl.conf.bak
+
 # Copy over Nginx configuration
 cp $CWD/../../conf/app_nginx.conf /etc/nginx/nginx.conf
 
@@ -51,7 +55,7 @@ cp $CWD/../../conf/uwsgi_params /var/www/gpp_root/uwsgi_params
 service nginx start
 
 # Install Virtualenv and Pip
-easy_install virtualenv 
+easy_install virtualenv
 easy_install pip
 
 # Install uWSGI Globally

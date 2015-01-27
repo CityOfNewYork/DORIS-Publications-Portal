@@ -1,6 +1,6 @@
 # Database Server Setup (Initial installations)
 # ---------------------------------------------
-# PLEASE NOTE: 
+# PLEASE NOTE:
 # This script must be run as the root user on the system.
 # This script must be run from within this directory (DORIS-Publications-Portal/artifacts/scripts/db)
 
@@ -10,7 +10,7 @@
 export CWD=$PWD
 
 # Reset Path to Use Python 2.6.6
-export PATH="/usr/lib64/qt-3.3/bin::/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin:/opt/CA/AccessControl/bin:/opt/CA/AccessControl/lbin"
+export PATH="/usr/lib64/qt-3.3/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin:/opt/CA/AccessControl/bin:/opt/CA/AccessControl/lbin"
 
 # Setup Passwords
 source prod.password_store.sh
@@ -36,7 +36,7 @@ service mysqld start
 expect -c '
 spawn "mysql_secure_installation"
 
-expect "(enter for none):" { send "gpp369063\r" }
+expect "(enter for none):" { send "\r" }
 expect "Set root password?" { send "Y\r" }
 expect "New password:" { send "$env(DB_PASS)\r" }
 expect "Re-enter new password:" { send "$env(DB_PASS)\r" }
