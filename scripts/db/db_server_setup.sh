@@ -96,10 +96,14 @@ yum install -y nginx
 #Set up Nginx
 mkdir -p /etc/nginx/sites-enabled
 mkdir -p /etc/nginx/sites-available
+mkdir -p /var/lib/mysql/logs/nginx
 
 # Backup original Nginx configuration
 mv /etc/nginx/nginx.conf /etc/nginx/nginx.conf.orig
 
+# Backup default Nginx sites
+mv /etc/nginx/conf.d/default.conf /etc/nginx/conf.d/default.conf.bak
+mv /etc/nginx/conf.d/example_ssl.conf /etc/nginx/conf.d/example_ssl.conf.bak
 # Copy over Nginx configuration
 cp $CWD/../../conf/db_nginx.conf /etc/nginx/nginx.conf
 
@@ -127,8 +131,8 @@ pip install mysql-python elasticsearch
 
 # populate db
 mysql -u root -p$DB_PASS -e "set global net_buffer_length=1000000; set global max_allowed_packet=100000000;"
-mysql -u root -p$DB_PASS publications <$CWD/../../sql/publications.sql
-mysql -u root -p$DB_PASS publications <$CWD/../../sql/update_num_access.sql
+mysql -u root -p$DB_PASS publications <$CWD/../../publications.sql
+#mysql -u root -p$DB_PASS publications <$CWD/../../update_num_access.sql
 
 # create user with select permission
 mysql -u root -p$DB_PASS -e "GRANT SELECT ON publications.document TO 'index'@'localhost';"
