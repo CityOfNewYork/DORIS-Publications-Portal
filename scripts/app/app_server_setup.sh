@@ -52,7 +52,7 @@ ln -s /etc/nginx/sites-available/gpp_nginx.conf /etc/nginx/sites-enabled/gpp_ngi
 cp $CWD/../../conf/uwsgi_params /var/www/gpp_root/uwsgi_params
 
 # Restart Nginx
-service nginx start
+/etc/init.d/nginx restart
 
 # Install Virtualenv and Pip
 easy_install virtualenv
