@@ -173,7 +173,7 @@
                                 <span class="glyphicon glyphicon-save"></span> Save
                             </a>
                             {% else %}
-                            <form method="post" action="/publication_not_found.html" style="display: inline-block;">{% csrf_token %}
+                            <form method="post" action="/404.html" style="display: inline-block;">{% csrf_token %}
                                 <button type="submit" class="btn btn-sm btn-nyc" name="view" value="{{ result.id }}">
                                     <span class="glyphicon glyphicon-eye-open"></span> View
                                 </button>
