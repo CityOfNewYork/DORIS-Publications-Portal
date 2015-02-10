@@ -59,5 +59,7 @@ This script performs the following functions:
 	- Configures the Government Publications Portal Django Application and associated packages
 
 
+Memory for ES - 4 GB
+
 
 

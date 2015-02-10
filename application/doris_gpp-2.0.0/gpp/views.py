@@ -156,9 +156,12 @@ def about(request):
 
 def publication(request):
     context = RequestContext(request)
-    print context
-    id = request.POST['view']
-    document_url = get_url_by_id(request.POST['view'])
-    
-    context_dict = {'id': id, 'document_url': document_url}
+    document_url = request.POST['view']
+    context_dict = {'document_url': document_url }
     return render_to_response('publication.html', context_dict, context)
+
+   #  context = RequestContext(request)
+#     id = request.POST['view']
+#     document_url = get_url_by_id(request.POST['view'])
+#     context_dict = {'id': id, 'document_url': document_url}
+#     return render_to_response('publication.html', context_dict, context)

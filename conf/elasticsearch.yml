@@ -50,3 +50,5 @@ bootstrap.mlockall: true
 ################################### Custom ####################################
 # Only allow access from within server. All other requests are routed through Nginx
 network.host: localhost
+
+node.local: true

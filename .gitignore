@@ -78,3 +78,6 @@ app/view_db_functions.py
 DORIS/*
 *.tar.gz
 .vagrant/
+servers.txt
+.DS_Store
+*.sql

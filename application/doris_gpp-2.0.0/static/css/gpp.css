@@ -141,6 +141,7 @@ body {
     margin-left: 0px;
     margin-right: 0px;
     margin-bottom: 50px;
+    padding-right: 10px;
 }
 
 .options {
@@ -153,7 +154,7 @@ body {
     bottom: 0;
     padding-top: 151px;
     margin-bottom: 51px;
-    padding-left: 10px;
+    padding-left: 0px;
     width: 285px;
     z-index: 1;
 }
@@ -165,6 +166,10 @@ body {
 .selectpicker {
     text-align: left;
     width: auto;
+}
+.selectpickerie9 {
+	text-align: left;
+	width: 250px;
 }
 
 @media screen and (max-width: 767px) {
