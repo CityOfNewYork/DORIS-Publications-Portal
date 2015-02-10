@@ -25,3 +25,6 @@ sed -i "4i\ \n# Set ES_HEAP_SIZE\nexport ES_HEAP_SIZE=3gb" /usr/share/elasticsea
 # Re-Index the Database
 source /var/lib/mysql/virtualenvs/gpp_env/bin/activate
 python $CWD/../../application/index_db.py
+
+# Restart Elasticsearch
+sudo service elasticsearch restart
