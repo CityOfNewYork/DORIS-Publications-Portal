@@ -60,7 +60,7 @@ def indexDB():
               'type':         {'type': 'string', 'index': 'not_analyzed'},
               'url':          {'type': 'string', 'index': 'no'},
               'pub_or_foil':  {'type': 'string', 'index': 'no'},
-              'docText': {'type': 'string', 'analyzer': 'gpp_analyzer', 'index': 'analyzed'},
+              # 'docText': {'type': 'string', 'analyzer': 'gpp_analyzer', 'index': 'analyzed'},
               # 'file':           {
               #     'type': 'attachment',
               #     'analyzer': 'gpp_analyzer',

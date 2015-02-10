@@ -1,30 +1,42 @@
 NOTE: All paths detailed in this are relative to the root of the artifacts folder.
 
-DORIS Government Publications Portal - Server Setup Instructions
+DORIS Government Publications Portal - Server Migration Instructions
+
+UPDATED: 02/10/2015
 
 Servers:
 	Application Server - XXX.XXX.XXX.XXX (SERVER_NAME_GOES_HERE)
 	Database Server - XXX.XXX.XXX.XXX (SERVER_NAME_GOES_HERE)
-	
+
 Database Server Setup Instructions
+Extract the tar file to /var/lib/mysql/artifacts (Replace the existing folder and its contents)
 
-Please cd into /scripts/db/ and run the following command: source db_server_setup.sh
+cd into /var/lib/mysql/artifacts/scripts/db/ and run the following command: sudo source db_migration_02102015.sh
 
-Requirements:
-	This deployment archive should be extracted in /home/mysql on the database server.
+Requiremetns:
+	This deployment archive should be unzipped in /var/lib/mysql on the database server.
 	PLEASE NOTE: The script must be run as a root user on the system
 
-This script performs the following functions:
+This script performs the following operations:
+	- Sets the ES_HEAP_SIZE to 1/2 of the available RAM in the system
+	- Removes Sample Data from the Database
+	- Fixes missing URLs in the Database
+	- Removes the doc_text column from the dataset
+	- Re-runs the elasticsearch index
 	
 ###############################################################################
 ###############################################################################
 
 Application Server Setup Instructions
+Extract the tar file to /var/www/artifacts (Replace the existing folder and its contents)
 
-Please cd into /scripts/app/ and run the following command: source app_server_setup.sh
+cd into /var/www/artifacts/scripts/app/ and run the following command: sudo source app_migration.sh
 
 Requirements:
 	This deployment archive should be unzipped in /var/www on the application server.
 	PLEASE NOTE: The script must be run as a root user on the system
 
-This script performs the following functions:
+This script performs the following operations:
+	- Updates the application files
+
+
