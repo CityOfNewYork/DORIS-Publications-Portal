@@ -306,7 +306,7 @@
                 </button>
             </div>
             <!--![endif]-->
-<!--[if lt IE 9]>
+            <!--[if lt IE 9]>
             <div class="btn-group btn-group-justified" style="width: 260px;">
                 <div class="btn-group">
                     <button type="button" class="btn btn-default disabled">Results Per Page</button>
@@ -529,7 +529,10 @@
                 <h3 class="panel-title">
                     {% if result.url != '' %}
                     <a href="http://a860-gpp.ecm.csstg.cs.nycnet{{ result.url }}">
-                        {% else %} <a href="#">{% endif %}<b>{{ result.rank }}. <span style="text-decoration: underline;">{{ result.title|safe }}</span></b></a>
+                        {% else %}
+                        <a href="http://a860-gpp.ecm.csstg.cs.nycnet/static/data/gppPdfs/7898_Red Light Camera Report.pdf">
+                            {% endif %}<b>{{ result.rank }}. <span style="text-decoration: underline;">{{ result.title|safe }}</span></b></a>
+
                 </h3>
             </div>
             <div class="panel-body">
