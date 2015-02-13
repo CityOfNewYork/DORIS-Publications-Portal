@@ -374,7 +374,7 @@
                             <span class="caret"></span>
                         </button>
                         <ul class="dropdown-menu" role="menu" onclick="$.jStorage.set('scrollPosition', 0);">
-                            <li><a href="/results/?num_results=10">10</a>/li>
+                            <li><a href="/results/?num_results=10">10</a></li>
                             <li><a href="/results/?num_results=20">20</a></li>
                             <li><a href="/results/?num_results=50">50</a></li>
                             <li><a href="/results/?num_results=100">100</a></li>
@@ -538,7 +538,7 @@
                                 </button>
                             </form>
                             {% if result.url != '' %}
-                                <a onclick="window.open( '{{ result.url }}' )" class="btn btn-sm btn-nyc">
+                                <a href="{{ result.url }}" target="_blank" class="btn btn-sm btn-nyc">
                                     <span class="glyphicon glyphicon-save"></span> Save
                                 </a>
                             {% else %}
@@ -552,7 +552,7 @@
                     <div class="panel-heading">
                         <h3 class="panel-title">
                             {% if result.url != '' %}
-                            <a href="http://a860-gpp.ecm.csstg.cs.nycnet{{ result.url }}" target="_blank">
+                            <a href="{{ result.url }}" target="_blank">
                             {% else %}
                             <a href="http://a860-gpp.ecm.csstg.cs.nycnet/static/data/gppPdfs/7898_Red Light Camera Report.pdf" target="_blank">
                             {% endif %}
