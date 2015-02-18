@@ -2,7 +2,7 @@ NOTE: All paths detailed in this are relative to the root of the artifacts folde
 
 DORIS Government Publications Portal - Server Migration Instructions
 
-UPDATED: 02/13/2015 9:15 AM
+UPDATED: 02/18/2015 3:30 PM
 
 Servers:
 	Application Server - XXX.XXX.XXX.XXX (SERVER_NAME_GOES_HERE)
@@ -21,6 +21,4 @@ Requirements:
 	PLEASE NOTE: The script must be run as a root user on the system
 
 This script performs the following operations:
-	- Updates the application files
-
-
+	- Updates the application HTML files
