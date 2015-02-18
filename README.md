@@ -44,10 +44,6 @@ document titles, descriptions, agencies, types, and categories to give you the
 best possible results.
 - Advanced Search – You can filter your results By Agency, Category, and Type 
 to make the search even faster and targeted.
-- Fulltext Search – The next version of the app will have full text search for 
-all documents.
-Currently this feature is only available for the City Record published from 
-2008 to the present.
 - Sorting – All searches can be sorted by Agency, Category, Type, and Relevance.
 - Dynamic Pagination – Allows users to view 10, 20, 50, or 100 results per page.
 - Embedded PDFs – To make it easier to view the documents, the files are 
@@ -75,4 +71,4 @@ repository and show us what you can do with our codebase to make it even better.
 ### Acknowledgements
 
 Special thanks to our four talented interns
-(Alan Chen, Alvi Kabir, Brandon Tang, and Panagis Alisandratos);
+(Alan Chen, Alvi Kabir, Brandon Tang, and Panagis Alisandratos), Jeff Merrit, Steve Bezman, Prince Gupta, and Anand Krishnan.
