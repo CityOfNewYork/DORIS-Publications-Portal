@@ -2,7 +2,7 @@ NOTE: All paths detailed in this are relative to the root of the artifacts folde
 
 DORIS Government Publications Portal - Server Migration Instructions
 
-UPDATED: 02/18/2015 3:30 PM
+UPDATED: 03/03/2015 9:45 PM
 
 Servers:
 	Application Server - XXX.XXX.XXX.XXX (SERVER_NAME_GOES_HERE)
@@ -11,14 +11,18 @@ Servers:
 ###############################################################################
 ###############################################################################
 
-Application Server Setup Instructions
-Extract the tar file to /var/www/artifacts (Replace the existing folder and its contents)
+Database Server Setup Instructions
+Extract the tar file to /var/lib/mysql/ (Replace the existing folder and its contents)
 
-cd into /var/www/artifacts/scripts/app/ and run the following command: sudo source app_migration.sh
+cd into /var/lib/mysql/artifacts/scripts/db/ and run the following command: sudo source db_migration_03032015.sh
 
 Requirements:
-	This deployment archive should be unzipped in /var/www on the application server.
+	This deployment archive should be unzipped in /var/lib/mysql on the application server.
 	PLEASE NOTE: The script must be run as a root user on the system
 
 This script performs the following operations:
-	- Updates the application HTML files
+	- Configures supervisord
+	- Configures elasticsearch for supervisor
+	- Moves elasticsearch index location and data
+	- Moves MySQL Data Directory
+	- Reconfigures some parts of nginx and elasticsearch
