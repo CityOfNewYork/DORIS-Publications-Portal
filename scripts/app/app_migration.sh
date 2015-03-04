@@ -7,6 +7,9 @@
 # Store current path (directory mentioned above) for later use
 export CWD=$PWD
 
+# Activate virtualenv
+source /var/www/virtualenvs/gpp_venv/bin/activate
+
 # Suspend Process
 service nginx stop
 killall -s INT /usr/bin/uwsgi

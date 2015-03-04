@@ -12,14 +12,14 @@ Vagrant.configure("2") do |config|
     app.vm.network "forwarded_port", guest: 8000, host: 8000
     app.vm.network "forwarded_port", guest: 22, host: 2223
     app.vm.network "private_network", ip: "192.168.10.2"
-    # app.vm.provision "shell", path: "app_setup.sh"
+    app.vm.synced_folder "/Users/joel/Desktop/data", "/data"
   end
   
 #   Database Server Configuration
   config.vm.define "db" do |db|
     db.vm.network "forwarded_port", guest: 9200, host: 9200
     db.vm.network "private_network", ip: "192.168.10.3"
-    # db.vm.provision "shell", path: "db_setup.sh"
+    db.vm.synced_folder "/Users/joel/Desktop/db", "/db"
   end
 
 end

@@ -72,7 +72,7 @@ def indexDB():
       }
   })
 
-  num_docs = C.execute("SELECT COUNT(*) FROM document")
+  num_docs = C.execute("SELECT MAX(id) FROM document")
   num_docs = C.fetchone()
   print str(num_docs[0]) + " documents"
 
@@ -95,7 +95,7 @@ def indexDB():
           "type":         doc[10],
           "url":          doc[11],
           "pub_or_foil":	doc[12],
-          "docText":		doc[13],
+          #"docText":		doc[13],
           # "file":         b64encoded
       })
 

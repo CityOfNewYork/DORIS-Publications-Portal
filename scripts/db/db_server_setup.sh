@@ -13,7 +13,7 @@ export CWD=$PWD
 export PATH="/usr/lib64/qt-3.3/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin:/opt/CA/AccessControl/bin:/opt/CA/AccessControl/lbin"
 
 # Setup Passwords
-source prod.password_store.sh
+source $CWD/prod.password_store.sh
 
 # Update the server
 yum -y update
@@ -113,13 +113,9 @@ cp $CWD/../../conf/elasticsearch.conf /etc/nginx/sites-available
 # Symlink the site configuration to sites-enabled
 ln -s /etc/nginx/sites-available/elasticsearch.conf /etc/nginx/sites-enabled/elasticsearch.conf
 
-# Setup SSL for Elasticsearch and Nginx
-mkdir -p /etc/nginx/certs
-cd /etc/nginx/certs
-openssl genrsa 2048 > es.key
-openssl req -new -x509 -nodes -sha1 -days 3650 -key es.key > es.cert
-openssl x509 -noout -fingerprint -text < es.cert > es.info
-cat es.cert es.key > es.pem
+# Setup SSL
+cp -r $CWD/../../conf/certs/ /etc/nginx/
+cp -r $CWD/../../conf/user.pwd /etc/elasticsearch/
 
 # Start Nginx
 service nginx start
@@ -132,7 +128,6 @@ pip install mysql-python elasticsearch
 # populate db
 mysql -u root -p$DB_PASS -e "set global net_buffer_length=1000000; set global max_allowed_packet=100000000;"
 mysql -u root -p$DB_PASS publications <$CWD/../../publications.sql
-#mysql -u root -p$DB_PASS publications <$CWD/../../update_num_access.sql
 
 # create user with select permission
 mysql -u root -p$DB_PASS -e "GRANT SELECT ON publications.document TO 'index'@'localhost';"
@@ -142,3 +137,5 @@ python $CWD/../../application/index_db.py
 
 # Return to initial directory
 cd $CWD
+
+

@@ -9,13 +9,16 @@ Servers:
 NOTE: The database server MUST be running before the application server is setup. The application server relies on Elasticsearch to ensure
 that the application is setup correctly.
 
-Database Server Setup Instructions
-
-Please cd into /scripts/db/ and run the following command: source db_server_setup.sh
+Database Server Setup Instructions:
+These need to be run as root.
+Please run the following commands to run this setup:
+	mkdir -p /home/mysql
+	source db_server_setup.sh && source es_setup.sh
 
 Requirements:
 	This deployment archive should be extracted in /home/mysql on the database server.
 	PLEASE NOTE: The script must be run as a root user on the system
+
 
 This script performs the following functions:
 	- Updates the system
@@ -28,7 +31,7 @@ This script performs the following functions:
 	- Sets up MySQL (using mysql_secure_installation and expect)
 	- Creates appropriate users for MySQL, appropriate databases, and sets permissions on those databases
 	- Installs the Oracle JDK
-		- PLEASE NOTE: There is a prompt that must be manually completed. When the prompt comes up, please press ENTER to continue.
+		- PLEASE NOTE: Enter 3 and press ENTER
 	- Installs Elasticsearch
 	- Configures Eleasticsearch
 		- Creates a group that gives the local user access to the Elasticsearch configuration
