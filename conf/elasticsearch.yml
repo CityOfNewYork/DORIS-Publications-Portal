@@ -52,3 +52,7 @@ bootstrap.mlockall: true
 network.host: localhost
 
 node.local: true
+
+# Path Configuration
+path.logs: /db/es_logs
+path.data: /db/es_data

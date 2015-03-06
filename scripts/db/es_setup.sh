@@ -4,10 +4,6 @@ service elasticsearch stop
 service mysqld stop
 service nginx stop
 
-# Reconfigure Nginx
-cp $CWD/../../conf/elasticsearch.conf /etc/nginx/sites-available
-cp $CWD/../../conf/db_nginx.conf /etc/nginx/nginx.conf
-
 # Move MySQL
 mkdir /db/mysql_data
 tar -cvf mysql.tar /var/lib/mysql
