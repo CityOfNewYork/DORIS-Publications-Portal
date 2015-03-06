@@ -3,8 +3,8 @@ NOTE: All paths detailed in this are relative to the root of the artifacts folde
 DORIS Government Publications Portal - Server Setup Instructions
 
 Servers:
-	Application Server - 10.155.122.166 (msplvd-recgpp01.csc.nycnet)
-	Database Server - 157.188.76.129 (msplvw-recgpp01appdmz.nycnet)
+	Database Server - 10.155.122.166 (msplvd-recgpp01.csc.nycnet)
+	Application Server - 157.188.76.129 (msplvw-recgpp01appdmz.nycnet)
 	
 NOTE: The database server MUST be running before the application server is setup. The application server relies on Elasticsearch to ensure
 that the application is setup correctly.
@@ -17,12 +17,10 @@ Requirements:
 These need to be run as root.
 
 Please run the following commands to run this setup:
-	cd /var/lib/mysql
-	mkdir -p /home/mysql
-	tar xvf /var/lib/mysql/artifacts.tar.gz
-	cp -r artifacts/* /home/mysql/artifacts
+	mkdir -p /home/mysql/artifacts
+	[Extract the deployment archive to /home/mysql/artifacts]
 	cd /home/mysql/artifacts/scripts/db
-	source db_server_setup.sh && source es_setup.sh
+	source db_server_setup.sh
 
 This script performs the following functions:
 	- Updates the system
@@ -49,11 +47,15 @@ This script performs the following functions:
 
 Application Server Setup Instructions
 
-Please cd into /scripts/app/ and run the following command: source app_server_setup.sh
-
 Requirements:
 	This deployment archive should be unzipped in /var/www on the application server.
 	PLEASE NOTE: The script mus be run as a root user on the system
+
+Please run the following commands to run this setup:
+	mkdir -p /var/www/artifacts
+	[Extract the deployment archive to /var/www/artifacts]
+	cd /var/www/artifacts/scripts/app/
+	source app_server_setup.sh
 
 This script performs the following functions:
 	- Updates the system
@@ -64,9 +66,3 @@ This script performs the following functions:
 	- Installs and configures uWSGI
 	- Installs virtualenv and pip (Python Package Manager)
 	- Configures the Government Publications Portal Django Application and associated packages
-
-
-Memory for ES - 4 GB
-
-
-

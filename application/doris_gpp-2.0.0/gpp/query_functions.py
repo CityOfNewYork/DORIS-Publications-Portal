@@ -11,7 +11,7 @@ tracer.addHandler(logging.FileHandler('/var/www/logs/query.log'))
 INDEX = 'publications'
 DOCTYPE = 'document'
 
-host_params = {'host':'10.155.145.28', 'port':443, 'use_ssl':True}
+host_params = {'host':'msplvw-recgpp01.csc.nycnet', 'port':443, 'use_ssl':True}
 
 es = Elasticsearch([host_params], use_ssl=True)
 

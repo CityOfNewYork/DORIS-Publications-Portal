@@ -3,7 +3,7 @@
 ES_CLASSPATH=$ES_CLASSPATH:$ES_HOME/lib/elasticsearch-1.4.2.jar:$ES_HOME/lib/*:$ES_HOME/lib/sigar/*
  
  # Set ES_HEAP_SIZE
-export ES_HEAP_SIZE=512m
+export ES_HEAP_SIZE=3g
 
 if [ "x$ES_MIN_MEM" = "x" ]; then
     ES_MIN_MEM=256m
