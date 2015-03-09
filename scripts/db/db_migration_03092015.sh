@@ -14,4 +14,4 @@ pip install -r /db/mysql_data/artifacts/conf/requirements.txt
 
 # Index Database
 source /db/mysql_data/artifacts/scripts/db/prod.password_store.sh
-python /db/mysql_data/artifacts/applications/index_db.py
+python /db/mysql_data/artifacts/application/index_db.py
