@@ -4,12 +4,13 @@
 #   - Re-runs the elasticsearch index
 # PLEASE NOTE: The script should be run from the folder in which it is contained.
 
-# Store Current Directory
-export CWD=$PWD
+# Remove old virtualenv
+sudo rm -rf /db/mysql_data/virtualenvs/gpp_env
 
-# Setup Passwords
-source $CWD/prod.password_store.sh
+# Create new virtualenv
+virtualenv --relocatable /db/mysql_data/virtualenvs/gpp_env
 
-# Re-Index the Database
+# Index Database
+source /db/mysql_data/artifacts/scripts/db/prod.password_store.sh
 source /db/mysql_data/virtualenvs/gpp_env/bin/activate
-python $CWD/../../application/index_db.py
+python /db/mysql_data/artifacts/applications/index_db.py
