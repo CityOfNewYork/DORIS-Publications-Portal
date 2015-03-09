@@ -19,6 +19,7 @@ These need to be run as root.
 Please run the following commands to run this setup:
 	mkdir -p /home/mysql/artifacts
 	[Extract the deployment archive to /home/mysql/artifacts]
+	[Extract the certs archive (attached to HD ticket) to /home/mysql/artifacts/conf/certs]
 	cd /home/mysql/artifacts/scripts/db
 	source db_server_setup.sh
 
