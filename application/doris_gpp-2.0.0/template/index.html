@@ -1,229 +1,221 @@
 {% extends "base.html" %}
 {% block title %}Home{% endblock %}
 {% block content %}
-{% load static %}
-<style>
+    {% load static %}
+    <style>
     body {
-        background-image: url({% static "images/background.jpg" %});
-        background-size: cover;
+    background-image: url({% static "images/background.jpg" %});
+    background-size: cover;
     }
-</style>
-<div class="container" style="max-width: 700px; padding-top: 50px;">
-    <div class="jumbotron">
-        <h2>Search Publications</h2>
-        <form id="index-form" role="form" method="get" action="results">
-            <!--[if IE 8]>
-            <div id="search_error" style="display: none; color: #FF0000; filter: alpha(opacity=50);">
-                <p>Please enter a search</p>
-            </div>
-            <![endif]-->
-            <!--[if gte IE 9f]>
-            <div id="search_error" style="display: none; color: #FF0000; filter: alpha(opacity=50);">
-                <p>Please enter a search</p>
-            </div>
-            <![endif]-->
-            <p>
-                <input type="text" id="input_text" class="form-control" name="user_input" style="text-align: center">
-                <label for="input_text" style="height:10px; top: -31px;position: relative;display:block; cursor: pointer;float:right; margin-right:5px;"></label>
-            </p>
-            <p>
-                <button type="submit" class="btn btn-nyc" id="btn" name="btn" value="Search">Search</button>
-            </p>
-            <p>
-                <button type="button" class="btn btn-nyc" id="btn" onclick="toggleSlide('#hidden-selects');">Filter&nbsp;<span class="caret"></span></button>
-            </p>
-            <div id="hidden-selects" style="display: none;">
-                <div id="selects">
-                    <!--[if !IE]><!-->
-                    <select name="agency[]" id="agencies" class="selectpicker input-medium" multiple data-live-search="true" style="display: none;">
-                        {% for agency in agencies %}
-                        <option value="{{ agency }}">{% if agency == 'Metropolitan Transportation Authority' %}MTA {% else %}{{ agency }} {% endif %}</option>
-                        {% endfor %}
-                    </select>
-                    <br>
-                    <br>
-                    <select name="category[]" id="categories" class="selectpicker" multiple data-live-search="true" style="display: none;">
-                        {% for category in categories %}
-                        <option value="{{ category }}">{{ category }}</option>
-                        {% endfor %}
-                    </select>
-                    <br>
-                    <br>
-                    <select name="type[]" id="types" onfocus="skipcycle=true" onblur="skipcycle=false" class="selectpicker" multiple data-live-search="true" style="display: none;">
-                        {% for type in types %}
-                        <option value="{{ type }}">{% if type == 'Bond Offering - Official Statements' %}Bond Offering {% else %}{{ type }} {% endif %}</option>
-                        {% endfor %}
-                    </select>
-                    <br>
-                    <br>
-                    <button type="button" class="btn btn-coral" id="btn" value="Remove All">Clear Filters</button>
-                    <!--<![endif]-->
-
-                    <!--[if IE 8]>
-                    <small>To select multiple items please hold down CTRL while choosing and click each item.</small>
-                    <br/>
-                    <br/>
-                    <label for="agencies">Agencies</label><br/>
-                    <select name="agency[]" id="agencies" multiple="multiple" style="width: 200px">
-                        <option value="Aging" >Aging</option>
-                        <option value="Buildings" >Buildings</option>
-                        <option value="Campaign Finance" >Campaign Finance</option>
-                        <option value="Children's Services" >Children's Services</option>
-                        <option value="City Council" >City Council</option>
-                        <option value="City Clerk" >City Clerk</option>
-                        <option value="City Planning" >City Planning</option>
-                        <option value="Citywide Admin Svcs" >Citywide Admin Svcs</option>
-                        <option value="Civilian Complaint" >Civilian Complaint</option>
-                        <option value="Comm - Police Corr" >Comm - Police Corr</option>
-                        <option value="Community Assistance" >Community Assistance</option>
-                        <option value="Comptroller" >Comptroller</option>
-                        <option value="Conflicts of Interest" >Conflicts of Interest</option>
-                        <option value="Consumer Affairs" >Consumer Affairs</option>
-                        <option value="Contracts" >Contracts</option>
-                        <option value="Correction" >Correction</option>
-                        <option value="Criminal Justice Coordinator" >Criminal Justice Coordinator</option>
-                        <option value="Cultural Affairs" >Cultural Affairs</option>
-                        <option value="DOI - Investigation" >DOI - Investigation</option>
-                        <option value="Design/Construction" >Design/Construction</option>
-                        <option value="Disabilities" >Disabilities</option>
-                        <option value="District Atty, NY County" >District Atty, NY County</option>
-                        <option value="Districting Commiss" >Districting Commiss</option>
-                        <option value="Domestic Violence" >Domestic Violence</option>
-                        <option value="Economic Development" >Economic Development</option>
-                        <option value="Education, Dept. of" >Education, Dept. of</option>
-                        <option value="Elections, Board of" >Elections, Board of</option>
-                        <option value="Emergency Mgmt." >Emergency Mgmt.</option>
-                        <option value="Employment" >Employment</option>
-                        <option value="Empowerment Zone" >Empowerment Zone</option>
-                        <option value="Environmental - DEP" >Environmental - DEP</option>
-                        <option value="Environmental - OEC" >Environmental - OEC</option>
-                        <option value="Environmental - ECB" >Environmental - ECB</option>
-                        <option value="Equal Employment" >Equal Employment</option>
-                        <option value="Film/Theatre" >Film/Theatre</option>
-                        <option value="Finance" >Finance</option>
-                        <option value="Fire" >Fire</option>
-                        <option value="FISA" >FISA</option>
-                        <option value="Health and Mental Hyg." >Health and Mental Hyg.</option>
-                        <option value="HealthStat" >HealthStat</option>
-                        <option value="Homeless Services" >Homeless Services</option>
-                        <option value="Hospitals - HHC" >Hospitals - HHC</option>
-                        <option value="Housing - HPD" >Housing - HPD</option>
-                        <option value="Human Rights" >Human Rights</option>
-                        <option value="Human Rsrcs - HRA" >Human Rsrcs - HRA</option>
-                        <option value="Immigrant Affairs" >Immigrant Affairs</option>
-                        <option value="Independent Budget" >Independent Budget</option>
-                        <option value="Info. Tech. and Telecom." >Info. Tech. and Telecom.</option>
-                        <option value="Intergovernmental" >Intergovernmental</option>
-                        <option value="International Affairs" >International Affairs</option>
-                        <option value="Judiciary Committee" >Judiciary Committee</option>
-                        <option value="Juvenile Justice" >Juvenile Justice</option>
-                        <option value="Labor Relations" >Labor Relations</option>
-                        <option value="Landmarks" >Landmarks</option>
-                        <option value="Law Department" >Law Department</option>
-                        <option value="Library - Brooklyn" >Library - Brooklyn</option>
-                        <option value="Library - New York" >Library - New York</option>
-                        <option value="Library - Queens" >Library - Queens</option>
-                        <option value="Loft Board" >Loft Board</option>
-                        <option value="Management and Budget" >Management and Budget</option>
-                        <option value="Mayor" >Mayor</option>
-                        <option value="Metropolitan Transportation Authority" >MTA</option>
-                        <option value="NYCERS" >NYCERS</option>
-                        <option value="Operations" >Operations</option>
-                        <option value="Parks and Recreation" >Parks and Recreation</option>
-                        <option value="Payroll Administration" >Payroll Administration</option>
-                        <option value="Police" >Police</option>
-                        <option value="Police Pension Fund" >Police Pension Fund</option>
-                        <option value="Probation" >Probation</option>
-                        <option value="Public Advocate" >Public Advocate</option>
-                        <option value="Public Health" >Public Health</option>
-                        <option value="Public Housing-NYCHA" >Public Housing-NYCHA</option>
-                        <option value="Records" >Records</option>
-                        <option value="Rent Guidelines" >Rent Guidelines</option>
-                        <option value="Sanitation" >Sanitation</option>
-                        <option value="School Construction" >School Construction</option>
-                        <option value="Small Business Svcs" >Small Business Svcs</option>
-                        <option value="Sports Commission" >Sports Commission</option>
-                        <option value="Standards and Appeal" >Standards and Appeal</option>
-                        <option value="Tax Appeals Tribunal" >Tax Appeals Tribunal</option>
-                        <option value="Tax Commission" >Tax Commission</option>
-                        <option value="Taxi and Limousine" >Taxi and Limousine</option>
-                        <option value="Transportation" >Transportation</option>
-                        <option value="Trials and Hearings" >Trials and Hearings</option>
-                        <option value="Veterans - Military" >Veterans - Military</option>
-                        <option value="Volunteer Center" >Volunteer Center</option>
-                        <option value="Voter Assistance" >Voter Assistance</option>
-                        <option value="Youth & Community" >Youth & Community</option>
-                    </select>
-                    <br>
-                    <br>
-                    <label for="categories">Categories</label><br/>
-                    <select name="category[]" id="categories" multiple="multiple" style="width: 200px">
-                        <option value="Business and Consumers">Business and Consumers</option>
-                        <option value="Cultural/Entertainment">Cultural/Entertainment</option>
-                        <option value="Education">Education</option>
-                        <option value="Environment">Environment</option>
-                        <option value="Finance and Budget">Finance and Budget</option>
-                        <option value="Government Policy">Government Policy</option>
-                        <option value="Health">Health</option>
-                        <option value="Housing and Buildings">Housing and Buildings</option>
-                        <option value="Human Services">Human Services</option>
-                        <option value="Labor Relations">Labor Relations</option>
-                        <option value="Public Safety">Public Safety</option>
-                        <option value="Recreation/Parks">Recreation/Parks</option>
-                        <option value="Sanitation">Sanitation</option>
-                        <option value="Technology">Technology</option>
-                        <option value="Transportation">Transportation</option>
-                    </select>
-                    <br>
-                    <br>
-                    <label for="types">Types</label><br/>
-                    <select name="type[]" id="types" onfocus="skipcycle=true" onblur="skipcycle=false" multiple="multiple" style="width: 200px">
-                        <option value="Annual Report">Annual Report</option>
-                        <option value="Audit Report">Audit Report</option>
-                        <option value="Bond Offering - Offical Statements">Bond Offering</option>
-                        <option value="Budget Report">Budget Report</option>
-                        <option value="Consultant Report">Consultant Report</option>
-                        <option value="Guide - Manual">Guide - Manual</option>
-                        <option value="Hearing - Minutes">Hearing - Minutes</option>
-                        <option value="Legislative Document">Legislative Document</option>
-                        <option value="Memoranda - Directive">Memoranda - Directive</option>
-                        <option value="Press Release">Press Release</option>
-                        <option value="Serial Publication">Serial Publication</option>
-                        <option value="Staff Report">Staff Report</option>
-                        <option value="Report">Report</option>
-                    </select>
-                    <br>
-                    <br>
-                    <button type="button" class="btn btn-coral" id="btn" value="Remove All">Clear Filters</button>
-                    <![endif]-->
-
-                    <!--[if gte IE 9]>
-                    <select name="agency[]" id="agencies" class="selectpicker input-medium" multiple data-live-search="true" style="display: none;">
-                        {% for agency in agencies %}
-                        <option value="{{ agency }}">{% if agency == 'Metropolitan Transportation Authority' %}MTA {% else %}{{ agency }} {% endif %}</option>
-                        {% endfor %}
-                    </select>
-                    <br>
-                    <br>
-                    <select name="category[]" id="categories" class="selectpicker" multiple data-live-search="true" style="display: none;">
-                        {% for category in categories %}
-                        <option value="{{ category }}">{{ category }}</option>
-                        {% endfor %}
-                    </select>
-                    <br>
-                    <br>
-                    <select name="type[]" id="types" onfocus="skipcycle=true" onblur="skipcycle=false" class="selectpicker" multiple data-live-search="true" style="display: none;">
-                        {% for type in types %}
-                        <option value="{{ type }}">{% if type == 'Bond Offering - Official Statements' %}Bond Offering {% else %}{{ type }} {% endif %}</option>
-                        {% endfor %}
-                    </select>
-                    <br>
-                    <br>
-                    <button type="button" class="btn btn-coral" id="btn" value="Remove All">Clear Filters</button>
-                    <![endif]-->
+    </style>
+    <div class="container" style="max-width: 700px; padding-top: 50px;">
+        <div class="jumbotron">
+            <h2>Search Publications</h2>
+            <form id="index-form" role="form" method="get" action="results">
+                <!--[if IE 8]>
+                <div id="search_error" style="display: none; color: #FF0000; filter: alpha(opacity=50);">
+                    <p>Please enter a search</p>
                 </div>
-            </div>
-        </form>
+                <![endif]-->
+                <!--[if gte IE 9f]>
+                <div id="search_error" style="display: none; color: #FF0000; filter: alpha(opacity=50);">
+                    <p>Please enter a search</p>
+                </div>
+                <![endif]-->
+                <p>
+                    <input type="text" id="input_text" class="form-control" name="user_input" style="text-align: center">
+                    <label for="input_text" style="height:10px; top: -31px;position: relative;display:block; cursor: pointer;float:right; margin-right:5px;"></label>
+                </p>
+                <p>
+                    <button type="submit" class="btn btn-nyc" id="btn" name="btn" value="Search">Search</button>
+                </p>
+                <p>
+                    <button type="button" class="btn btn-nyc" id="btn" onclick="toggleSlide('#hidden-selects');">Filter&nbsp;<span class="caret"></span></button>
+                </p>
+                <div id="hidden-selects" style="display: none;">
+                    <div id="selects">
+                        <!--[if !IE]><!-->
+                        <select name="agency[]" id="agencies" class="selectpicker input-medium" multiple data-live-search="true" style="display: none;">
+                            {% for agency in agencies %}
+                                <option value="{{ agency }}">{% if agency == 'Metropolitan Transportation Authority' %}MTA {% else %}{{ agency }} {% endif %}</option>
+                            {% endfor %}
+                        </select>
+                        <br>
+                        <br>
+                        <select name="category[]" id="categories" class="selectpicker" multiple data-live-search="true" style="display: none;">
+                            {% for category in categories %}
+                                <option value="{{ category }}">{{ category }}</option>
+                            {% endfor %}
+                        </select>
+                        <br>
+                        <br>
+                        <select name="type[]" id="types" onfocus="skipcycle=true" onblur="skipcycle=false" class="selectpicker" multiple data-live-search="true" style="display: none;">
+                            {% for type in types %}
+                                <option value="{{ type }}">{% if type == 'Bond Offering - Official Statements' %}Bond Offering {% else %}{{ type }} {% endif %}</option>
+                            {% endfor %}
+                        </select>
+                        <br>
+                        <br>
+                        <button type="button" class="btn btn-coral" id="btn" value="Remove All">Clear Filters</button>
+                        <!--<![endif]-->
+                        <!--[if IE 8]>
+                        <small>To select multiple items please hold down CTRL while choosing and click each item.</small>
+                        <br/>
+                        <br/>
+                        <label for="agencies">Agencies</label><br/>
+                        <select name="agency[]" id="agencies" multiple="multiple" style="width: 200px">
+                            <option value="Admin. Trials and Hearings">Admin. Trials and Hearings</option>
+                            <option value="Aging">Aging</option>
+                            <option value="Buildings">Buildings</option>
+                            <option value="Business Integrity Commission">Business Integrity Commission</option>
+                            <option value="Chief Medical Examiner">Chief Medical Examiner</option>
+                            <option value="Children's Services">Children's Services</option>
+                            <option value="City Council">City Council</option>
+                            <option value="City Planning">City Planning</option>
+                            <option value="Citywide Admin Svcs">Citywide Admin Svcs</option>
+                            <option value="Civilian Complaint">Civilian Complaint</option>
+                            <option value="Comm - Police Corr">Comm - Police Corr</option>
+                            <option value="Comptroller">Comptroller</option>
+                            <option value="Conflicts of Interest">Conflicts of Interest</option>
+                            <option value="Consumer Affairs">Consumer Affairs</option>
+                            <option value="Contracts">Contracts</option>
+                            <option value="Corrections">Corrections</option>
+                            <option value="Criminal Justice">Criminal Justice</option>
+                            <option value="Cultural Affairs">Cultural Affairs</option>
+                            <option value="Data Analytics">Data Analytics</option>
+                            <option value="DCAS">DCAS</option>
+                            <option value="Design/Construction">Design/Construction</option>
+                            <option value="DOI - Investigation">DOI - Investigation</option>
+                            <option value="Domestic Violence">Domestic Violence</option>
+                            <option value="Education, Dept. of">Education, Dept. of</option>
+                            <option value="Emergency Mgmt.">Emergency Mgmt.</option>
+                            <option value="Environmental - DEP">Environmental - DEP</option>
+                            <option value="Equal Employment">Equal Employment</option>
+                            <option value="Finance">Finance</option>
+                            <option value="Fire">Fire</option>
+                            <option value="Health">Health</option>
+                            <option value="Health and Mental Hyg.">Health and Mental Hyg.</option>
+                            <option value="Homeless Services">Homeless Services</option>
+                            <option value="Housing - HPD">Housing - HPD</option>
+                            <option value="Human Rights">Human Rights</option>
+                            <option value="Human Rsrcs - HRA">Human Rsrcs - HRA</option>
+                            <option value="Immigrant Affairs">Immigrant Affairs</option>
+                            <option value="Independent Budget">Independent Budget</option>
+                            <option value="Info. Tech. and Telecom.">Info. Tech. and Telecom.</option>
+                            <option value="International Affairs">International Affairs</option>
+                            <option value="Labor Relations">Labor Relations</option>
+                            <option value="Landmarks">Landmarks</option>
+                            <option value="Law Department">Law Department</option>
+                            <option value="Loft Board">Loft Board</option>
+                            <option value="Management and Budget">Management and Budget</option>
+                            <option value="Mayor">Mayor</option>
+                            <option value="Mayor's Fund">Mayor's Fund</option>
+                            <option value="Media and Entertainment">Media and Entertainment</option>
+                            <option value="NYC Service">NYC Service</option>
+                            <option value="NYCERS">NYCERS</option>
+                            <option value="Operations">Operations</option>
+                            <option value="Parks and Recreation">Parks and Recreation</option>
+                            <option value="Police">Police</option>
+                            <option value="Probation">Probation</option>
+                            <option value="Public Advocate">Public Advocate</option>
+                            <option value="Public Design Commission">Public Design Commission</option>
+                            <option value="Records">Records</option>
+                            <option value="Rent Guidelines Board">Rent Guidelines Board</option>
+                            <option value="Sanitation">Sanitation</option>
+                            <option value="Small Business Svcs">Small Business Svcs</option>
+                            <option value="Standards and Appeal">Standards and Appeal</option>
+                            <option value="Tax Commission">Tax Commission</option>
+                            <option value="Taxi and Limousine">Taxi and Limousine</option>
+                            <option value="Transportation">Transportation</option>
+                            <option value="Trials and Hearings">Trials and Hearings</option>
+                            <option value="Veteran's Affairs">Veteran's Affairs</option>
+                            <option value="Youth & Community">Youth & Community</option>
+                        </select>
+                        <br>
+                        <br>
+                        <label for="categories">Categories</label><br/>
+                        <select name="category[]" id="categories" multiple="multiple" style="width: 200px">
+                            <option value="Business and Consumers">Business and Consumers</option>
+                            <option value="Cultural/Entertainment">Cultural/Entertainment</option>
+                            <option value="Education">Education</option>
+                            <option value="Environment">Environment</option>
+                            <option value="Finance and Budget">Finance and Budget</option>
+                            <option value="Government Policy">Government Policy</option>
+                            <option value="Health">Health</option>
+                            <option value="Housing and Buildings">Housing and Buildings</option>
+                            <option value="Human Services">Human Services</option>
+                            <option value="Labor Relations">Labor Relations</option>
+                            <option value="Public Safety">Public Safety</option>
+                            <option value="Recreation/Parks">Recreation/Parks</option>
+                            <option value="Sanitation">Sanitation</option>
+                            <option value="Technology">Technology</option>
+                            <option value="Transportation">Transportation</option>
+                        </select>
+                        <br>
+                        <br>
+                        <label for="types">Types</label><br/>
+                        <se<select name="type[]" id="types" onfocus="skipcycle=true" onblur="skipcycle=false" multiple="multiple" style="width: 200px">
+                            <option value="Actuarial Audit">Actuarial Audit</option>
+                            <option value="Actuarial Audit Report">Actuarial Audit Report</option>
+                            <option value="Annual Audit Report">Annual Audit Report</option>
+                            <option value="Annual Claims Report">Annual Claims Report</option>
+                            <option value="Annual Contracts Report">Annual Contracts Report</option>
+                            <option value="Annual Report">Annual Report</option>
+                            <option value="Audit">Audit</option>
+                            <option value="Audit Report">Audit Report</option>
+                            <option value="Bond Offering - Official Statements">Bond Offering - Official Statements</option>
+                            <option value="Brochure">Brochure</option>
+                            <option value="Budget Report">Budget Report</option>
+                            <option value="Cash Report">Cash Report</option>
+                            <option value="Consultant Report">Consultant Report</option>
+                            <option value="Economic Notes">Economic Notes</option>
+                            <option value="GAGAS Peer Review">GAGAS Peer Review</option>
+                            <option value="Guide - Manual">Guide - Manual</option>
+                            <option value="Hearing - Minutes">Hearing - Minutes</option>
+                            <option value="Legislative Document">Legislative Document</option>
+                            <option value="Memoranda - Directive">Memoranda - Directive</option>
+                            <option value="Organizational Chart">Organizational Chart</option>
+                            <option value="Policy Report">Policy Report</option>
+                            <option value="Press Release">Press Release</option>
+                            <option value="Public Policy and Other">Public Policy and Other</option>
+                            <option value="Report">Report</option>
+                            <option value="Report - Annual">Report - Annual</option>
+                            <option value="Report - Other">Report - Other</option>
+                            <option value="Serial Publication">Serial Publication</option>
+                            <option value="Shareowner Initiatives">Shareowner Initiatives</option>
+                            <option value="Staff Report">Staff Report</option>
+                        </select>
+                        <br>
+                        <br>
+                        <button type="button" class="btn btn-coral" id="btn" value="Remove All">Clear Filters</button>
+                        <![endif]-->
+                        <!--[if gte IE 9]>
+                        <select name="agency[]" id="agencies" class="selectpicker input-medium" multiple data-live-search="true" style="display: none;">
+                            {% for agency in agencies %}
+                                <option value="{{ agency }}">{% if agency == 'Metropolitan Transportation Authority' %}MTA {% else %}{{ agency }} {% endif %}</option>
+                            {% endfor %}
+                        </select>
+                        <br>
+                        <br>
+                        <select name="category[]" id="categories" class="selectpicker" multiple data-live-search="true" style="display: none;">
+                            {% for category in categories %}
+                                <option value="{{ category }}">{{ category }}</option>
+                            {% endfor %}
+                        </select>
+                        <br>
+                        <br>
+                        <select name="type[]" id="types" onfocus="skipcycle=true" onblur="skipcycle=false" class="selectpicker" multiple data-live-search="true" style="display: none;">
+                            {% for type in types %}
+                                <option value="{{ type }}">{% if type == 'Bond Offering - Official Statements' %}Bond Offering {% else %}{{ type }} {% endif %}</option>
+                            {% endfor %}
+                        </select>
+                        <br>
+                        <br>
+                        <button type="button" class="btn btn-coral" id="btn" value="Remove All">Clear Filters</button>
+                        <![endif]-->
+                    </div>
+                </div>
+            </form>
+        </div>
     </div>
-</div>
 {% endblock %}
