@@ -12,9 +12,9 @@ Servers:
 ###############################################################################
 
 Database Server Setup Instructions
-Extract the tar file to /var/lib/mysql/ (Replace the existing folder and its contents)
+Extract the tar file to /db/mysql_data (Replace the existing folder and its contents)
 
-cd into /var/lib/mysql/artifacts/scripts/db/ and run the following command: sudo source db_migration_03102015.sh
+cd into /db/mysql_data/artifacts/scripts/db/ and run the following command: sudo source db_migration_03102015.sh
 
 Requirements:
 	This deployment archive should be unzipped in /var/lib/mysql on the database server.
