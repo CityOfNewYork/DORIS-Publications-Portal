@@ -2,7 +2,7 @@ NOTE: All paths detailed in this are relative to the root of the artifacts folde
 
 DORIS Government Publications Portal - Server Migration Instructions
 
-UPDATED: 03/10/2015 11:00 AM
+UPDATED: 03/11/2015 7:00 PM
 
 Servers:
 	Application Server - XXX.XXX.XXX.XXX (SERVER_NAME_GOES_HERE)
@@ -10,28 +10,12 @@ Servers:
 	
 ###############################################################################
 ###############################################################################
-
-Database Server Setup Instructions
-Extract the tar file to /db/mysql_data (Replace the existing folder and its contents)
-
-cd into /db/mysql_data/artifacts/scripts/db/ and run the following command: sudo source db_migration_03102015.sh
-
-Requirements:
-	This deployment archive should be unzipped in /var/lib/mysql on the database server.
-	PLEASE NOTE: The script must be run as a root user on the system
-
-This script performs the following operations:
-	- Replaces the database with the final pre-launch data
-	- Re-Runs the elasticssearch index
-
 Application Server Setup Instructions
-Extract the tar file to /var/www/artifacts/ (Replace the existing folder and its contents)
 
-cd into /var/www/artifacts/scripts/app and run the following command: sudo source app_migration.sh
+THESE STEPS MUST BE RUN AS ROOT.
 
-Requirements:
-	This deployment archive should be unzipped in /var/www/artifacts on the application server
-	PLEASE NOTE: The script must be run as a root user on the system
+	- Download the following file from github: https://raw.githubusercontent.com/CityOfNewYork/DORIS-Publications-Portal/development/application/doris_gpp-2.0.0/gpp/query_functions.py
+	- Transfer the above file to the Application Server in the following directory /var/www/artifacts/application/doris_gpp-2.0.0/gpp/query_functions.py (REPLACE ANY EXISTING FILE)
+	- Run the following command: sudo sh /var/www/artifacts/scripts/app/app_migration.sh
+	- Run the following command: sudo sh /var/www/gpp_root/restart_gpp.sh
 
-This script performs the following operations:
-	- Replaces application files with updated application
