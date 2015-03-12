@@ -3,8 +3,8 @@ NOTE: All paths detailed in this are relative to the root of the artifacts folde
 DORIS Government Publications Portal - Server Setup Instructions
 
 Servers:
-	Database Server - 10.155.122.166 (msplvd-recgpp01.csc.nycnet)
-	Application Server - 157.188.76.129 (msplvw-recgpp01appdmz.nycnet)
+	Database Server -
+	Application Server -
 	
 NOTE: The database server MUST be running before the application server is setup. The application server relies on Elasticsearch to ensure
 that the application is setup correctly.
