@@ -63,6 +63,8 @@ mysql -u root -p$DB_PASS -e "CREATE DATABASE publications; USE publications; CRE
 
 # Download and Install Java (Oracle JDK)
 cd /opt/
+cd $CWD/../../packages/
+wget http://download.oracle.com/otn-pub/java/jdk/7u72-b13/jdk-7u72-linux-x64.tar.gz
 tar xzf $CWD/../../packages/jdk-7u72-linux-x64.tar.gz
 cd /opt/jdk1.7.0_72/
 alternatives --install /usr/bin/java java /opt/jdk1.7.0_72/bin/java 2
@@ -128,6 +130,7 @@ yum install -y nginx
 mkdir -p /etc/nginx/sites-enabled
 mkdir -p /etc/nginx/sites-available
 mkdir -p /db/nginx_es_logs/
+mkdir -p /db/nginx_logs/
 
 # Backup original Nginx configuration
 mv /etc/nginx/nginx.conf /etc/nginx/nginx.conf.orig
