@@ -1,6 +1,7 @@
 import MySQLdb
 import time
 import logging
+import os
 from elasticsearch import Elasticsearch
 # get trace logger and set level
 tracer = logging.getLogger('elasticsearch.trace')
@@ -11,7 +12,7 @@ tracer.addHandler(logging.FileHandler('/var/www/logs/query.log'))
 INDEX = 'publications'
 DOCTYPE = 'document'
 
-host_params = {'host':'msplvw-recgpp01.csc.nycnet', 'port':443, 'use_ssl':True}
+host_params = {'host': os.environ['ELASTICSEARCH'], 'port':443, 'use_ssl':True}
 
 es = Elasticsearch([host_params], use_ssl=True)
 

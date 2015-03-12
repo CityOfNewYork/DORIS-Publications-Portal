@@ -56,6 +56,7 @@ Please run the following commands to run this setup:
 	mkdir -p /var/www/artifacts
 	[Extract the deployment archive to /var/www/artifacts]
 	cd /var/www/artifacts/scripts/app/
+	export ELASTICSEARCH=[PROVIDED_SERVER_IP]
 	source app_server_setup.sh
 
 This script performs the following functions:
