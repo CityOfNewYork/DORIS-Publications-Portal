@@ -22,8 +22,7 @@ Development Corporation, and The Health and Hospitals Corporation.
 
 This application was built under the direction of Joel Castillo by three 
 talented interns from the NYU Polytechnic School of Engineering, Alan Chen, 
-Alvi Kabir, and Panagis (Peter) Alisandratos using Python and the Flask 
-microframework. We currently use the following packages in our application:
+Alvi Kabir, and Panagis (Peter) Alisandratos using Python and the Django Framework. We currently use the following packages in our application:
 
 - Django 1.6.6
 - django-endless-pagination 2.0
