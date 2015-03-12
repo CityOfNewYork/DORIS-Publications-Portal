@@ -20,7 +20,10 @@ Please run the following commands to run this setup:
 	mkdir -p /home/mysql/artifacts
 	[Extract the deployment archive to /home/mysql/artifacts]
 	[Extract the certs archive (attached to HD ticket) to /home/mysql/artifacts/conf/certs]
+	[Copy prod.password_store.sh to /home/mysql/artifacts/scripts/db]
+	[Copy proxy.sh to /home/mysql/artifacts/conf]
 	cd /home/mysql/artifacts/scripts/db
+	source /home/mysql/conf/proxy.sh
 	source db_server_setup.sh
 
 This script performs the following functions:
