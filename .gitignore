@@ -83,3 +83,6 @@ servers.txt
 *.sql
 conf/certs/*
 *.pwd
+agencies.txt
+type.txt
+private/*
