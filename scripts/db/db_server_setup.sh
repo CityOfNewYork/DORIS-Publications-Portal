@@ -98,26 +98,27 @@ service elasticsearch stop
 /usr/share/elasticsearch/bin/plugin --install mobz/elasticsearch-head
 
 # Setup Supervisor
-easy_install supervisor
-echo_supervisord_conf > /etc/supervisord.conf
-mv /etc/supervisord.conf /etc/supervisord.conf.orig
-cp $CWD/../../conf/supervisord.conf /etc/
-mkdir /etc/supervisord.d/
-cp $CWD/../../conf/supervisord /etc/rc.d/init.d/
+# easy_install supervisor
+# echo_supervisord_conf > /etc/supervisord.conf
+# mv /etc/supervisord.conf /etc/supervisord.conf.orig
+# cp $CWD/../../conf/supervisord.conf /etc/
+# mkdir /etc/supervisord.d/
+# cp $CWD/../../conf/supervisord /etc/rc.d/init.d/
 
-chmod +x /etc/rc.d/init.d/supervisord
-chkconfig --add supervisord
-chkconfig supervisord on
-service supervisord start -c /etc/supervisord.conf
+# chmod +x /etc/rc.d/init.d/supervisord
+# chkconfig --add supervisord
+# chkconfig supervisord on
+# service supervisord start -c /etc/supervisord.conf
 
 # Setup Elasticsearch Supervisor App
-mkdir /usr/share/elasticsearch/logs/
-cp $CWD/../../conf/supervisor_elasticsearch.conf /etc/supervisord.d/supervisor_elasticsearch.conf
-supervisorctl reread
-supervisorctl update
-supervisorctl status
+# mkdir /usr/share/elasticsearch/logs/
+# cp $CWD/../../conf/supervisor_elasticsearch.conf /etc/supervisord.d/supervisor_elasticsearch.conf
+# supervisorctl reread
+# supervisorctl update
+# supervisorctl status
 
 # Start Elasticsearch
+service elasticsearch start
 
 # Install Nginx
 rpm -Uhv $CWD/../../packages/nginx-release-centos-6-0.el6.ngx.noarch.rpm
