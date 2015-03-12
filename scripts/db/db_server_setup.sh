@@ -80,24 +80,24 @@ gpgkey=http://packages.elasticsearch.org/GPG-KEY-elasticsearch
 enabled=1" >> /etc/yum.repos.d/elasticsearch.repo
 yum -y install elasticsearch
 
-# # Copy Elasticsearch Configuration
+# Copy Elasticsearch Configuration
 mv /etc/elasticsearch/elasticsearch.yml /etc/elasticsearch/elasticsearch.yml.orig
 cp $CWD/../../conf/elasticsearch.yml /etc/elasticsearch/
 mkdir /db/es_logs
 mkdir /db/es_data
 chown -R elasticsearch:elasticsearch /db/es_logs/ /db/es_data/
 
-# # Copy Password File
+# Copy Password File
 cp $CWD/../../conf/certs/user.pwd /etc/elasticsearch/
 
-# # Ensure Elasticsearch Works
+# Ensure Elasticsearch Works
 service elasticsearch start
 service elasticsearch stop
 
-# # Install elasticsearch head
+# Install elasticsearch head
 /usr/share/elasticsearch/bin/plugin --install mobz/elasticsearch-head
 
-# # Setup Supervisor
+# Setup Supervisor
 easy_install supervisor
 echo_supervisord_conf > /etc/supervisord.conf
 mv /etc/supervisord.conf /etc/supervisord.conf.orig
@@ -110,16 +110,16 @@ chkconfig --add supervisord
 chkconfig supervisord on
 service supervisord start -c /etc/supervisord.conf
 
-# # Setup Elasticsearch Supervisor App
+# Setup Elasticsearch Supervisor App
 mkdir /usr/share/elasticsearch/logs/
 cp $CWD/../../conf/supervisor_elasticsearch.conf /etc/supervisord.d/supervisor_elasticsearch.conf
 supervisorctl reread
 supervisorctl update
 supervisorctl status
 
-# # Start Elasticsearch
+# Start Elasticsearch
 
-# # Install Nginx
+# Install Nginx
 rpm -Uhv $CWD/../../packages/nginx-release-centos-6-0.el6.ngx.noarch.rpm
 yum install -y nginx
 
@@ -128,44 +128,44 @@ mkdir -p /etc/nginx/sites-enabled
 mkdir -p /etc/nginx/sites-available
 mkdir -p /db/nginx_es_logs/
 
-# # Backup original Nginx configuration
+# Backup original Nginx configuration
 mv /etc/nginx/nginx.conf /etc/nginx/nginx.conf.orig
 
-# # Backup default Nginx sites
+# Backup default Nginx sites
 mv /etc/nginx/conf.d/default.conf /etc/nginx/conf.d/default.conf.bak
 mv /etc/nginx/conf.d/example_ssl.conf /etc/nginx/conf.d/example_ssl.conf.bak
 
-# # Copy over Nginx configuration
+# Copy over Nginx configuration
 cp $CWD/../../conf/db_nginx.conf /etc/nginx/nginx.conf
 
-# # Place site configuration for Nginx in sites-available
+# Place site configuration for Nginx in sites-available
 cp $CWD/../../conf/elasticsearch.conf /etc/nginx/sites-available
 
-# # Symlink the site configuration to sites-enabled
+# Symlink the site configuration to sites-enabled
 ln -s /etc/nginx/sites-available/elasticsearch.conf /etc/nginx/sites-enabled/elasticsearch.conf
 
-# # Setup SSL
+# Setup SSL
 cp -r $CWD/../../conf/certs/ /etc/nginx/
 
-# # Start Nginx
+# Start Nginx
 service nginx start
 
-# # Activate and Setup Virtual Environment
+# Activate and Setup Virtual Environment
 virtualenv /home/mysql/virtualenvs/gpp_env
 source /home/mysql/virtualenvs/gpp_env/bin/activate
 pip install mysql-python elasticsearch
 
-# # populate db
+# populate db
 mysql -u root -p$DB_PASS -e "set global net_buffer_length=1000000; set global max_allowed_packet=100000000;"
 mysql -u root -p$DB_PASS publications <$CWD/../../publications.sql
 
-# # create user with select permission
+# create user with select permission
 mysql -u root -p$DB_PASS -e "GRANT SELECT ON publications.document TO 'index'@'localhost';"
 
-# # Index DB
+# Index DB
 python $CWD/../../application/index_db.py
 
-# # Return to initial directory
+# Return to initial directory
 cd $CWD
 
 
