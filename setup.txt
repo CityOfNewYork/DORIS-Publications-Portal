@@ -22,9 +22,12 @@ Please run the following commands to run this setup:
 	[Extract the certs archive (attached to HD ticket) to /home/mysql/artifacts/conf/certs]
 	[Copy prod.password_store.sh to /home/mysql/artifacts/scripts/db]
 	[Copy proxy.sh to /home/mysql/artifacts/conf]
+	[Copy unset_proxy.sh to /home/mysql/artifacts/conf]
+	[Copy JDK Installer from Staging Environment to /home/mysql/artifacts/packages]
 	cd /home/mysql/artifacts/scripts/db
-	source /home/mysql/conf/proxy.sh
+	source /home/mysql/artifacts/conf/proxy.sh
 	source db_server_setup.sh
+	source /home/mysql/artifacts/conf/unset_proxy.sh
 
 This script performs the following functions:
 	- Updates the system
@@ -58,9 +61,13 @@ Requirements:
 Please run the following commands to run this setup:
 	mkdir -p /var/www/artifacts
 	[Extract the deployment archive to /var/www/artifacts]
+	[Copy proxy.sh to /var/www/artifacts/proxy.sh]
+	[Copy unset_proxy.sh to /var/www/artifacts/unset_proxy.sh]
 	cd /var/www/artifacts/scripts/app/
 	export ELASTICSEARCH=[PROVIDED_SERVER_IP]
+	source /var/www/artifacts/conf/proxy.sh
 	source app_server_setup.sh
+	source /var/www/artifacts/conf/unset_proxy.sh
 
 This script performs the following functions:
 	- Updates the system

@@ -66,3 +66,10 @@ mkdir -p /var/www/virtualenvs/gpp_venv
 virtualenv /var/www/virtualenvs/gpp_venv
 source /var/www/virtualenvs/gpp_venv/bin/activate
 pip install -r $CWD/../../conf/requirements.txt
+
+# Deploy Application
+cd $CWD
+source app_migration.sh
+
+# Restart Application
+sh /var/www/gpp_root/restart_gpp.sh
