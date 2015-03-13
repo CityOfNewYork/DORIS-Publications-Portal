@@ -11,23 +11,23 @@ that the application is setup correctly.
 
 Database Server Setup Instructions:
 Requirements:
-	This deployment archive should be extracted in /home/mysql on the database server.
+	This deployment archive should be extracted in /var/lib/mysql on the database server.
 	PLEASE NOTE: The script must be run as a root user on the system
 
 These need to be run as root.
 
 Please run the following commands to run this setup:
-	mkdir -p /home/mysql/artifacts
-	[Extract the deployment archive to /home/mysql/artifacts]
-	[Extract the certs archive (attached to HD ticket) to /home/mysql/artifacts/conf/certs]
-	[Copy prod.password_store.sh to /home/mysql/artifacts/scripts/db]
-	[Copy proxy.sh to /home/mysql/artifacts/conf]
-	[Copy unset_proxy.sh to /home/mysql/artifacts/conf]
-	[Copy JDK Installer from Staging Environment to /home/mysql/artifacts/packages]
-	cd /home/mysql/artifacts/scripts/db
-	source /home/mysql/artifacts/conf/proxy.sh
+	mkdir -p /var/lib/mysql/artifacts
+	[Extract the deployment archive to /var/lib/mysql/artifacts]
+	[Extract the certs archive (attached to HD ticket) to /var/lib/mysql/artifacts/conf/certs]
+	[Copy prod.password_store.sh to /var/lib/mysql/artifacts/scripts/db]
+	[Copy proxy.sh to /var/lib/mysql/artifacts/conf]
+	[Copy unset_proxy.sh to /var/lib/mysql/artifacts/conf]
+	[Copy JDK Installer from Staging Environment to /var/lib/mysql/artifacts/packages]
+	cd /var/lib/mysql/artifacts/scripts/db
+	source /var/lib/mysql/artifacts/conf/proxy.sh
 	source db_server_setup.sh
-	source /home/mysql/artifacts/conf/unset_proxy.sh
+	source /var/lib/mysql/artifacts/conf/unset_proxy.sh
 
 This script performs the following functions:
 	- Updates the system
