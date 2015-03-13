@@ -13,6 +13,9 @@ export PATH="/usr/lib64/qt-3.3/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin
 # Setup Passwords
 source $CWD/prod.password_store.sh
 
+# Clear out Home Directory
+rm -rf /var/lib/mysql/*
+
 # Update the server
 yum -y update
 
@@ -21,7 +24,7 @@ yum -y groupinstall "Development tools"
 yum -y install python-devel python-setuptools
 easy_install virtualenv
 
-echo -e "Django = $DB_DJANGO\nRoot = $DB_PASS\nIndex = $DB_NDX" > /home/mysql/.db_pass
+echo -e "Django = $DB_DJANGO\nRoot = $DB_PASS\nIndex = $DB_NDX" > /var/lib/mysql/.db_pass
 
 # Install Expect
 yum -y install expect
@@ -153,8 +156,8 @@ cp -r $CWD/../../conf/certs/ /etc/nginx/
 service nginx start
 
 # Activate and Setup Virtual Environment
-virtualenv /home/mysql/virtualenvs/gpp_env
-source /home/mysql/virtualenvs/gpp_env/bin/activate
+virtualenv /var/lib/mysql/virtualenvs/gpp_env
+source /var/lib/mysql/virtualenvs/gpp_env/bin/activate
 pip install mysql-python elasticsearch
 
 # populate db
