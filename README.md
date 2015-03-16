@@ -1,29 +1,12 @@
-# About Page
-
-The Municipal Library operated by the New York City Department of Records and
-Information Services (DORIS) is responsible for providing information about City
-government to the public. This includes reports dating to the 19th Century and 
-up-to-the minute reports that are available on our website.
-
-We have revamped the government publications portal to provide easy access to 
-these documents and we have increased the number of reports available online. 
-This new portal includes reports from most City offices and agencies. We will 
-be adding additional types of information to the portal in the upcoming months 
-and we will continue to solicit past reports and additional government 
-participants. You will not find documents from the following entities on this 
-portal: The Center for Innovation through Data Intelligence, The Economic 
-Development Corporation, and The Health and Hospitals Corporation.
-
-# Github Wiki/Readme
-
 ## Government Publications Portal
 
 ### About
 
 This application was built under the direction of Joel Castillo by three 
 talented interns from the NYU Polytechnic School of Engineering, Alan Chen, 
-Alvi Kabir, and Panagis (Peter) Alisandratos using Python and the Django Framework. We currently use the following packages in our application:
+Alvi Kabir, and Panagis (Peter) Alisandratos using Python and the Django Framework. 
 
+We currently use the following packages in our application:
 - Django 1.6.6
 - django-endless-pagination 2.0
 - ecdsa 0.11
