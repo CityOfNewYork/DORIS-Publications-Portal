@@ -10,9 +10,6 @@ export CWD=$PWD
 # Reset Path to Use Python 2.6.6
 export PATH="/usr/lib64/qt-3.3/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin:/opt/CA/AccessControl/bin:/opt/CA/AccessControl/lbin"
 
-# Update the Server
-# yum -y update
-
 # Install Development Tools
 yum -y groupinstall "Development tools"
 yum -y install python-devel python-setuptools python-setuptools-devel
