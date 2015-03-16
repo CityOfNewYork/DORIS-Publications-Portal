@@ -13,12 +13,6 @@ export PATH="/usr/lib64/qt-3.3/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin
 # Setup Passwords
 source $CWD/prod.password_store.sh
 
-# Clear out Home Directory
-rm -rf /var/lib/mysql/*
-
-# Update the server
-yum -y update
-
 #  Install Development Tools
 yum -y groupinstall "Development tools"
 yum -y install python-devel python-setuptools
