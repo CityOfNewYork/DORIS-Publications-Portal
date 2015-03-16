@@ -11,7 +11,7 @@ export CWD=$PWD
 export PATH="/usr/lib64/qt-3.3/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin:/opt/CA/AccessControl/bin:/opt/CA/AccessControl/lbin"
 
 # Update the Server
-yum -y update
+# yum -y update
 
 # Install Development Tools
 yum -y groupinstall "Development tools"
