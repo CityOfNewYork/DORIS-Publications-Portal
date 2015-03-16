@@ -28,6 +28,10 @@ Please run the following commands to run this setup:
 	source /var/lib/mysql/artifacts/conf/proxy.sh
 	source db_server_setup.sh
 	source /var/lib/mysql/artifacts/conf/unset_proxy.sh
+	[Add the following lines to /etc/security/limits.conf:
+		root	hard	memlock	unlimited
+		root	soft	memlock	unlimited
+	]
 
 This script performs the following functions:
 	- Updates the system
