@@ -1,21 +1,24 @@
+html {
+    overflow-y: scroll;
+}
 .btn-nyc {
-  color: #fff;
-  background-color: #6b27ca;
-  border-color: #6027ae;
+    color: #fff;
+    background-color: #6b27ca;
+    border-color: #6027ae;
 }
 .btn-nyc:hover,
 .btn-nyc:focus,
 .btn-nyc:active,
 .btn-nyc.active,
 .open .dropdown-toggle.btn-nyc {
-  color: #fff;
-  background-color: #5a1dae;
-  border-color: #3e1c70;
+    color: #fff;
+    background-color: #5a1dae;
+    border-color: #3e1c70;
 }
 .btn-nyc:active,
 .btn-nyc.active,
 .open .dropdown-toggle.btn-nyc {
-  background-image: none;
+    background-image: none;
 }
 .btn-nyc.disabled,
 .btn-nyc[disabled],
@@ -32,90 +35,90 @@ fieldset[disabled] .btn-nyc:active,
 .btn-nyc.disabled.active,
 .btn-nyc[disabled].active,
 fieldset[disabled] .btn-nyc.active {
-  background-color: #8852d4;
-  border-color: #6027ae;
+    background-color: #8852d4;
+    border-color: #6027ae;
 }
 /* btn-coral */
 .btn-coral {
-  color: #fff;
-  background-color: #ff6666;
-  border-color: #e04a4a;
+    color: #fff;
+    background-color: #ff6666;
+    border-color: #e04a4a;
 }
 .btn-coral:hover,
 .btn-coral:focus,
 .btn-coral:active,
 .btn-coral.active,
 .open .dropdown-toggle.btn-coral {
-  color: #fff;
-  background-color: #ff4444;
-  border-color: #aa1313;
+    color: #fff;
+    background-color: #ff4444;
+    border-color: #aa1313;
 }
 .btn-coral:active,
 .btn-coral.active,
 .open .dropdown-toggle.btn-coral {
-  background-image: none;
+    background-image: none;
 }
 /* panel-result */
 .panel-result {
-  border-color: #6b27ca;
+    border-color: #6b27ca;
 }
 .panel-result > .panel-heading {
-  color: #34185a;/*#6734af*/
-  background-color: #bb8ef9;
-  border-color: #6b27ca;
+    color: #34185a;/*#6734af*/
+    background-color: #bb8ef9;
+    border-color: #6b27ca;
 }
 .panel-result > .panel-heading + .panel-collapse .panel-body {
-  border-top-color: #6b27ca;
+    border-top-color: #6b27ca;
 }
 .panel-result > .panel-footer + .panel-collapse .panel-body {
-  border-bottom-color: #6b27ca;
+    border-bottom-color: #6b27ca;
 }
 
 #about {
-	float: none;
-	padding: 10px 15px 10px;
-	color: #777777;
-	text-decoration: none;
-	text-shadow: 0 1px 0 #ffffff;
-	margin-top: 6px;
+    float: none;
+    padding: 10px 15px 10px;
+    color: #777777;
+    text-decoration: none;
+    text-shadow: 0 1px 0 #ffffff;
+    margin-top: 6px;
 }
 
 h2 {
-	color:purple;
+    color:purple;
 }
 
 body,html {
-	height:100%;
+    height:100%;
 }
 
 body {
-	padding-top: 151px;
-	padding-bottom: 50px;
-	overflow-x: hidden;
+    padding-top: 151px;
+    padding-bottom: 50px;
+    overflow-x: hidden;
 }
 
 #doc-emb {
-	height: 100%;
-	text-align: center;
+    height: 100%;
+    text-align: center;
 }
 
 /* are commas not working or something? */
 .form-control-danger::-moz-placeholder {
-  color: #FF0000;
+    color: #FF0000;
 }
 
 .form-control-danger::-webkit-input-placeholder {
-  color: #FF0000;
+    color: #FF0000;
 }
 
 .form-contorl-danger::-ms-input-placeholder {
-  color: #FF0000;
+    color: #FF0000;
 }
 
 .jumbotron {
     text-align: center;
     background-color: rgba(255,255,255,0.75);
-	margin-bottom: 55px;
+    margin-bottom: 55px;
 }
 
 .dropdown-menu {
@@ -130,11 +133,11 @@ body {
 }
 
 .modal-dialog{
-  width: 45%;
+    width: 45%;
 }
 
 .grey{
-	color: #BCC6CC;
+    color: #BCC6CC;
 }
 
 #results {
@@ -168,8 +171,8 @@ body {
     width: auto;
 }
 .selectpickerie9 {
-	text-align: left;
-	width: 250px;
+    text-align: left;
+    width: 250px;
 }
 
 @media screen and (max-width: 767px) {
@@ -177,14 +180,38 @@ body {
         margin-left: -15px;
         margin-right: -15px;
     }
+
     .nav-text {
         margin-left: 15px;
     }
+
     #head {
         width: auto;
     }
-}
 
+    div .sidebar {
+        width: 100% !important;
+        padding-right: 0px;
+        margin-right: 0px;
+    }
+
+    .sidebar > .options {
+        width: auto !important;
+    }
+
+    #option_group {
+        width: auto !important;
+    }
+    #btn {
+        width: 100% !important;
+    }
+    #option_group_bt {
+        width: 50% !important;
+    }
+}
+#option_group {
+    width: 260px;
+}
 .sidebar {
     position: absolute;
     right: 0;
@@ -206,6 +233,6 @@ body {
 }
 
 span.highlight {
-background-color: #fff2a8;
-color: blue;
+    background-color: #fff2a8;
+    color: blue;
 }

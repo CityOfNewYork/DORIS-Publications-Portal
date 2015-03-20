@@ -1,4 +1,4 @@
-function toggleSlide(id, speed) {
+ function toggleSlide(id, speed) {
     
     speed = typeof speed !== 'undefined' ? speed : 'fast';
     
@@ -161,15 +161,15 @@ $('.options').hover( function() {
      $('body').toggleClass('scroll-lock');
 });
 
-$('.options').mouseenter( function() {
-    $(this).animate({opacity: 1}, 200);
-});
-
-$('.options').mouseleave( function() {
-    if ($(window).width() < 767) {
-        $(this).animate({opacity: 0.5}, 200);
-    }
-});
+//$('.options').mouseenter( function() {
+//    $(this).animate({opacity: 1}, 200);
+//});
+//
+//$('.options').mouseleave( function() {
+//    if ($(window).width() < 767) {
+//        $(this).animate({opacity: 0.5}, 200);
+//    }
+//});
 
 $(window).scroll( function() {
     $.jStorage.set('scrollPosition', $('body').scrollTop());

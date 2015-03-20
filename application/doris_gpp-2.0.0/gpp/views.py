@@ -11,35 +11,33 @@ def index(request):
     # The context contains information such as the client's machine details, for example.
     context = RequestContext(request)
     context_dict = \
-        {'agencies': ['Admin. Trials and Hearings', 'Aging', 'Buildings', 'Business Integrity Commission',
-                        'Chief Medical Examiner', 'Children''s Services', 'City Council', 'City Planning',
-                        'Citywide Admin Svcs', 'Civilian Complaint', 'Comm - Police Corr', 'Comptroller',
-                        'Conflicts of Interest', 'Consumer Affairs', 'Contracts', 'Corrections', 
-                        'Criminal Justice', 'Cultural Affairs', 'Data Analytics', 'DCAS', 
-                        'Design/Construction', 'DOI - Investigation', 'Domestic Violence', 'Education, Dept. of', 
-                        'Emergency Mgmt.', 'Environmental - DEP', 'Equal Employment', 'Finance', 'Fire',
-                        'Health', 'Health and Mental Hyg.', 'Homeless Services', 'Housing - HPD', 
-                        'Human Rights', 'Human Rsrcs - HRA', 'Immigrant Affairs', 'Independent Budget', 
-                        'Info. Tech. and Telecom.', 'International Affairs', 'Labor Relations', 'Landmarks', 
-                        'Law Department', 'Loft Board', 'Management and Budget', 'Mayor', 'Mayor''s Fund', 
-                        'Media and Entertainment', 'NYC Service', 'NYCERS', 'Operations', 'Parks and Recreation', 
-                        'Police', 'Probation', 'Public Advocate', 'Public Design Commission', 'Records', 
-                        'Rent Guidelines Board', 'Sanitation', 'Small Business Svcs', 'Standards and Appeal', 
-                        'Tax Commission', 'Taxi and Limousine', 'Transportation', 'Trials and Hearings', 
-                        'Veteran''s Affairs', 'Youth & Community'], 
-        'categories': ['Business and Consumers', 'Cultural/Entertainment', 'Education', 'Environment',
+        {'agencies': ['Aging', 'Buildings', 'Campaign Finance', 'Children\'s Services', 'City Council', 'City Clerk',
+                      'City Planning', 'Citywide Admin Svcs', 'Civilian Complaint', 'Comm - Police Corr',
+                      'Community Assistance', 'Comptroller', 'Conflicts of Interest', 'Consumer Affairs', 'Contracts',
+                      'Correction', 'Criminal Justice Coordinator', 'Cultural Affairs', 'DOI - Investigation',
+                      'Design/Construction', 'Disabilities', 'District Atty, NY County', 'Districting Commission',
+                      'Domestic Violence', 'Economic Development', 'Education, Dept. of', 'Elections, Board of',
+                      'Emergency Mgmt.', 'Employment', 'Empowerment Zone', 'Environmental - DEP', 'Environmental - OEC',
+                      'Environmental - ECB', 'Equal Employment', 'Film/Theatre', 'Finance', 'Fire', 'FISA',
+                      'Health and Mental Hyg.', 'HealthStat', 'Homeless Services', 'Hospitals - HHC', 'Housing - HPD',
+                      'Human Rights', 'Human Rsrcs - HRA', 'Immigrant Affairs', 'Independent Budget',
+                      'Info. Tech. and Telecom.', 'Intergovernmental', 'International Affairs', 'Judiciary Committee',
+                      'Juvenile Justice', 'Labor Relations', 'Landmarks', 'Law Department', 'Library - Brooklyn',
+                      'Library - New York', 'Library - Queens', 'Loft Board', 'Management and Budget', 'Mayor',
+                      'Metropolitan Transportation Authority', 'NYCERS', 'Operations', 'Parks and Recreation',
+                      'Payroll Administration', 'Police', 'Police Pension Fund', 'Probation', 'Public Advocate',
+                      'Public Health', 'Public Housing-NYCHA', 'Records', 'Rent Guidelines', 'Sanitation',
+                      'School Construction', 'Small Business Svcs', 'Sports Commission', 'Standards and Appeal',
+                      'Tax Appeals Tribunal', 'Tax Commission', 'Taxi and Limousine', 'Transportation',
+                      'Trials and Hearings', 'Veterans - Military', 'Volunteer Center', 'Voter Assistance',
+                      'Youth & Community'],
+         'categories': ['Business and Consumers', 'Cultural/Entertainment', 'Education', 'Environment',
                         'Finance and Budget', 'Government Policy', 'Health', 'Housing and Buildings', 'Human Services',
                         'Labor Relations', 'Public Safety', 'Recreation/Parks', 'Sanitation', 'Technology',
                         'Transportation'],
-         'types': ['Actuarial Audit', 'Actuarial Audit Report', 'Annual Audit Report', 
-                    'Annual Claims Report', 'Annual Contracts Report', 'Annual Report', 
-                    'Audit', 'Audit Report', 'Bond Offering - Official Statements', 
-                    'Brochure', 'Budget Report', 'Cash Report', 'Consultant Report', 
-                    'Economic Notes', 'GAGAS Peer Review', 'Guide - Manual', 'Hearing - Minutes',
-                    'Legislative Document', 'Memoranda - Directive', 'Organizational Chart', 
-                    'Policy Report', 'Press Release', 'Public Policy and Other', 'Report', 
-                    'Report - Annual', 'Report - Other', 'Serial Publication', 
-                    'Shareowner Initiatives', 'Staff Report'], }
+         'types': ['Annual Report', 'Audit Report', 'Bond Offering - Official Statements', 'Budget Report',
+                   'Consultant Report', 'Guide - Manual', 'Hearing - Minutes', 'Legislative Document',
+                   'Memoranda - Directive', 'Press Release', 'Serial Publication', 'Staff Report', 'Report'], }
     request.session.flush()
     return render_to_response('index.html', context_dict, context)
 
@@ -61,7 +59,7 @@ def results(request):
     if request.method == 'GET':
         request.session['page'] = 1
         request.session['start'] = 0
-        if request.GET.get('btn') == 'Search':
+        if request.GET.get('btn') == "Search":
             request.session['search'] = request.GET.get('user_input')
             request.session['agencies'] = request.GET.getlist('agency[]', None)
             request.session['categories'] = request.GET.getlist('category[]', None)
@@ -69,7 +67,7 @@ def results(request):
             request.session['fulltext'] = request.GET.get('fulltext', False)
 
         # #POST - Refine Search
-        if request.GET.get('btn') == 'Refine / Search':
+        if request.GET.get('btn') == "Refine / Search":
             if request.GET.get('user_input'):
                 request.session['search'] = request.GET.get('user_input')
             request.session['agencies'] = request.GET.getlist('agency[]')
@@ -102,7 +100,7 @@ def results(request):
     request.session['length'] = results_length
     request.session['num_pages'] = int(ceil(request.session['length'] / float(request.session['num_results'])))
     
-    request.session.set_expiry(3600)
+    request.session.set_expiry(86400)
     
     # initiate pagination
     # print num_results
