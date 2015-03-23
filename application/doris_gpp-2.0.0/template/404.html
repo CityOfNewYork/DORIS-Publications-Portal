@@ -1,18 +1,20 @@
 {% extends 'base.html' %}
 {% block title %}404 - Page Not Found{% endblock %}
 {% block content %}
-<div id="results-info" class="navbar navbar-default navbar-fixed-top navbar-results">
-    <div class="container" id="doc-emb">
-        {% if document_url %}
-        <embed src="http://a860-gpp.ecm.csstg.cs.nycnet{{ document_url }}" width="100%" height="99%" style="max-width: 960px;"></embed>
-        {% else %}
-        <h3>Oops. Looks like we don't have your document.
-            <br /> We are working on getting it up, thanks for your patience.
-            <br />
-            <a type="button" class="btn btn-default navbar-btn hidden-xs" href='/results/'>
-                <span class="glyphicon glyphicon-arrow-left"></span> Back to Results</a>
-        </h3>
-        {% endif %}
+    <div id="results-info" class="navbar navbar-default navbar-fixed-top navbar-results">
+        <div class="container" id="doc-emb">
+            {% if document_url %}
+                <embed src="http://a860-gpp.nyc.gov{ document_url }}" width="100%" height="99%" style="max-width: 960px;"></embed>
+            {% else %}
+                <h3>
+                    Oops. Looks like we don't have your document.
+                    <br />
+                    We are working on getting it up, thanks for your patience.
+                    <br />
+                    <a type="button" class="btn btn-default navbar-btn hidden-xs" href='/results/'>
+                        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;Back to Results</a>
+                </h3>
+            {% endif %}
+        </div>
     </div>
-</div>
 {% endblock %}

@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta name="Description" content="Open Data Portal for NYC's Publications">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title> {% block title %}{% endblock %} - Government Publications Portal</title>
+    <title> {% block title %}{% endblock %} - Government Publications Portal (Beta)</title>
     <link rel="shortcut icon" type="image/x-icon" href="{% static "images/favicon.ico " %}" />
     <link rel="icon" type="image/x-icon" href="{%  static "images/favicon.ico " %}" />
     <link rel="stylesheet" type="text/css" href="{% static "css/bootstrap-select.min.css " %}" />
@@ -29,8 +29,8 @@
                 <span class="icon-bar"></span>
             </button>
             <a class="navbar-brand" href="/">
-                <img src="{% static "images/nyc_purple.gif " %}" alt="NYC" style="width: 80px; height: 30px; margin-top: -7px;">
-                <span class="hidden-xs">Government Publications Portal</span>
+
+                <span class="hidden-xs"><img src="/static/images/nyc_purple.gif " alt="NYC" style="width: 80px; height: 30px; margin-top: -7px;" />&nbsp;&nbsp;Government Publications Portal (Beta)</span>
             </a>
         </div>
         <div class="navbar-collapse collapse">
@@ -42,11 +42,11 @@
                     <a href="https://github.com/CityOfNewYork/DORIS-Publications-Portal/wiki">About</a>
                 </li>
                 <li>
-                    <a href="http://www.nyc.gov/html/records/html/contact/home.shtml" target="_blank">Contact</a>
+                    <a href="http://www.nyc.gov/html/records/html/contact/publications.shtml" target="_blank">Contact</a>
                 </li>
                 <li>
                     <a href="https://www.facebook.com/nycrecords" target="_blank">
-                        <img src="{% static "images/facebook.png " %}" alt="facebook" style="width: 24px; height: 24px; margin-top: -7px;">
+                        <img src="/static/images/facebook.png " alt="facebook" style="width: 24px; height: 24px; margin-top: -7px;">
                     </a>
                 </li>
             </ul>

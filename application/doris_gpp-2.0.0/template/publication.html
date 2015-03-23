@@ -4,7 +4,7 @@
 <div id="results-info" class="navbar navbar-default navbar-fixed-top navbar-results">
     <div class="container" style="max-width: 960px;">
         <div id="head" class="navbar-header">
-            <a type="button" class="navbar-toggle visible-xs" style="width: 44px; padding-left: 13px; color: black;" href="/gpp/results/">
+            <a type="button" class="navbar-toggle visible-xs" style="width: 44px; padding-left: 13px; color: black;" href="/results/">
                 <span class="glyphicon glyphicon-arrow-left"></span>
             </a>
             <a type="button" class="btn btn-default navbar-btn hidden-xs" href='/results/' style="float: right;">
@@ -14,10 +14,6 @@
     </div>
 </div>
 <div class="container" id="doc-emb">
-    {% if document_url %}
-    <embed src="http://a860-gpp.ecm.csstg.cs.nycnet{{ document_url }}" width="100%" height="99%" style="max-width: 960px;"></embed>
-    {% else %}
-    <embed src="http://a860-gpp.ecm.csstg.cs.nycnet/static/data/gppPdfs/7898_Red Light Camera Report.pdf" width="100%" height="99%" style="max-width: 960px;"></embed>
-    {% endif %}
+    <embed src="http://a860-gpp.nyc.gov{{ document_url }}" width="100%" height="99%" style="max-width: 960px;"></embed>
 </div>
 {% endblock %}
