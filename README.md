@@ -45,10 +45,9 @@ and display them in unique ways to users.
 
 ### Getting Involved
 
-We are launching this product as a beta so that we can get your input. Please
-use our feedback form or Github issues to submit new requests and bug reports.
-We would also encourage you to send any improvements on our code. Clone our 
-repository and show us what you can do with our codebase to make it even better.
+We are launching this product as a beta so that we can get your input. Please use our feedback form or [Github Issues](https://github.com/CityOfNewYork/DORIS-Publications-Portal/issues) to submit new requests and bug reports. We would also encourage you to send any improvements on our code. Clone our repository and show us what you can do with our codebase to make it even better.
+
+Additionally, BetaNYC has created an [open discussion group](https://talk.beta.nyc/c/working-groups/doris-portal) to talk about future improvements. 
 
 ### Acknowledgements
 
