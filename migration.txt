@@ -26,3 +26,7 @@ Please follow the below steps to perform this migations:
   - mv [Deployment Archive Unzipped] /var/www/artifacts
   - cd /var/www/artifacts/scripts/app
   - sh app_migration_03262015.sh [Answer y to any prompts]
+
+Database Server Setup Instructions
+This migration updates the following features:
+  -
