@@ -11,7 +11,8 @@
                     <span class="glyphicon glyphicon-search"></span> Options
                 </button>
                 <h4 class="nav-text">
-                    {% if search %} {% if length == 1 %} Found {{ length }} result for "{{ search }}" in {{ time }} seconds {% elif length > 1 %} Found {{ length }} results for "{{ search }}" in {{ time }} seconds {% else %} Found {{ length }} results for "{{ search }}"
+                    {% if search %} {% if length == 1 %} Found {{ length }} result for "{{ search }}" in {{ time }} seconds
+                    {% elif length > 1 %} Found {{ length }} results for "{{ search }}" in {{ time }} seconds {% else %} Found {{ length }} results for "{{ search }}"
                     {% endif %} {% else %} {% if length == 1 %} Found {{ length }} result for selected filters in {{ time }} seconds {% elif length > 1 %} Found {{ length }} results for selected filters in {{ time }} seconds {% else %} Found {{ length }} results
                         for selected filters {% endif %} {% endif %}
                 </h4>

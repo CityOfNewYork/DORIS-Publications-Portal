@@ -19,7 +19,6 @@ Vagrant.configure("2") do |config|
   config.vm.define "db" do |db|
     db.vm.network "forwarded_port", guest: 9200, host: 9200
     db.vm.network "private_network", ip: "192.168.10.3"
-    #db.vm.synced_folder "/Users/joel/Desktop/db", "/db"
   end
 
 end

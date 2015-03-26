@@ -49,6 +49,7 @@ function storeFilters() {
     $.jStorage.set('agencyVal', $('#agencies').val());
     $.jStorage.set('categoryVal', $('#categories').val());
     $.jStorage.set('typeVal', $('#types').val());
+
 }
 
 $("#btn[value='Refine / Search']").click(storeFilters);
@@ -199,9 +200,9 @@ $(window).on('load', function () {
     
     toggleSlide('#search-area', 'slow');
 
-    maintainSelect('#agencies', 'agencyVal', agencies);
-    maintainSelect('#categories', 'categoryVal', categories);
-    maintainSelect('#types', 'typeVal', types);
+    //maintainSelect('#agencies', 'agencyVal', agencies);
+    //maintainSelect('#categories', 'categoryVal', categories);
+    //maintainSelect('#types', 'typeVal', types);
     
     $('.pagination').on('click', function() {
     	$.jStorage.set('scrollPosition',0);
