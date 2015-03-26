@@ -26,7 +26,12 @@ Please follow the below steps to perform this migations:
   - mv [Deployment Archive Unzipped] /var/www/artifacts
   - cd /var/www/artifacts/scripts/app
   - sh app_migration_03262015.sh [Answer y to any prompts]
-
+  
 Database Server Setup Instructions
-This migration updates the following features:
-  -
+This Migration update the database and reindexes the search engine
+	-  Download the deployment archive and transfer it to the db server at /var/lib/mysql
+	- mkdir -p /var/lib/mysql/archive
+	- mv /var/lib/mysql/artifacts/ /var/lib/mysql/archive/artifacts_[CurrentDate]
+	- unzip [Deployment Archive]
+	- mv /var/lib/mysql/artifacts/scripts/db
+	- sh db_migration_03262015.sh
