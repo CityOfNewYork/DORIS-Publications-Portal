@@ -65,8 +65,8 @@ Requirements:
 Please run the following commands to run this setup:
 	mkdir -p /var/www/artifacts
 	[Extract the deployment archive to /var/www/artifacts]
-	[Copy proxy.sh to /var/www/artifacts/proxy.sh]
-	[Copy unset_proxy.sh to /var/www/artifacts/unset_proxy.sh]
+	[Copy proxy.sh to /var/www/artifacts/conf/proxy.sh]
+	[Copy unset_proxy.sh to /var/www/artifacts/conf/unset_proxy.sh]
 	cd /var/www/artifacts/scripts/app/
 	export ELASTICSEARCH=[PROVIDED_SERVER_IP]
 	source /var/www/artifacts/conf/proxy.sh
