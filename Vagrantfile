@@ -12,7 +12,6 @@ Vagrant.configure("2") do |config|
     app.vm.network "forwarded_port", guest: 8000, host: 8000
     app.vm.network "forwarded_port", guest: 22, host: 2223
     app.vm.network "private_network", ip: "192.168.10.2"
-    app.vm.synced_folder "/Users/joel/Desktop/data", "/data"
   end
   
 #   Database Server Configuration
