@@ -35,10 +35,13 @@ def process_query(search, agencies_selected, categories_selected, types_selected
         if fulltext:
             query_list = [
                 {
-                    "match": {
-                        "docText": search
-                    }
-                },
+                    "multi_match": {
+                        "query": search,
+                        "fields": ["file"],
+                        "type": "best_fields",
+                        "cutoff_frequency": 0.0001
+                    },
+                }
             ]
         else:
             query_list = [
