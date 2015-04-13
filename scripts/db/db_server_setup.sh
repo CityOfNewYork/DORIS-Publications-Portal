@@ -94,6 +94,9 @@ service elasticsearch stop
 # Install elasticsearch head
 /usr/share/elasticsearch/bin/plugin --install mobz/elasticsearch-head
 
+# Install elasticsearch mapper attachments plugin
+/usr/share/elasticsearch/bin/plugin install elasticsearch/elasticsearch-mapper-attachments/2.5.0
+
 # Setup Supervisor
 # easy_install supervisor
 # echo_supervisord_conf > /etc/supervisord.conf
