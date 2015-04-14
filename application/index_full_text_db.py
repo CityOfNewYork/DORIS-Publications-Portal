@@ -96,7 +96,10 @@ def indexDB():
       os.system(WGET_COMMAND)
       with open ("/tmp/tmp.pdf", "r") as myfile:
         data=myfile.read()
-        b64encoded = base64.b64encode(data)
+        try:
+          b64encoded = base64.b64encode(data)
+        except:
+          b64encoded = ''
      
       try: 
         resp = es.index(index=INDEX, doc_type=DOCTYPE, body={
@@ -114,6 +117,7 @@ def indexDB():
           #"docText":		doc[13],
           "file":         b64encoded
         })
+        print url
       except:
         print "INDEXING " + url + " FAILED"
       
