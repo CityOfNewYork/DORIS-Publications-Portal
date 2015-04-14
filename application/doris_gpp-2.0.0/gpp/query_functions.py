@@ -92,6 +92,13 @@ def process_query(search, agencies_selected, categories_selected, types_selected
                 "category": {},
                 "type": {}
             }
+        },
+        "highlight" : {
+            "pre_tags": ["<span class = 'highlight'>"],
+            "post_tags": ["</span>"],
+            "fields" : {
+                "file" : {}
+            }
         }
     })
 
@@ -100,7 +107,9 @@ def process_query(search, agencies_selected, categories_selected, types_selected
     for result in results['hits']['hits']:
         rank += 1
         result[u'_source'][u'rank'] = rank
-        if not fulltext:
+        if fulltext:
+            highlight(result, u'file')
+        else:
             highlight(result, u'title')
             highlight(result, u'description')
             highlight(result, u'agency')
