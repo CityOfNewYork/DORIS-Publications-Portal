@@ -90,14 +90,8 @@ def process_query(search, agencies_selected, categories_selected, types_selected
                 "description": {"number_of_fragments": 0},
                 "agency": {},
                 "category": {},
-                "type": {}
-            }
-        },
-        "highlight" : {
-            "pre_tags": ["<span class = 'highlight'>"],
-            "post_tags": ["</span>"],
-            "fields" : {
-                "file" : {}
+                "type": {},
+                "file": {}
             }
         }
     })
