@@ -531,6 +531,9 @@
                                     <small style="padding-left: 2em">{{ result.type|safe }}</small>
                                 </p>
                                 <p> {{ result.description | safe }} </p>
+                                {% if result.file and "class = 'highlight'" in result.file%}
+                                    <p> <b>FULL TEXT SNIPPET:</b> {{ result.file | safe }} </p>
+                                {% endif %}
                                 <p>
                                 <form method="post" action="/publication/" style="display: inline-block;">
                                     {% csrf_token %}
