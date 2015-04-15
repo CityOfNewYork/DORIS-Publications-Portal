@@ -95,7 +95,7 @@ service elasticsearch stop
 /usr/share/elasticsearch/bin/plugin --install mobz/elasticsearch-head
 
 # Install elasticsearch mapper attachments plugin
-/usr/share/elasticsearch/bin/plugin install elasticsearch/elasticsearch-mapper-attachments/2.5.0
+/usr/share/elasticsearch/bin/plugin --install mapper-attachments -url file:$CWD/../../elasticsearch_plugins/elasticsearch-mapper-attachments-2.4.3.zip
 
 # Setup Supervisor
 # easy_install supervisor
