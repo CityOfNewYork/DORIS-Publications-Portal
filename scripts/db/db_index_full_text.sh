@@ -4,7 +4,7 @@
 # PLEASE NOTE: The script should be run from the folder in which it is contained.
 
 # Source Passwords
-source prod.password_store.sh
+source ../db/prod.password_store.sh
 
 # Store Current Directory
 export CWD=$PWD
