@@ -117,7 +117,6 @@ def indexDB():
           #"docText":		doc[13],
           "file":         b64encoded
         })
-        print url
       except:
         print "INDEXING " + url + " FAILED"
       
