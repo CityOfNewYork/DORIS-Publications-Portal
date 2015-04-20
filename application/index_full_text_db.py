@@ -4,11 +4,6 @@ import logging
 import MySQLdb
 from elasticsearch import Elasticsearch
 import base64
-# get trace logger and set level
-tracer = logging.getLogger('elasticsearch.trace')
-tracer.setLevel(logging.DEBUG)
-# add handlers to tracer
-tracer.addHandler(logging.FileHandler('/tmp/out.sh'))
 
 DB = MySQLdb.connect(
     host='localhost', user='index', passwd=os.environ['DB_NDX'], db='publications')
@@ -117,7 +112,6 @@ def indexDB():
           #"docText":		doc[13],
           "file":         b64encoded
         })
-        print url
       except:
         print "INDEXING " + url + " FAILED"
       
