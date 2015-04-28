@@ -3,6 +3,7 @@ import time
 import logging
 import MySQLdb
 from elasticsearch import Elasticsearch
+import urllib
 import base64
 
 DB = MySQLdb.connect(
@@ -86,10 +87,16 @@ def indexDB():
     print "Documents Retrieved"
 
     for doc in docs:
-      url = 'http://a860-gpp.nyc.gov' + doc[11]
-      WGET_COMMAND="wget -O /tmp/tmp.pdf -q \"" + url + "\""
-      os.system(WGET_COMMAND)
-      with open ("/tmp/tmp.pdf", "r") as myfile:
+      filePath = doc[11]
+      url = 'http://a860-gpp.nyc.gov' + filePath
+
+      # download to tmp file for local testing
+      if(not(os.path.exists(filePath))):
+        fileDownload = urllib.URLopener()
+        filePath = "/tmp/tmp.pdf"
+        fileDownload.retrieve(url, filePath)
+
+      with open (filePath, "r") as myfile:
         data=myfile.read()
         try:
           b64encoded = base64.b64encode(data)
