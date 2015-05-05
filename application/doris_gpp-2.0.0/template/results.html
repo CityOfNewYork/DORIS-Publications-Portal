@@ -36,7 +36,7 @@
                 <![endif]-->
                     <!--[if !IE]><!-->
                     <div class="input-group" id="option_group">
-                        <input type="text" id="input_text" class="form-control" name="user_input" placeholder="Enter Search">
+                        <input type="text" id="input_text" class="form-control" name="user_input" placeholder="{{ search }}">
                     <span class="input-group-btn">
                     	<button type="submit" class="btn btn-nyc" id="btn" name="btn" value="Refine / Search" onclick="$.jStorage.set('scrollPosition', 0);">Search</button>
                     </span>
@@ -44,7 +44,7 @@
                     <!--<![endif]-->
                     <!--[if IE 8]>
                 <div class="input-group" style="width: 260px;">
-                    <input type="text" id="input_text" class="form-control" name="user_input" placeholder="Enter Search">
+                    <input type="text" id="input_text" class="form-control" name="user_input" placeholder="{{ search }}">
                     <span class="input-group-btn">
                     <button type="submit" class="btn btn-nyc" id="btn" name="btn" value="Refine / Search" onclick="$.jStorage.set('scrollPosition', 0);">Search</button>
                     </span>
@@ -53,7 +53,7 @@
 
                     <!--[if IE 9]>
                 <div class="input-group" style="width: 260px; padding-right: 15px;">
-                    <input type="text" id="input_text" class="form-control" name="user_input" placeholder="Enter Search">
+                    <input type="text" id="input_text" class="form-control" name="user_input" placeholder="{{ search }}">
                     <span class="input-group-btn">
                     <button type="submit" class="btn btn-nyc" id="btn" name="btn" value="Refine / Search" onclick="$.jStorage.set('scrollPosition', 0);">Search</button>
                     </span>
