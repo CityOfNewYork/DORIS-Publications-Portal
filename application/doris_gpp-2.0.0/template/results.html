@@ -21,6 +21,15 @@
                         <strong>{{ pag_res.start_index }} - {{ pag_res.end_index }}</strong>
                     {% else %} No records to display {% endif %}
                 </h5>
+                <h5 class="nav-text">
+                    {% if selected_agencies|length > 1 %} AGENCY: {{ selected_agencies }} {% endif %}
+                </h5>
+                <h5 class="nav-text">
+                    {% if selected_categories|length > 1%} CATEGORY: {{ selected_categories }} {% endif %}
+                </h5>
+                <h5 class="nav-text">
+                    {% if selected_types|length > 1 %} TYPE: {{ selected_types }} {% endif %}
+                </h5>
             </div>
         </div>
     </div>
