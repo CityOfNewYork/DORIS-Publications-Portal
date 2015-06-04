@@ -53,3 +53,7 @@ Additionally, BetaNYC has created an [open discussion group](https://talk.beta.n
 
 Special thanks to our four talented interns
 (Alan Chen, Alvi Kabir, Brandon Tang, and Panagis Alisandratos), Jeff Merrit, Steve Bezman, Prince Gupta, and Anand Krishnan.
+
+### License
+#### Apache License 2.0 
+The full license text is available at [http://www.apache.org/licenses/LICENSE-2.0.html](http://www.apache.org/licenses/LICENSE-2.0.html)
