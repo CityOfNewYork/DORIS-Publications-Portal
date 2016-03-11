@@ -161,3 +161,6 @@ def publication(request):
     document_url = request.POST['view']
     context_dict = {'document_url': document_url }
     return render_to_response('publication.html', context_dict, context)
+
+def maintenance():
+    return render_to_response('maintenance.html')
