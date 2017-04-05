@@ -27,6 +27,7 @@ echo Checking vagrant plugins...
 plugins=`vagrant plugin list`
 echo $plugins | grep vagrant-reload >/dev/null 2>&1 || vagrant plugin install vagrant-reload
 echo $plugins | grep vagrant-vbguest >/dev/null 2>&1 || vagrant plugin install vagrant-vbguest
+echo $plugins | grep vagrant-triggers >/dev/null 2>&1 || vagrant plugin install vagrant-triggers
 
 # Copy Vagrantfile.example if Vagrantfile not found
 if [ ! -f Vagrantfile ]; then
@@ -39,11 +40,16 @@ if [ ! -f Vagrantfile ]; then
     echo
 fi
 
-# get RedHat credentials
-echo Enter your RedHat Developer Account credentials
-read -p "username: " username
-read -s -p "password: " password
-echo
+# get RedHat credentials from env or stdin
+if [ "$RH_USER" -a "$RH_PASS" ]; then
+    username=$RH_USER
+    password=$RH_PASS
+else
+    echo Enter your RedHat Developer Account credentials
+    read -p "username: " username
+    read -s -p "password: " password
+    echo
+fi
 
 # vagrant up with RedHat credentials as environment variables
 RH_USER=$username RH_PASS=$password vagrant up

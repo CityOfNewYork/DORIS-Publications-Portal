@@ -53,7 +53,9 @@ if the server responds with any errors.
     
 ## Development Environment Setup
 
-1. Make sure you have the latest version of VirtualBox.
+1. Make sure you have VirtualBox version **5.1.14**.
+    - Any other version will likely result in failure due to the state of the vagrant box file (in step 2).
+    - You can upgrade to the latest version and `vagrant reload` after your initial setup is complete.
 
 2. Copy `rhel-6.8.virtualbox.box` from `smb://nas2012server03.records.nycnet/public/webdev` 
 into your project root or any desired directory.
@@ -63,7 +65,7 @@ into your project root or any desired directory.
     - This script will attempt to:
     
         - Add the *rhel-6.8* vagrant box
-        - Install the vagrant plugins *vagrant-reload* and *vagrant-vbguest*
+        - Install the vagrant plugins *vagrant-reload*, *vagrant-vbguest*, and *vagrant-triggers*
         - Copy `Vagrantfile.example` into `Vagrantfile`
         - Prompt you for your RedHat Developer Account credentials
             - If you do not have a developer account, [create one](https://www.redhat.com/en/developers).
