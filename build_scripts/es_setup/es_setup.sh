@@ -28,7 +28,7 @@ if [ "$1" != single_server ]; then
 
     openssl req \
            -newkey rsa:4096 -nodes -keyout /vagrant/build_scripts/es_setup/elasticsearch_dev.key \
-           -x509 -days 365 -out /vagrant/build_scripts/es_setup/elasticsearch_dev.crt -subj "/C=US/ST=New York/L=New York/O=NYC Department of Records and Information Services/OU=IT/CN=gpp.nyc"
+           -x509 -days 365 -out /vagrant/build_scripts/es_setup/elasticsearch_dev.crt -subj "/C=US/ST=New York/L=New York/O=NYC Department of Records and Information Services/OU=IT/CN=womensactivism.nyc"
     openssl x509 -in /vagrant/build_scripts/es_setup/elasticsearch_dev.crt -out /vagrant/build_scripts/es_setup/elasticsearch_dev.pem -outform PEM
 
     sudo service rh-nginx18-nginx restartsudo
@@ -42,12 +42,12 @@ chmod 777 -R /data
 sudo /etc/init.d/elasticsearch start
 
 # 6. Add the following lines to /etc/sudoers file
-# gpp ALL=(elasticsearch:elasticsearch) NOPASSWD:ALL
-# gpp ALL=(ALL) NOPASSWD: /etc/init.d/elasticsearch start
-# gpp ALL=(ALL) NOPASSWD: /etc/init.d/elasticsearch stop
-# gpp ALL=(ALL) NOPASSWD: /etc/init.d/elasticsearch status
-# gpp ALL=(ALL) NOPASSWD: /etc/init.d/elasticsearch restart
-# gpp ALL=(ALL) NOPASSWD: /etc/init.d/elasticsearch condrestart
-# gpp ALL=(ALL) NOPASSWD: /etc/init.d/elasticsearch try-restart
-# gpp ALL=(ALL) NOPASSWD: /etc/init.d/elasticsearch reload
-# gpp ALL=(ALL) NOPASSWD: /etc/init.d/elasticsearch force-reload
+#gpp   ALL=(elasticsearch:elasticsearch) NOPASSWD:ALL
+#gpp   ALL=(ALL) NOPASSWD: /etc/init.d/elasticsearch start
+#gpp   ALL=(ALL) NOPASSWD: /etc/init.d/elasticsearch stop
+#gpp   ALL=(ALL) NOPASSWD: /etc/init.d/elasticsearch status
+#gpp   ALL=(ALL) NOPASSWD: /etc/init.d/elasticsearch restart
+#gpp   ALL=(ALL) NOPASSWD: /etc/init.d/elasticsearch condrestart
+#gpp   ALL=(ALL) NOPASSWD: /etc/init.d/elasticsearch try-restart
+#gpp   ALL=(ALL) NOPASSWD: /etc/init.d/elasticsearch reload
+#gpp   ALL=(ALL) NOPASSWD: /etc/init.d/elasticsearch force-reload

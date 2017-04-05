@@ -83,7 +83,7 @@ You can access it on your browser at `https://10.0.0.2`
 
     - You can also run `python manage.py runserver -host 0.0.0.0` to access the app at `localhost:8000`
     
-##### You can stop here if you're only doing backend development. Otherwise, you will need to do the following:
+#### You can stop here if you're only doing backend development. Otherwise, you will need to do the following:
 
 6. In the settings of your preferred project editor, set the *Tab Size* and *Indent* to 2.
 If you are using PyCharm (2016.3), these settings can be found in `Preferences > Editor > Code Styles`.

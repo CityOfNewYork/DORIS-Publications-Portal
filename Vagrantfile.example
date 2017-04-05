@@ -28,7 +28,7 @@ Vagrant.configure("2") do |config|
   config.vm.provision :reload
 
   config.vm.provision "shell" do |s|
-    s.inline = 'sudo yum -y groupinstall "Development Tools" && sudo yum install "kernel-devel" && sudo /etc/init.d/vboxadd setup && echo "cd /vagrant" >> /home/vagrant/.bash_profile'
+    s.inline = 'sudo yum -y groupinstall "Development Tools" && sudo /etc/init.d/vboxadd setup && echo "cd /vagrant" >> /home/vagrant/.bash_profile'
   end
 
   # Single server VM
@@ -43,7 +43,7 @@ Vagrant.configure("2") do |config|
     default.vm.provision "shell", path: "build_scripts/web_setup/web_setup.sh", args: 'single_server'
     default.vm.provision "shell", path: "build_scripts/app_setup/app_setup.sh"
     default.vm.provision "shell", path: "build_scripts/es_setup/es_setup.sh", args: 'single_server'
-    default.vm.provision "shell", path: "build_scripts/db_setup/db_setup.sh"
+    default.vm.provision "shell", path: "build_scripts/db_setup/db_setup.sh", args: 'single_server'
   end
 
 
@@ -82,51 +82,4 @@ Vagrant.configure("2") do |config|
   config.vm.define "es_3", autostart: false do |es|
     # Elasticsearch Server 1 Configuration
   end
-
-
-# Multi VM Config
-#  (1..2).each do |i|
-#    config.vm.define "web#{i}" do |web|
-#      web.vm.network "forwarded_port", guest: 80,  host: "808#{i}".to_i
-#      web.vm.network "forwarded_port", guest: 443, host: "443#{i}".to_i
-#      web.vm.network "forwarded_port", guest: 22,  host: "220#{i}".to_i
-#      web.vm.network "private_network", ip: "10.0.0.#{i+1}"
-#      web.vm.provider :virtualbox do |vb|
-#          vb.memory = 1024
-#      end
-#      web.vm.provision "shell" do |s|
-#          s.path = "build_scripts/web_setup/web_setup.sh"
-#      end
-#    end
-#  end
-
-#  (3..4).each do |i|
-#    config.vm.define "app-{i}" do |app|
-#      app.vm.network "forwarded_port", guest: 80,  host: "808{i}".to_i
-#      app.vm.network "forwarded_port", guest: 22,  host: "222{i}".to_i
-#      app.vm.network "private_network", ip: "10.0.0.{i+1}"
-#      app.vm.provider :virtualbox do |vb|
-#          vb.memory = 1024
-#    end
-#  end
-
-#  (5..6).each do |i|
-#    config.vm.define "db-{i}" do |db|
-#      db.vm.network "forwarded_port", guest: 5432,  host: "900{i}".to_i
-#      db.vm.network "forwarded_port", guest: 22,  host: "222{i}".to_i
-#      db.vm.network "private_network", ip: "10.0.0.{i+1}"
-#      db.vm.provider :virtualbox do |vb|
-#          vb.memory = 1024
-#    end
-#  end
-
-#  (7..9).each do |i|
-#    config.vm.define "es-{i}" do |es|
-#      es.vm.network "forwarded_port", guest: 9200,  host: "920{i}".to_i
-#      es.vm.network "forwarded_port", guest: 22,  host: "222{i}".to_i
-#      es.vm.network "private_network", ip: "10.0.0.{i+1}"
-#      es.vm.provider :virtualbox do |vb|
-#          vb.memory = 2048
-#    end
-#  end
 end
