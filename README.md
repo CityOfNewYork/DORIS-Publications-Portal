@@ -53,9 +53,9 @@ if the server responds with any errors.
     
 ## Development Environment Setup
 
-1. Make sure you have VirtualBox version **5.1.14**.
-    - Any other version will likely result in failure due to the state of the vagrant box file (in step 2).
-    - You can upgrade to the latest version and `vagrant reload` after your initial setup is complete.
+1. Make sure you have VirtualBox version **5.1.18**.
+    - If you have a later version and initial setup fails, please install 5.1.18 and retry.
+    - You can upgrade to the latest version and `vagrant reload` after your setup is complete.
 
 2. Copy `rhel-6.8.virtualbox.box` from `smb://nas2012server03.records.nycnet/public/webdev` 
 into your project root or any desired directory.

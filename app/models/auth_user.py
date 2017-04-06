@@ -5,24 +5,27 @@ from app.constants import user_auth_type, USER_ID_DELIMETER
 
 class AuthUser(db.Model, UserMixin):
     """
-    "auth_user"
+    Define the AuthUser class for table 'auth_user' with the following columns:
+
+    guid                    varchar(64), unique identifier for the 'auth_type'
+    auth_type               user_auth_type, authentication type of user (NYC.ID or a federated identity provider)
+    first_name              varchar(64), first name of user
+    middle_initial          varchar(1), middle initial of user (single character)
+    last_name               varchar(64), last name of user
+    email                   varchar(254), email address of user
+    email_validated         boolean, has user has validated its email address?
+    terms_of_use_accepted   boolean, has the user accepted the latest terms of use?
+    is_library              boolean, is the user a member of DORIS library staff?
+    is_super                boolean, is the user an all-powerful super user?
 
     Most fields are provided by NYC.ID Authentication Web Service SAML Assertion.
 
-    The combination of "guid" and "auth_type" must be unique and, thus, these
-    two fields form a composite primary key.
-
-    guid: unique identifier for the 'auth_type'
-    auth_type: authentication type of user (NYC.ID or a federated identity provider)
-    first_name: first name of user
-    middle_initial: middle initial of user (single character)
-    last_name: last name of user
-    email: email address of user
-    email_validated: has user has validated its email address?
-    terms_of_use_accepted: has the user accepted the latest terms of use?
-
+    The combination of "guid" and "auth_type" must be unique and therefore 
+    is used as a primary composite key.
+    
     """
     __tablename__ = "auth_user"
+
     guid = db.Column(db.String(64), primary_key=True)
     auth_type = db.Column(
         db.Enum(
@@ -37,12 +40,14 @@ class AuthUser(db.Model, UserMixin):
         ),
         primary_key=True
     )
-    first_name = db.Column(db.String(32), nullable=False)
+    first_name = db.Column(db.String(64), nullable=False)
     middle_initial = db.Column(db.String(1))
     last_name = db.Column(db.String(64), nullable=False)
     email = db.Column(db.String(254), nullable=False)
     email_validated = db.Column(db.Boolean(), nullable=False, default=False)
     terms_of_use_accepted = db.Column(db.Boolean(), nullable=False, default=False)
+    is_library = db.Column(db.Boolean(), nullable=False, default=False)
+    is_super = db.Column(db.Boolean(), nullable=False, default=False)
 
     def __init__(self,
                  guid,
