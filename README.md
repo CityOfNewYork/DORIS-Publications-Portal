@@ -71,7 +71,7 @@ into your project root or any desired directory.
             - If you do not have a developer account, [create one](https://www.redhat.com/en/developers).
         - Build your development VM
         
-    - If you experience build errors, try re-provisioning:
+    - If you experience build errors, try re-provisioning (at most once):
 
             RH_USER=<Your RedHat Username> RH_PASS=<Your Redhat Password> vagrant provision
     
