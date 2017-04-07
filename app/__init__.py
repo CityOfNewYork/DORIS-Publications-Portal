@@ -7,7 +7,7 @@ from simplekv.decorator import PrefixDecorator
 from simplekv.memory.redisstore import RedisStore
 from config import config
 from app.database import db
-from app.models import AuthUser
+from app.models import User
 from app.constants import USER_ID_DELIMETER
 from app.resources.lib import api_response
 
@@ -22,7 +22,7 @@ session = KVSessionExtension()
 @login_manager.user_loader
 def load_user(user_id):
     user_id = user_id.split(USER_ID_DELIMETER)
-    return AuthUser.query.filter_by(
+    return User.query.filter_by(
         guid=user_id[0],
         auth_type=user_id[1]
     ).first()

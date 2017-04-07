@@ -3,9 +3,9 @@ from app.database import db
 from app.constants import user_auth_type, USER_ID_DELIMETER
 
 
-class AuthUser(db.Model, UserMixin):
+class User(db.Model, UserMixin):
     """
-    Define the AuthUser class for table 'auth_user' with the following columns:
+    Define the User class for table 'auth_user' with the following columns:
 
     guid                    varchar(64), unique identifier for the 'auth_type'
     auth_type               user_auth_type, authentication type of user (NYC.ID or a federated identity provider)
@@ -15,6 +15,7 @@ class AuthUser(db.Model, UserMixin):
     email                   varchar(254), email address of user
     email_validated         boolean, has user has validated its email address?
     terms_of_use_accepted   boolean, has the user accepted the latest terms of use?
+    is_poc                  boolean, is the user an agency point of contact?
     is_library              boolean, is the user a member of DORIS library staff?
     is_super                boolean, is the user an all-powerful super user?
 
@@ -46,6 +47,7 @@ class AuthUser(db.Model, UserMixin):
     email = db.Column(db.String(254), nullable=False)
     email_validated = db.Column(db.Boolean(), nullable=False, default=False)
     terms_of_use_accepted = db.Column(db.Boolean(), nullable=False, default=False)
+    is_poc = db.Column(db.Boolean(), nullable=False, default=False)
     is_library = db.Column(db.Boolean(), nullable=False, default=False)
     is_super = db.Column(db.Boolean(), nullable=False, default=False)
 

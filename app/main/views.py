@@ -8,7 +8,7 @@ from flask import (
 )
 from flask_login import login_user, logout_user
 from flask_wtf.csrf import generate_csrf
-from app.models.auth_user import AuthUser
+from app.models.user import User
 
 main = Blueprint('main', __name__)
 
@@ -30,10 +30,10 @@ def index():
 
 @main.route('/login')
 def login():
-    user = AuthUser.query.first()
+    user = User.query.first()
     if user is None:
         from app.database import db
-        user = AuthUser(
+        user = User(
             'GUIDXXX',
             'EDIRSSO',
             'Dirk',

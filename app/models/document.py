@@ -1,9 +1,10 @@
 from app.database import db
+from app.models import EventDocument
 
 
-class Publication(db.Model):  # TODO: or Submission?
+class Document(db.Model):  # TODO: deal with publication.py -> document.py change
     """
-    Define the Publication class for the table `publication` with the following:
+    Define the Publication class for the table 'publication' with the following:
     
     COLUMNS         MODS 3.6 EQUIVALENT     DESCRIPTION
     
@@ -21,7 +22,9 @@ class Publication(db.Model):  # TODO: or Submission?
     temporal        subject.temporal        temporal, chronological subject terms or temporal coverage
     url             location.url            varchar(), Uniform Resource Location of resource
                                                        (once available on portal)
-    
+    submitter_guid                          varchar(64), foreign key to 'auth_user.guid'
+    submitter_auth_type                     user_auth_type, foreign key to 'auth_user.auth_type'
+        
     language codes are retrieved from https://www.loc.gov/standards/iso639-2/php/code_list.php
     
     QUESTIONS:
@@ -61,4 +64,9 @@ class Publication(db.Model):  # TODO: or Submission?
     temporal = db.Column(db.Enum(name="temporal"), nullable=False)
     url = db.Column(db.varchar())
 
-    files = db.relationship()
+    files = db.relationship("File")
+    events = db.relationship("EventDocument", lazy="dynamic")
+
+    @property
+    def status(self):  # TODO: move to registration
+        return self.events.order_by(EventDocument.timestamp).first().type

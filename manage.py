@@ -5,7 +5,7 @@ from flask_script import Manager, Server, Shell
 from config import DEV
 from app import create_app
 from app.database import db
-from app.models import AuthUser
+from app.models import User
 
 manager = Manager(create_app(DEV))
 

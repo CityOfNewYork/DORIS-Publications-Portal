@@ -1,2 +1,3 @@
-from .auth_user import AuthUser
-from .publication import Publication
+from .user import User
+from .document import Document
+from .event import EventDocument
