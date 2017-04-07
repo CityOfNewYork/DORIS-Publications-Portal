@@ -57,14 +57,15 @@ if the server responds with any errors.
     - If you have a later version and initial setup fails, please install 5.1.18 and retry.
     - You can upgrade to the latest version and `vagrant reload` after your setup is complete.
 
-2. Copy `rhel-6.8.virtualbox.box` from `smb://nas2012server03.records.nycnet/public/webdev` 
-into your project root or any desired directory.
+2. Copy `/ Development Tools / Vagrant Boxes /`**`rhel-6.8.virtualbox.box`** from 
+`smb://csc.nycnet/doris/doris_share/development` into your project root or any desired directory.
+    - You may need to supply your CSC credentials.
 
 3. Run `./setup.sh` from within your project root directory.
 
     - This script will attempt to:
     
-        - Add the *rhel-6.8* vagrant box
+        - Add the *rhel-6.8-5.1.18* vagrant box
         - Install the vagrant plugins *vagrant-reload*, *vagrant-vbguest*, and *vagrant-triggers*
         - Copy `Vagrantfile.example` into `Vagrantfile`
         - Prompt you for your RedHat Developer Account credentials

@@ -5,7 +5,7 @@ REDHAT_USERNAME = ENV['RH_USER']
 REDHAT_PASSWORD = ENV['RH_PASS']
 
 Vagrant.configure("2") do |config|
-  config.vm.box = "rhel-6.8"
+  config.vm.box = "rhel-6.8-5.1.18"
 
   config.vm.provider "virtualbox" do |vb|
     # Customize the amount of memory on the VM:

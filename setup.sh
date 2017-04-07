@@ -9,13 +9,13 @@
 
 # add vagrant box if not added
 readonly DEFAULT_BOXPATH="./rhel-6.8.virtualbox.box"
-echo Verifying vagrant box \"rhel-6.8\" added...
-vagrant box list | grep rhel-6.8 >/dev/null 2>&1 || {
+echo Verifying vagrant box \"rhel-6.8-5.1.18\" added...
+vagrant box list | grep rhel-6.8-5.1.18 >/dev/null 2>&1 || {
     echo Box not found.
     read -p "path to box file ($DEFAULT_BOXPATH): " boxpath
     boxpath=${boxpath:-$DEFAULT_BOXPATH}
     if [ -f $boxpath ]; then
-        vagrant box add rhel-6.8 $boxpath
+        vagrant box add rhel-6.8-5.1.18 $boxpath
     else
         echo $boxpath not found
         exit 1
