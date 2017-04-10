@@ -29,6 +29,12 @@ and the [Semantic-UI](http://react.semantic-ui.com/introduction) framework
   - Rather than retrieving a user record directly via User.query.filter_by, for instance, 
   a new method should be added to the `app.database.user.User` class and that method
   will be called to perform the retrieval.
+ 
+- Expected console warnings (as of 4/10/17):
+  - `Accessing PropTypes via the main React package is deprecated...`
+    - The current version of *react-router* is still using `React.PropTypes`
+  - `MaskedInput: React.createClass is deprecated...`
+    - The current version of *react-text-mask* is still using `React.createClass`
 
 
 ### Redux Usage

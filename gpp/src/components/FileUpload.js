@@ -1,8 +1,9 @@
-import React, {Component, PropTypes} from 'react'
-import {Progress, Grid, Segment, Message} from 'semantic-ui-react'
-import {readCookie} from '../utils/cookie'
-import {csrfFetch} from '../utils/fetch'
-import {FormFieldPrompt} from './custom'
+import React, {Component} from 'react';
+import PropTypes from 'prop-types';
+import {Progress, Grid, Segment, Message} from 'semantic-ui-react';
+import {readCookie} from '../utils/cookie';
+import {csrfFetch} from '../utils/fetch';
+import {FormFieldPrompt} from './custom';
 
 
 class FileRow extends Component {

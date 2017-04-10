@@ -1,7 +1,8 @@
-import React, {Component, PropTypes} from 'react'
-import {Message, Form} from 'semantic-ui-react'
-import {FormFieldPrompt, withValidation} from './custom'
-import FileUpload from './FileUpload'
+import React, {Component} from 'react';
+import PropTypes from 'prop-types';
+import {Message, Form} from 'semantic-ui-react';
+import {FormFieldPrompt, withValidation} from './custom';
+import FileUpload from './FileUpload';
 
 
 class SubmitForm extends Component {
@@ -39,7 +40,7 @@ class SubmitForm extends Component {
     return (
       <Form
         onSubmit={this.handleSubmit}
-        // only set error attribute if there is an error * message *
+        // only set error attribute if there is an error *message*
         { ...typeof stateError === "string" && {error: true} }
         { ...stateLoading && {loading: true} }
       >

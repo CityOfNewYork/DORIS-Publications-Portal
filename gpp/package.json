@@ -7,14 +7,16 @@
     "redux-devtools": "^3.3.2"
   },
   "dependencies": {
-    "react": "^15.4.2",
-    "react-dom": "^15.4.2",
-    "react-redux": "^5.0.3",
+    "prop-types": "^15.5.6",
+    "react": "^15.5.3",
+    "react-dom": "^15.5.3",
+    "react-redux": "^5.0.4",
     "react-router": "^4.0.0",
     "react-router-dom": "^4.0.0",
+    "react-text-mask": "^4.1.0",
     "redux": "^3.6.0",
-    "redux-persist": "^4.4.2",
-    "semantic-ui-react": "^0.67.0"
+    "redux-persist": "^4.6.0",
+    "semantic-ui-react": "^0.67.2"
   },
   "scripts": {
     "start": "react-scripts start",
