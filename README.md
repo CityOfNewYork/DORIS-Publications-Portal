@@ -24,6 +24,11 @@ and the [Semantic-UI](http://react.semantic-ui.com/introduction) framework
   `npm run build`--and will transfer it to `app/`.
   - Since **`master`** should always be in a production-ready state, `build.sh` should 
   be executed before pushing to the branch whenever any frontend changes are made.
+  
+- SQLAlchemy query code should be restricted to the `app/database/` directory.
+  - Rather than retrieving a user record directly via User.query.filter_by, for instance, 
+  a new method should be added to the `app.database.user.User` class and that method
+  will be called to perform the retrieval.
 
 
 ### Redux Usage

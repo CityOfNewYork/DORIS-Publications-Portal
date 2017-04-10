@@ -1,10 +1,10 @@
+from .event import EventDocument
 from app.database import db
-from app.models import EventDocument
 
 
-class Document(db.Model):  # TODO: deal with publication.py -> document.py change
+class Document(db.Model):
     """
-    Define the Publication class for the table 'publication' with the following:
+    Define the Document class for the table 'publication' with the following:
     
     COLUMNS         MODS 3.6 EQUIVALENT     DESCRIPTION
     
@@ -48,24 +48,48 @@ class Document(db.Model):  # TODO: deal with publication.py -> document.py chang
     - Temporal options? Geographic options?
     
     """
-    __tablename__ = "publication"
+    __tablename__ = "document"
 
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(), nullable=False)
     subtitle = db.Column(db.String())
-    names = db.Column(db.Json, nullable=False)
-    type = db.Column(db.Enum(name="publication_type"), nullable=False)
-    publisher = db.Column(db.varchar(), nullable=False)
-    date_created = db.Column(db.datetime(), nullable=False)
-    date_issued = db.Column(db.datetime(), nullable=False)
-    language = db.Column(db.Enum(name="language"), nullable=False)
-    topic = db.Column(db.Enum(name="topic"), nullable=False)
-    geographic = db.Column(db.varchar())
-    temporal = db.Column(db.Enum(name="temporal"), nullable=False)
-    url = db.Column(db.varchar())
+    names = db.Column(db.JSON(), nullable=False)
+    type = db.Column(
+        db.Enum(
+            "foo",
+            name="document_type"
+        ),
+        nullable=False
+    )
+    publisher = db.Column(db.String(), nullable=False)
+    date_created = db.Column(db.DateTime(), nullable=False)
+    date_issued = db.Column(db.DateTime(), nullable=False)
+    language = db.Column(
+        db.Enum(
+            "bar",
+            name="language"
+        ),
+        nullable=False
+    )
+    topic = db.Column(
+        db.Enum(
+            "baz",
+            name="topic"
+        ),
+        nullable=False
+    )
+    geographic = db.Column(db.String())
+    temporal = db.Column(
+        db.Enum(
+            "qux",
+            name="temporal"
+        ),
+        nullable=False
+    )
+    url = db.Column(db.String())
 
-    files = db.relationship("File")
-    events = db.relationship("EventDocument", lazy="dynamic")
+    # files = db.relationship("File")
+    # events = db.relationship("EventDocument", lazy="dynamic")
 
     @property
     def status(self):  # TODO: move to registration

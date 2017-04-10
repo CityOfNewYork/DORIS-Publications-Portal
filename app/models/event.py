@@ -18,7 +18,9 @@ class EventDocument(db.Model):
     for corrections, resubmitted with corrections, and approved.
         
     """
-    pass
+    __tablename__ = "event_document"
+
+    id = db.Column(db.Integer, primary_key=True)
 
 
 class EventRegistration(db.Model):
@@ -35,4 +37,6 @@ class EventRegistration(db.Model):
     For keeping track of when a registration was created and denied and by whom.
     
     """
-    pass
+    __tablename__ = "event_registration"
+
+    id = db.Column(db.Integer, primary_key=True)

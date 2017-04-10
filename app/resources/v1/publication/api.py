@@ -1,7 +1,7 @@
 from flask import request
 from flask_restful import Resource
 from app.resources.lib import api_response
-from app.models import Publication
+from app.models import Document
 from .forms import SubmitForm
 from flask_login import login_required
 
@@ -9,10 +9,10 @@ from flask_login import login_required
 class PublicationAPI(Resource):
 
     def get(self, id):
-        pub = Publication(id,
-                          'A Title',
-                          'TYPE',
-                          'A description.')
+        pub = Document(id,
+                       'A Title',
+                       'TYPE',
+                       'A description.')
         return api_response.success({
             'publication': {
                 'id': pub.id,
@@ -31,10 +31,10 @@ class PublicationAPI(Resource):
 
         if form.validate():
             # create publication
-            pub = Publication(1,  # id
-                              form.title.data,
-                              form.type.data,
-                              form.description.data)  # TODO: combined files name
+            pub = Document(1,  # id
+                           form.title.data,
+                           form.type.data,
+                           form.description.data)  # TODO: combined files name
             return api_response.success({
                 'publication': {
                     'id': pub.id,

@@ -14,7 +14,7 @@ PRD = 'production'
 class Config(object):
     SECRET_KEY = env.get('SECRET_KEY') or 'you better change me'
 
-    SQLALCHEMY_DATABASE_URI = env.get('SQLALCHEMY_DATABASE_URI')
+    SQLALCHEMY_DATABASE_URI = env.get('SQLALCHEMY_DATABASE_URI') or 'postgresql://gpp_db@127.0.0.1:5432/gpp'
     SQLALCHEMY_TRACK_MODIFICATIONS = False  # disables warning
 
     UPLOAD_DIRECTORY = env.get('UPLOAD_DIRECORY') or os.path.join(basedir, 'uploads')

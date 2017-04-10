@@ -13,6 +13,7 @@ class User(db.Model, UserMixin):
     middle_initial          varchar(1), middle initial of user (single character)
     last_name               varchar(64), last name of user
     email                   varchar(254), email address of user
+    phone                   varchar(25), phone number of variable format
     email_validated         boolean, has user has validated its email address?
     terms_of_use_accepted   boolean, has the user accepted the latest terms of use?
     is_poc                  boolean, is the user an agency point of contact?
@@ -44,7 +45,8 @@ class User(db.Model, UserMixin):
     first_name = db.Column(db.String(64), nullable=False)
     middle_initial = db.Column(db.String(1))
     last_name = db.Column(db.String(64), nullable=False)
-    email = db.Column(db.String(254), nullable=False)
+    email = db.Column(db.String(254), nullable=False, unique=True)
+    phone = db.Column(db.String(25))
     email_validated = db.Column(db.Boolean(), nullable=False, default=False)
     terms_of_use_accepted = db.Column(db.Boolean(), nullable=False, default=False)
     is_poc = db.Column(db.Boolean(), nullable=False, default=False)
