@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {Link} from 'react-router-dom';
-import {Form, Segment} from 'semantic-ui-react';
+import {Form, Table, Segment, Message} from 'semantic-ui-react';
 import {MaskedInput} from 'react-text-mask';
 
 
@@ -19,8 +19,57 @@ class Register extends Component {
         { registered ? (
           <div>
             <h1>Registration Status: <span>Pending</span></h1>
-            <p>Other relevant information...</p>
-            <p>While waiting for approval, you are free to <Link to="/search">search</Link> for publications.</p>
+            <Message warning>
+              <p>We have emailed your agency's point of contact: <strong>Jane Doe ( jdoe@mail.com )</strong>.</p>
+              <p>If this is not your agency's point of contact, please
+                <a href="mailto:fake@email.com"> contact us</a> immediately.</p>
+            </Message>
+            <Table celled striped>
+              <Table.Header>
+                <Table.Row>
+                  <Table.HeaderCell colSpan="3">John Smith</Table.HeaderCell>
+                </Table.Row>
+              </Table.Header>
+              <Table.Body>
+                {/* Agency */}
+                <Table.Row>
+                  <Table.Cell>
+                    Agency
+                  </Table.Cell>
+                  <Table.Cell>
+                    DORIS - Department of Records and Information Services
+                  </Table.Cell>
+                </Table.Row>
+                {/* Email */}
+                <Table.Row>
+                  <Table.Cell>
+                    Email
+                  </Table.Cell>
+                  <Table.Cell>
+                    jsmith@email.com
+                  </Table.Cell>
+                </Table.Row>
+                {/* Phone */}
+                <Table.Row>
+                  <Table.Cell>
+                    Phone
+                  </Table.Cell>
+                  <Table.Cell>
+                    (123) 456-7890
+                  </Table.Cell>
+                </Table.Row>
+                {/* Submission Date */}
+                <Table.Row>
+                  <Table.Cell>
+                    Submission Date
+                  </Table.Cell>
+                  <Table.Cell>
+                    Tuesday April 11, 2017
+                  </Table.Cell>
+                </Table.Row>
+              </Table.Body>
+            </Table>
+            <h5>While waiting for approval, you are free to <Link to="/search">search</Link> for publications.</h5>
           </div>
         ) : (
           <div>

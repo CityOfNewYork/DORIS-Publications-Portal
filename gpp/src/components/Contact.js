@@ -4,7 +4,7 @@ import {Container} from 'semantic-ui-react';
 
 const Contact = () => (
   <Container>
-    <h1>Contact</h1>
+    <h1>Contact Us</h1>
     <p>
       Maecenas sed diam eget risus varius blandit sit amet non magna. Cum sociis natoque penatibus et magnis dis
       parturient montes, nascetur ridiculus mus. Donec sed odio dui. Nulla vitae elit libero, a pharetra augue.
