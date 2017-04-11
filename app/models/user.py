@@ -71,5 +71,23 @@ class User(db.Model, UserMixin):
         self.email_validated = email_validated
         self.terms_of_use_accepted = terms_of_use_accepted
 
+    def __repr__(self):
+        return '<User "{}" ({}, {})>'.format(self.name, self.guid, self.auth_type, self.name)
+
     def get_id(self):
+        """ Overrides UserMixin.get_id() """
         return USER_ID_DELIMETER.join((self.guid, self.auth_type))
+
+    @property
+    def is_registered(self):  # TODO: get via registration record
+        return False
+
+    @property
+    def name(self):
+        if self.middle_initial is not None:
+            name = "{f} {m}. {l}".format(f=self.first_name.title(),
+                                         m=self.middle_initial.upper(),
+                                         l=self.last_name.title())
+        else:
+            name = " ".join((self.first_name.title(), self.last_name.title()))
+        return name

@@ -20,13 +20,7 @@ def session_context():
 
 
 class Object(metaclass=ABCMeta):
-    """ Abstract base class for database objects. """
-
-    @staticmethod
-    @abstractmethod
-    def get():
-        """ Retrieves and returns a database object with the supplied identifier. """
-        return
+    """ Abstract base class for manipulating database objects with SQLAlchemy. """
 
     @staticmethod
     @abstractmethod
@@ -34,14 +28,22 @@ class Object(metaclass=ABCMeta):
         """ Creates and returns a database object. """
         return
 
-    @staticmethod
+    @classmethod
     @abstractmethod
-    def update():
-        """ Updates and returns a database object. """
+    def get(cls, key):
+        """ Retrieves and returns a database object with the supplied identifier. """
         return
 
     @staticmethod
     @abstractmethod
-    def delete():
-        """ Deletes a database record. """
+    def update(key, **kwargs):
+        """ Updates a database object. """
         return
+
+    @classmethod
+    @abstractmethod
+    def delete(cls, key):
+        """ Deletes a database record. """
+        obj = cls.get(key)
+        with session_context:
+            db.session.delete(obj)

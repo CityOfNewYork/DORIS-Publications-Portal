@@ -46,10 +46,11 @@ manager.add_command("runserver", ServerWithRedis())
 
 def make_shell_context():
     from flask import current_app
-    from app import models
+    from app import models, database
     return dict(
         current_app=current_app,
         db=db,
+        database=database,
         models=models
     )
 
