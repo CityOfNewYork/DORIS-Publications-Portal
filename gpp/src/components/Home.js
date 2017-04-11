@@ -1,51 +1,10 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {Menu, Segment, Container} from 'semantic-ui-react';
-import {
-  loginUser,
-  logoutUser,
-  registerUser,
-  deregisterUser,
-  approveUser,
-  denyUser
-} from '../actions/auth'
+import {mapStateToProps, mapDispatchToProps} from '../utils/reduxMappers'
 import Submit from './Submit'
 import Search from './Search'
 import Register from './Register'
-
-
-// TODO: move to redux.js
-
-const mapStateToProps = (state) => {
-  return {
-    authenticatedFE: state.authenticated,
-    registered: state.registered,
-    approved: state.approved,
-  }
-};
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    loginFE: () => {
-      dispatch(loginUser())
-    },
-    logoutFE: () => {
-      dispatch(logoutUser())
-    },
-    register: () => {
-      dispatch(registerUser())
-    },
-    deregister: () => {
-      dispatch(deregisterUser())
-    },
-    approve: () => {
-      dispatch(approveUser())
-    },
-    deny: () => {
-      dispatch(denyUser())
-    }
-  }
-};
 
 
 class Home extends Component {

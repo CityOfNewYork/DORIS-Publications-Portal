@@ -1,5 +1,5 @@
 /**
- * Custom components that can be used alongside semantic-ui-react components
+ * Custom and utility components that can be used alongside semantic-ui-react components
  */
 import React from 'react'
 import {csrfFetch} from '../utils/fetch'

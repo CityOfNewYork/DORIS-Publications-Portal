@@ -1,50 +1,9 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {Link} from 'react-router-dom';
-import {
-  loginUser,
-  logoutUser,
-  registerUser,
-  deregisterUser,
-  approveUser,
-  denyUser
-} from '../actions/auth'
+import {mapStateToProps, mapDispatchToProps} from '../utils/reduxMappers'
 import {Menu, Icon} from 'semantic-ui-react';
 import {csrfFetch} from "./Submit"
-
-
-// TODO: move to redux.js
-
-const mapStateToProps = (state) => {
-  return {
-    authenticatedFE: state.authenticated,
-    registered: state.registered,
-    approved: state.approved,
-  }
-};
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    loginFE: () => {
-      dispatch(loginUser())
-    },
-    logoutFE: () => {
-      dispatch(logoutUser())
-    },
-    register: () => {
-      dispatch(registerUser())
-    },
-    deregister: () => {
-      dispatch(deregisterUser())
-    },
-    approve: () => {
-      dispatch(approveUser())
-    },
-    deny: () => {
-      dispatch(denyUser())
-    }
-  }
-};
 
 
 class Navbar extends Component {
@@ -69,7 +28,7 @@ class Navbar extends Component {
   };
 
   activeClassIfPath = (path) => (
-      location.pathname === path ? "active" : ""
+    location.pathname === path ? "active" : ""
   );
 
   render() {
