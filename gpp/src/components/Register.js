@@ -64,12 +64,15 @@ class Register extends Component {
               <Form.Group widths="equal">
                 {/* Phone */}
                 <Form.Input
+                  required
                   label="Phone"
                   name="phone"
                   children={
                     <MaskedInput
                       mask={['(', /[1-9]/, /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/]}
                       placeholder="(123) 456-7890"
+                      required
+                      pattern="^[\(]\d{3}[\)][ ]\d{3}[\-]\d{4}$"
                     />
                   }
                 />

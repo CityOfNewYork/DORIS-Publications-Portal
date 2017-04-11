@@ -17,7 +17,7 @@ export const ROUTE = {
   submit: "/submit",
   register: "/register",
   dashboard: "/dashboard",
-  publications: "/publication",
+  publications: "/publications",
   profile: "/profile",
   registrants: "/registrants",
   submissions: "/submissions"
