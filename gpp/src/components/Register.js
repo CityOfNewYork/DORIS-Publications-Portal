@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
+import {Link} from 'react-router-dom';
 import {Form, Segment} from 'semantic-ui-react';
 import {MaskedInput} from 'react-text-mask';
 
@@ -19,6 +20,7 @@ class Register extends Component {
           <div>
             <h1>Registration Status: <span>Pending</span></h1>
             <p>Other relevant information...</p>
+            <p>While waiting for approval, you are free to <Link to="/search">search</Link> for publications.</p>
           </div>
         ) : (
           <div>
@@ -79,7 +81,7 @@ class Register extends Component {
                 />
               </Form.Group>
               <Segment>
-                {/* Registration Terms*/}
+                {/* Registration Terms */}
                 <Form.Checkbox
                   label="I acknowledge that I am the designated agency contact for submission of records to the ML.
                   If there is any change (such as my reassignment to other duties or some other agency), I will notify

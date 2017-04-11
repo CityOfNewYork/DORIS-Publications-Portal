@@ -44,6 +44,8 @@ class SubmitForm extends Component {
         { ...typeof stateError === "string" && {error: true} }
         { ...stateLoading && {loading: true} }
       >
+        <h2>Document Submission</h2>
+        {/* Files */}
         <Form.Field
           required
           label="File(s)"
@@ -57,6 +59,7 @@ class SubmitForm extends Component {
         </Form.Field>
 
         <Form.Group widths="equal">
+          {/* Title */}
           <Form.Field>
             <Form.Input
               label="Title"
@@ -69,6 +72,7 @@ class SubmitForm extends Component {
             />
             { stateError.hasOwnProperty("title") && <FormFieldPrompt content={ stateError.title }/> }
           </Form.Field>
+          {/* Type */}
           <Form.Field>
             <Form.Select
               label="Type"
@@ -86,6 +90,7 @@ class SubmitForm extends Component {
         </Form.Group>
 
         <Form.Field>
+          {/* Description */}
           <Form.TextArea
             label="Description"
             placeholder="Look at me, I'm a Description. LOOK AT ME."

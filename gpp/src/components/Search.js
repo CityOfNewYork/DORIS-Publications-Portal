@@ -10,6 +10,7 @@ class Search extends Component {
   render() {
     return (
       <div>
+        <h1>Search Publications</h1>
         <p>
           Vestibulum id ligula porta felis euismod semper. Praesent commodo cursus magna, vel scelerisque nisl
           consectetur et. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa
