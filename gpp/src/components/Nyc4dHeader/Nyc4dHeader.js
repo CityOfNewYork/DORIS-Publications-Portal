@@ -24,7 +24,7 @@ const Nyc4dHeader = () => (
               inverted
               trigger={<a href="">Log In</a>}
               content='Only NYC agency employees can be granted authorization to submit documents.
-              If are not employed by a city agency, please do not attempt to log in.'
+              If you are not employed by a city agency, please do not attempt to log in.'
             />
           </span>
         </span>
