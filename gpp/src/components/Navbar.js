@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import {Link} from 'react-router-dom';
 import {mapStateToProps, mapDispatchToProps} from '../utils/reduxMappers'
 import {Menu, Icon} from 'semantic-ui-react';
-import {csrfFetch} from "./Submit"
+import {csrfFetch} from "../utils/fetch"
 
 
 class Navbar extends Component {

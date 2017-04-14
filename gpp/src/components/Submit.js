@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {Message, Form} from 'semantic-ui-react';
-import {FormFieldPrompt, withValidation} from './custom';
+import {FormFieldErrorLabel, withValidation} from './custom';
 import FileUpload from './FileUpload';
 
 
@@ -70,7 +70,7 @@ class SubmitForm extends Component {
               maxLength="10"
               required
             />
-            { stateError.hasOwnProperty("title") && <FormFieldPrompt content={ stateError.title }/> }
+            { stateError.hasOwnProperty("title") && <FormFieldErrorLabel content={ stateError.title }/> }
           </Form.Field>
           {/* Type */}
           <Form.Field>
@@ -85,7 +85,7 @@ class SubmitForm extends Component {
               onChange={handleFieldChange}
               required
             />
-            { stateError.hasOwnProperty("type") && <FormFieldPrompt content={ stateError.type }/> }
+            { stateError.hasOwnProperty("type") && <FormFieldErrorLabel content={ stateError.type }/> }
           </Form.Field>
         </Form.Group>
 
@@ -99,7 +99,7 @@ class SubmitForm extends Component {
             onChange={handleFieldChange}
             required
           />
-          { stateError.hasOwnProperty("description") && <FormFieldPrompt content={ stateError.description }/> }
+          { stateError.hasOwnProperty("description") && <FormFieldErrorLabel content={ stateError.description }/> }
         </Form.Field>
 
         <Form.Button fluid>Submit</Form.Button>

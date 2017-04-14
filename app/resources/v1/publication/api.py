@@ -1,9 +1,13 @@
 from flask import request
 from flask_restful import Resource
 from app.resources.lib import api_response
-from app.models import Document
+# from app.models import Document
 from .forms import SubmitForm
 from flask_login import login_required
+
+
+from collections import namedtuple
+Document = namedtuple("Document", ["id", "title", "type", "description"])
 
 
 class PublicationAPI(Resource):

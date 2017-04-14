@@ -33,7 +33,7 @@ class Register extends Component {
             </Message>
             <Table celled striped>
               <Table.Header>
-                <Table.Row>
+                <Table.Row>w
                   <Table.HeaderCell colSpan="3">John Smith</Table.HeaderCell>
                 </Table.Row>
               </Table.Header>

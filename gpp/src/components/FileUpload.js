@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import {Progress, Grid, Segment, Message} from 'semantic-ui-react';
 import {readCookie} from '../utils/cookie';
 import {csrfFetch} from '../utils/fetch';
-import {FormFieldPrompt} from './custom';
+import {FormFieldErrorLabel} from './custom';
 
 
 class FileRow extends Component {
@@ -244,7 +244,7 @@ class FileUpload extends Component {
           </Grid.Column>
         </Grid>
         { message && <Message content={ message }/> }
-        { hasError && <FormFieldPrompt content="You must add at least 1 file." /> }
+        { hasError && <FormFieldErrorLabel content="You must add at least 1 file." /> }
       </Segment>
     )
   }

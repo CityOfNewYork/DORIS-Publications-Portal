@@ -7,15 +7,16 @@ import {omit} from '../utils/object'
 
 
 /**
- * Use this to display error, warning, etc. messages directly below a form field.
+ * Use this to display error messages directly below a form field.
+ * For other form field messages use semantic-ui-react.Label.
  *
  * Example:
  *    <Form.Field>
  *      <Form.Input ... />
- *      { isThereAnError && <FormFieldPrompt content=( theError }/>
+ *      { isThereAnError && <FormFieldErrorLabel content=( theError }/>
  *    </Form.Field>
  */
-const FormFieldPrompt = ({content}) => (
+const FormFieldErrorLabel = ({content}) => (
   <div className="ui basic red pointing prompt label">
     { content }
   </div>
@@ -106,4 +107,4 @@ function withValidation(method, action, FormComponent) {
   }
 }
 
-export {FormFieldPrompt, withValidation};
+export {FormFieldErrorLabel, withValidation};
