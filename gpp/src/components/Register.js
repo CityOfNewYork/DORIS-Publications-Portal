@@ -11,17 +11,40 @@ class Register extends Component {
     registered: PropTypes.bool.isRequired,  // TODO: fetch instead of prop
   };
 
+  state = {
+    denied: false
+  };
+
+  toggleStatus = () => {
+    this.setState({denied: !this.state.denied})
+  };
+
   render() {
     const {registered} = this.props;
+    const {denied} = this.state;
 
     return (
       <div>
         { registered ? (
           <div>
-            <h1>Registration Status: <span style={{color: '#21ba45'}}>Pending</span></h1>
+            <h1>Registration Status:
+              <span
+                style={{color: (denied ? 'red' : '#21ba45')}}
+                onClick={this.toggleStatus}
+              >
+                 &nbsp;{denied ? "DENIED" : "PENDING"}
+              </span>
+            </h1>
             <p>
-              It looks like you have already registered. Your application is in the process of being reviewed by your
-              agency's designated point of contact.
+              It looks like you have already applied for authorization to submit documents to this portal.
+              <br/>
+              {denied ?
+                <span>
+                  Your application was denied. If you have any questions pertaining to this denial, please
+                  <a href="mailto:fake@email.com"> email us</a>.
+                </span>
+                :
+                "Your application is in the process of being reviewed by your agency's designated point of contact."}
             </p>
             <p>Please check the information below.</p>
             <Message warning>
@@ -33,7 +56,7 @@ class Register extends Component {
             </Message>
             <Table celled striped>
               <Table.Header>
-                <Table.Row>w
+                <Table.Row>
                   <Table.HeaderCell colSpan="3">John Smith</Table.HeaderCell>
                 </Table.Row>
               </Table.Header>
@@ -76,18 +99,21 @@ class Register extends Component {
                 </Table.Row>
               </Table.Body>
             </Table>
-            <h5>While waiting for approval, you are free to <Link to="/search">search</Link> for publications.</h5>
+            <h5>
+              { denied ? "You can still " : "While waiting for approval, you are free to " }
+              <Link to="/search">search</Link> for publications.
+            </h5>
           </div>
         ) : (
           <div>
             <h1>Portal Registration</h1>
             <p>
-              Welcome to the New York City Government Publications Portal. Each New York City agency should have a staff
-              member authorized by their agency to submit documents to the Portal in compliance with Charter Section
-              1133 requirements.
+              Welcome to the New York City Government Publications Portal. Each New York City agency should have at
+              least one staff member authorized by their agency to submit documents to the Portal in compliance with
+              Charter Section 1133 requirements.
             </p>
             <p>
-              Please fill out the form to register here as your agency’s authorized user. Most fields have been
+              Please fill out the form to register here as an authorized user for your agency. Most fields have been
               pre-populated with information from your user account. Please add your <strong>agency</strong> and
               <strong> telephone number</strong>.
             </p>
