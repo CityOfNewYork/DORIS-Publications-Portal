@@ -23,7 +23,8 @@ const Nyc4dHeader = () => (
             <Popup
               inverted
               trigger={<a href="">Log In</a>}
-              content='Official language for what will translate into, "You sure you want to do this, buddy?"'
+              content='Only NYC agency users can be granted authorization to submit publications.
+              If you do not belong to a city agency, please do not log in.'
             />
           </span>
         </span>

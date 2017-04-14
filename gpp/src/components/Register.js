@@ -18,11 +18,18 @@ class Register extends Component {
       <div>
         { registered ? (
           <div>
-            <h1>Registration Status: <span>Pending</span></h1>
+            <h1>Registration Status: <span style={{color: '#21ba45'}}>Pending</span></h1>
+            <p>
+              It looks like you have already registered. Your application is in the process of being reviewed by your
+              agency's designated point of contact.
+            </p>
+            <p>Please check the information below.</p>
             <Message warning>
               <p>We have emailed your agency's point of contact: <strong>Jane Doe ( jdoe@mail.com )</strong>.</p>
-              <p>If this is not your agency's point of contact, please
-                <a href="mailto:fake@email.com"> contact us</a> immediately.</p>
+              <p>
+                If this is not your agency's point of contact, please <a href="mailto:fake@email.com">email </a>
+                or call us at <a href="tel:+2127888590">212-788-8590</a> immediately.
+              </p>
             </Message>
             <Table celled striped>
               <Table.Header>
@@ -74,7 +81,16 @@ class Register extends Component {
         ) : (
           <div>
             <h1>Portal Registration</h1>
-            <p>Please fill out the following form to apply for access to our submissions portal.</p>
+            <p>
+              Welcome to the New York City Government Publications Portal. Each New York City agency should have a staff
+              member authorized by their agency to submit documents to the Portal in compliance with Charter Section
+              1133 requirements.
+            </p>
+            <p>
+              Please fill out the form to register here as your agency’s authorized user. Most fields have been
+              pre-populated with information from your user account. Please add your <strong>agency</strong> and
+              <strong> telephone number</strong>.
+            </p>
             <Form>
               <Form.Dropdown
                 required
