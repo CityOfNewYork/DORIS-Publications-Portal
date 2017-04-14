@@ -2,24 +2,22 @@
  * Custom and utility components that can be used alongside semantic-ui-react components
  */
 import React from 'react'
+import {Label} from 'semantic-ui-react'
 import {csrfFetch} from '../utils/fetch'
 import {omit} from '../utils/object'
 
 
 /**
  * Use this to display error messages directly below a form field.
- * For other form field messages use semantic-ui-react.Label.
  *
  * Example:
  *    <Form.Field>
  *      <Form.Input ... />
- *      { isThereAnError && <FormFieldErrorLabel content=( theError }/>
+ *      { isThereAnError && <ErrorLabel content=( theError }/>
  *    </Form.Field>
  */
-const FormFieldErrorLabel = ({content}) => (
-  <div className="ui basic red pointing prompt label">
-    { content }
-  </div>
+const ErrorLabel = ({content}) => (
+  <Label className="prompt" pointing color="red" content={content}/>
 );
 
 /**
@@ -107,4 +105,4 @@ function withValidation(method, action, FormComponent) {
   }
 }
 
-export {FormFieldErrorLabel, withValidation};
+export {ErrorLabel, withValidation};
