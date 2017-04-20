@@ -56,6 +56,7 @@ class Document(db.Model):
     names = db.Column(db.JSON(), nullable=False)
     type = db.Column(
         db.Enum(
+
             "foo",
             name="document_type"
         ),

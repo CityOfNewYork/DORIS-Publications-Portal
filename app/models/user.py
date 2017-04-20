@@ -1,6 +1,7 @@
 from flask_login import UserMixin
 from app.database import db
-from app.constants import user_auth_type, USER_ID_DELIMETER
+from app.constants import USER_ID_DELIMETER
+from ._enums import user_auth_type as enum_user_auth_type
 
 
 class User(db.Model, UserMixin):
@@ -16,8 +17,9 @@ class User(db.Model, UserMixin):
     phone                   varchar(25), phone number of variable format
     email_validated         boolean, has user has validated its email address?
     terms_of_use_accepted   boolean, has the user accepted the latest terms of use?
+    agency_ein              integer, foreign key to 'agency' table
     is_poc                  boolean, is the user an agency point of contact?
-    is_library              boolean, is the user a member of DORIS library staff?
+    is_admin                boolean, is the user an administrator (member of DORIS library staff)?
     is_super                boolean, is the user an all-powerful super user?
 
     Most fields are provided by NYC.ID Authentication Web Service SAML Assertion.
@@ -29,19 +31,7 @@ class User(db.Model, UserMixin):
     __tablename__ = "auth_user"
 
     guid = db.Column(db.String(64), primary_key=True)
-    auth_type = db.Column(
-        db.Enum(
-            user_auth_type.NYC_ID,
-            user_auth_type.NYC_EMPLOYEES,
-            user_auth_type.FACEBOOK,
-            user_auth_type.MICROSOFT,
-            user_auth_type.YAHOO,
-            user_auth_type.LINKEDIN,
-            user_auth_type.GOOGLE,
-            name='user_auth_type'
-        ),
-        primary_key=True
-    )
+    auth_type = db.Column(enum_user_auth_type, primary_key=True)
     first_name = db.Column(db.String(64), nullable=False)
     middle_initial = db.Column(db.String(1))
     last_name = db.Column(db.String(64), nullable=False)
