@@ -1,10 +1,11 @@
-from .event import EventDocument
 from app.database import db
+from app.constants import document_action
+from .event import DocumentEvent
 
 
 class Document(db.Model):
     """
-    Define the Document class for the table 'publication' with the following:
+    Define the Document class for the table 'publication' with the following columns:
     
     COLUMNS         MODS 3.6 EQUIVALENT     DESCRIPTION
     
@@ -27,26 +28,6 @@ class Document(db.Model):
         
     language codes are retrieved from https://www.loc.gov/standards/iso639-2/php/code_list.php
     
-    QUESTIONS:
-    - date issued - of original document in pdf or once published in portal?
-    - Structure of name form field (just like in metadata maker)?
-        structure of json?
-        [
-            {
-                "first": "Jane"
-                "last": "Doe"
-                "type": "author"
-                ...
-            },
-            ...
-        ]
-    - Shouldn't a table of contents be included in the PDF itself, storing it might be useless?
-    - What are the contents of the type (genre.type) dropdown?
-    - typeOfResource options?
-    - Should topic be a user input that becomes a tag that other users can use or are we just 
-        making it a dropdown?
-    - Temporal options? Geographic options?
-    
     """
     __tablename__ = "document"
 
@@ -56,7 +37,6 @@ class Document(db.Model):
     names = db.Column(db.JSON(), nullable=False)
     type = db.Column(
         db.Enum(
-
             "foo",
             name="document_type"
         ),
@@ -89,9 +69,17 @@ class Document(db.Model):
     )
     url = db.Column(db.String())
 
-    # files = db.relationship("File")
-    # events = db.relationship("EventDocument", lazy="dynamic")
+    files = db.relationship("File", backref=db.backref("document", use_list=False))
+    events = db.relationship("DocumentEvent", lazy="dynamic", backref=db.backref("document", use_list=False))
 
     @property
-    def status(self):  # TODO: move to registration
-        return self.events.order_by(EventDocument.timestamp).first().type
+    def status(self):
+        return self.events.order_by(DocumentEvent.timestamp.desc()).first().action
+
+    @property
+    def date_created(self):
+        return self.events.order_by(DocumentEvent.timestamp.asc()).first().timestamp
+
+    @property
+    def date_published(self):
+        return self.events.filter_by(document_action.PUBLISHED).one().timestamp

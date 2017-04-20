@@ -69,8 +69,8 @@ class User(db.Model, UserMixin):
         return USER_ID_DELIMETER.join((self.guid, self.auth_type))
 
     @property
-    def is_registered(self):  # TODO: get via registration record
-        return False
+    def is_registered(self):
+        return self.registration.is_approved
 
     @property
     def name(self):
