@@ -45,7 +45,7 @@ class User(db.Model, UserMixin):
     is_super = db.Column(db.Boolean(), nullable=False, default=False)
 
     # relationships
-    registration = db.relationship("Registration", uselist=False, back_populates="registrant")
+    registrations = db.relationship("Registration", back_populates="registrant")
     submissions = db.relationship("Document", back_populates="submitter")
 
     def __init__(self,

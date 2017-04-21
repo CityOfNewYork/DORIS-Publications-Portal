@@ -1,6 +1,6 @@
 """
 
-    For enum types shared across models/tables.
+    For enum types shared across model.
 
 """
 

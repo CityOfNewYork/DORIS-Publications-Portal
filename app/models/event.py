@@ -74,6 +74,9 @@ class RegistrationEvent(_Event):
     """
     __tablename__ = "event_registration"
     __mapper_args__ = {'polymorphic_identity': "registration"}
+    __table_args__ = [
+        db.UniqueConstraint("registration_id", "action")  # only one of each action per registration
+    ]
 
     # columns
     id = db.Column(db.Integer, db.ForeignKey(_Event.id), primary_key=True)

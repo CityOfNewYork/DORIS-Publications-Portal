@@ -72,7 +72,7 @@ class Document(db.Model):
 
     # relationships
     files = db.relationship("File", back_populates="document")
-    events = db.relationship("DocumentEvent", lazy="dynamic", back_populates="document")
+    events = db.relationship("DocumentEvent", back_populates="document", lazy="dynamic")
 
     @property
     def status(self):
