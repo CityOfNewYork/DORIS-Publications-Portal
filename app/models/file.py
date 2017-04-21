@@ -12,11 +12,17 @@ class File(db.Model):
     document_id     integer, foreign key to 'document.id'
     
     """
+    __tablename__ = "file"
+
+    # columns
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(), nullable=False)
     name = db.Column(db.String(), nullable=False)
     hash = db.Column(db.String(), nullable=False)
-    document_id = db.Column(db.Integer, nullable=False)
+    document_id = db.Column(db.Integer, db.ForeignKey("document.id"), nullable=False)
+
+    # relationships
+    document = db.relationship("Document", back_populates="files")
 
     def __init__(self, title, name, document_id):
         self.title = title

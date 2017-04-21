@@ -31,6 +31,7 @@ class Document(db.Model):
     """
     __tablename__ = "document"
 
+    # columns
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(), nullable=False)
     subtitle = db.Column(db.String())
@@ -69,8 +70,9 @@ class Document(db.Model):
     )
     url = db.Column(db.String())
 
-    files = db.relationship("File", backref=db.backref("document", use_list=False))
-    events = db.relationship("DocumentEvent", lazy="dynamic", backref=db.backref("document", use_list=False))
+    # relationships
+    files = db.relationship("File", back_populates="document")
+    events = db.relationship("DocumentEvent", lazy="dynamic", back_populates="document")
 
     @property
     def status(self):
@@ -83,3 +85,11 @@ class Document(db.Model):
     @property
     def date_published(self):
         return self.events.filter_by(document_action.PUBLISHED).one().timestamp
+
+    @property
+    def as_dict(self):
+        return {
+            "title": self.title,
+            "subtitle": self.subtitle,
+            # ...
+        }

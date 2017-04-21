@@ -30,6 +30,7 @@ class User(db.Model, UserMixin):
     """
     __tablename__ = "auth_user"
 
+    # columns
     guid = db.Column(db.String(64), primary_key=True)
     auth_type = db.Column(enum_user_auth_type, primary_key=True)
     first_name = db.Column(db.String(64), nullable=False)
@@ -40,8 +41,12 @@ class User(db.Model, UserMixin):
     email_validated = db.Column(db.Boolean(), nullable=False, default=False)
     terms_of_use_accepted = db.Column(db.Boolean(), nullable=False, default=False)
     is_poc = db.Column(db.Boolean(), nullable=False, default=False)
-    is_library = db.Column(db.Boolean(), nullable=False, default=False)
+    is_admin = db.Column(db.Boolean(), nullable=False, default=False)
     is_super = db.Column(db.Boolean(), nullable=False, default=False)
+
+    # relationships
+    registration = db.relationship("Registration", uselist=False, back_populates="registrant")
+    submissions = db.relationship("Document", back_populates="submitter")
 
     def __init__(self,
                  guid,
@@ -67,6 +72,10 @@ class User(db.Model, UserMixin):
     def get_id(self):
         """ Overrides UserMixin.get_id() """
         return USER_ID_DELIMETER.join((self.guid, self.auth_type))
+
+    @property
+    def agency(self):
+        return self.registration.agency
 
     @property
     def is_registered(self):

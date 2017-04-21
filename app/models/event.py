@@ -49,10 +49,14 @@ class DocumentEvent(_Event):
     __tablename__ = "event_document"
     __mapper_args__ = {'polymorphic_identity': "document"}
 
+    # columns
     id = db.Column(db.Integer, db.ForeignKey(_Event.id), primary_key=True)
     document_id = db.Column(db.Integer, db.ForeignKey("document.id"), nullable=False)
     action = db.Column(db.Enum(*document_action.ALL, name="document_action"), nullable=False)
     state = db.Column(db.JSON())
+
+    # relationships
+    document = db.relationship("Document", back_populates="events")
 
     def __init__(self, user_guid, user_auth_type, state=None):
         super().__init__(user_guid, user_auth_type)
@@ -71,6 +75,10 @@ class RegistrationEvent(_Event):
     __tablename__ = "event_registration"
     __mapper_args__ = {'polymorphic_identity': "registration"}
 
+    # columns
     id = db.Column(db.Integer, db.ForeignKey(_Event.id), primary_key=True)
     registration_id = db.Column(db.Integer, db.ForeignKey("registration.id"), nullable=False)
     action = db.Column(db.Enum(*registration_action.ALL, name="document_action"), nullable=False)
+
+    # relationships
+    registration = db.relationship("Registration", back_populates="events")
