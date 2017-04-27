@@ -36,6 +36,10 @@ and the [Semantic-UI](http://react.semantic-ui.com/introduction) framework
   - `MaskedInput: React.createClass is deprecated...`
     - The current version of *react-text-mask* is still using `React.createClass`
 
+### Customizing CSS Theme
+
+Should Semantic-UI vanilla styles become too bland, check 
+[this](https://github.com/Semantic-Org/Semantic-UI-React#can-i-use-a-customize-css-theme) out.
 
 ### Redux Usage
 

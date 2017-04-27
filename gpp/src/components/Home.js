@@ -61,6 +61,11 @@ class Home extends Component {
         this.setState({activeItem: nextActiveItem});
       }
     }
+    else {
+      if (!nextProps.approved) {
+        this.setState({activeItem: MENU_ITEM.register})
+      }
+    }
   }
 
   /**
