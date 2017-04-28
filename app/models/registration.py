@@ -15,16 +15,26 @@ class Registration(db.Model):
     
     """
     __tablename__ = "registration"
+    __table_args__ = (
+        db.ForeignKeyConstraint(
+            ["registrant_guid", "registrant_auth_type"],
+            ["auth_user.guid", "auth_user.auth_type"],
+        ),
+    )
 
     # columns
     id = db.Column(db.Integer, primary_key=True)
     registrant_guid = db.Column(db.String(64), nullable=False)
     registrant_auth_type = db.Column(user_auth_type, nullable=False)
-    agency_ein = db.Column(db.Integer, db.ForeignKey("agency.ein"), nullable=False)
+    agency_ein = db.Column(db.String(3), db.ForeignKey("agency.ein"), nullable=False)
 
     # relationships
     agency = db.relationship("Agency", back_populates="registrations")
-    registrant = db.relationship("User", back_populates="registrations")
+    registrant = db.relationship(
+        "User",
+        primaryjoin="and_(Registration.registrant_guid == User.guid, "
+                    "Registration.registrant_auth_type == User.auth_type)",
+        back_populates="registrations")
     events = db.relationship("RegistrationEvent", back_populates="registration", lazy="dynamic")
 
     @property

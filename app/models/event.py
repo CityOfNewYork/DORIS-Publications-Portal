@@ -15,12 +15,19 @@ class _Event(db.Model):
     
     """
     __tablename__ = "event"
-    __mapper_args__ = {'polymorphic_on': type}
+    __mapper_args__ = {'polymorphic_on': "type"}
+    __table_args__ = (
+        db.ForeignKeyConstraint(
+            ["agent_guid", "agent_auth_type"],
+            ["auth_user.guid", "auth_user.auth_type"],
+        ),
+    )
 
+    # columns
     id = db.Column(db.Integer, primary_key=True)
     timestamp = db.Column(db.DateTime, nullable=False)
-    user_guid = db.Column(db.Column(64), nullable=False)
-    user_auth_type = db.Column(user_auth_type, nullable=False)
+    agent_guid = db.Column(db.String(64), nullable=False)
+    agent_auth_type = db.Column(user_auth_type, nullable=False)
     type = db.Column(
         db.Enum(
             "document",
@@ -29,6 +36,13 @@ class _Event(db.Model):
         ),
         nullable=False
     )
+
+    # relationships
+    agent = db.relationship(
+        "User",
+        primaryjoin="and_(_Event.agent_guid == User.guid, "
+                    "_Event.agent_auth_type == User.auth_type)",
+        back_populates="events")
 
     def __init__(self, user_guid, user_auth_type):
         self.user_guid = user_guid
@@ -74,9 +88,9 @@ class RegistrationEvent(_Event):
     """
     __tablename__ = "event_registration"
     __mapper_args__ = {'polymorphic_identity': "registration"}
-    __table_args__ = [
-        db.UniqueConstraint("registration_id", "action")  # only one of each action per registration
-    ]
+    __table_args__ = (
+        db.UniqueConstraint("registration_id", "action"),  # only one of each action per registration
+    )
 
     # columns
     id = db.Column(db.Integer, db.ForeignKey(_Event.id), primary_key=True)

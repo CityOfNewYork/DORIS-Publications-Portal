@@ -55,7 +55,7 @@ class FileRow extends Component {
     let errorMsg = "";
     if (this.xhr.status !== 200) {
       try {
-        errorMsg = JSON.parse(this.xhr.responseText).message;
+        errorMsg = JSON.parse(this.xhr.responseText);
       }
       catch (err) {
         errorMsg = "Failed to upload file due to an unhandled server error. Please Remove and try again."
@@ -63,7 +63,7 @@ class FileRow extends Component {
     }
     this.setState({
       percent: 100,
-      error: errorMsg,
+      error: errorMsg.message || errorMsg.data,
       uploading: false
     })
   };

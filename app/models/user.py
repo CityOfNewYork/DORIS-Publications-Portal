@@ -17,7 +17,7 @@ class User(db.Model, UserMixin):
     phone                   varchar(25), phone number of variable format
     email_validated         boolean, has user has validated its email address?
     terms_of_use_accepted   boolean, has the user accepted the latest terms of use?
-    agency_ein              integer, foreign key to 'agency' table
+    agency_ein              varchar(3), foreign key to 'agency' table
     is_poc                  boolean, is the user an agency point of contact?
     is_admin                boolean, is the user an administrator (member of DORIS library staff)?
     is_super                boolean, is the user an all-powerful super user?
@@ -45,8 +45,18 @@ class User(db.Model, UserMixin):
     is_super = db.Column(db.Boolean(), nullable=False, default=False)
 
     # relationships
-    registrations = db.relationship("Registration", back_populates="registrant")
+    registrations = db.relationship(
+        "Registration",
+        primaryjoin="and_(User.guid == Registration.registrant_guid, "
+                    "User.auth_type == Registration.registrant_auth_type)",
+        back_populates="registrant")
     submissions = db.relationship("Document", back_populates="submitter")
+    events = db.relationship(
+        "_Event",
+        primaryjoin="and_(User.guid == _Event.agent_guid, "
+                    "User.auth_type == _Event.agent_auth_type)",
+        back_populates="agent"
+    )
 
     def __init__(self,
                  guid,

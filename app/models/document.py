@@ -86,8 +86,7 @@ class Document(db.Model):
     def date_published(self):
         return self.events.filter_by(document_action.PUBLISHED).one().timestamp
 
-    @property
-    def as_dict(self):
+    def as_dict(self, event_type):  # TODO: for DocumentEvent.state, possibly use DataDiff
         return {
             "title": self.title,
             "subtitle": self.subtitle,

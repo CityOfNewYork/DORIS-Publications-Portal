@@ -8,6 +8,12 @@ from app.database import db, User
 
 manager = Manager(create_app(DEV))
 
+# recreate_tables ------------------------------------------------------------------------------------------------------
+
+@manager.command
+def recreate_tables():
+    db.drop_all()
+    db.create_all()
 
 # create_user ----------------------------------------------------------------------------------------------------------
 

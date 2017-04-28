@@ -8,7 +8,6 @@ from flask import (
 )
 from flask_login import login_user, logout_user
 from flask_wtf.csrf import generate_csrf
-from app.models.user import User
 
 main = Blueprint('main', __name__)
 
@@ -30,21 +29,10 @@ def index():
 
 @main.route('/login')
 def login():
-    user = User.query.first()
+    from app.database import User
+    user = User.get_first()
     if user is None:
-        from app.database import db
-        user = User(
-            'GUIDXXX',
-            'EDIRSSO',
-            'Dirk',
-             None,
-            'Diggler',
-            'dd@email.com',
-            False,
-            False
-        )
-        db.session.add(user)
-        db.session.commit()
+        User.create("GUID", "EDIRSSO", "Dirk", None, "Diggler", "doubled@email.com")
     login_user(user)
     return redirect(url_for("main.index"))
 

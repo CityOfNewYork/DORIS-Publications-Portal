@@ -14,6 +14,10 @@ class User(Object):
         return models.User.query.get((guid, auth_type))
 
     @staticmethod
+    def get_first():
+        return models.User.query.first()
+
+    @staticmethod
     def get_by_email(email):
         """
         Returns a user object with the supplied email or 
