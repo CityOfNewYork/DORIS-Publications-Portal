@@ -1,6 +1,7 @@
 from app.database import db
 from app.constants import document_action
 from .event import DocumentEvent
+from ._enums import user_auth_type
 
 
 class Document(db.Model):
@@ -30,9 +31,16 @@ class Document(db.Model):
     
     """
     __tablename__ = "document"
-
+    __table_args__ = (
+        db.ForeignKeyConstraint(
+            ("submitter_guid", "submitter_auth_type"),
+            ("auth_user.guid", "auth_user.auth_type")
+        ),
+    )
     # columns
     id = db.Column(db.Integer, primary_key=True)
+    submitter_guid = db.Column(db.String(64), nullable=False)
+    submitter_auth_type = db.Column(user_auth_type, nullable=False)
     title = db.Column(db.String(), nullable=False)
     subtitle = db.Column(db.String())
     names = db.Column(db.JSON(), nullable=False)
@@ -73,6 +81,12 @@ class Document(db.Model):
     # relationships
     files = db.relationship("File", back_populates="document")
     events = db.relationship("DocumentEvent", back_populates="document", lazy="dynamic")
+    submitter = db.relationship(
+        "User",
+        primaryjoin="and_(Document.submitter_guid == User.guid, "
+                    "Document.submitter_auth_type == User.auth_type)",
+        back_populates="submissions"
+    )
 
     @property
     def status(self):

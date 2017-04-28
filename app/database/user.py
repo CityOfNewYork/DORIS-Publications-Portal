@@ -9,12 +9,17 @@ class User(Object):
     def get(cls, guid, auth_type):
         """ 
         Returns a user object with the supplied identifiers or 
-        returns None if the user cannot be found. 
+        returns None if the user cannot be found.
+        :rtype: models.User
         """
         return models.User.query.get((guid, auth_type))
 
     @staticmethod
     def get_first():
+        """
+        Returns a single user object or None if there are no users present.
+        :rtype: models.User
+        """
         return models.User.query.first()
 
     @staticmethod
@@ -22,6 +27,7 @@ class User(Object):
         """
         Returns a user object with the supplied email or 
         returns None if the user cannot be found.
+        :rtype: models.User
         """
         return models.User.query.filter_by(email=email).one_or_none()
 
@@ -29,6 +35,7 @@ class User(Object):
     def create(guid, auth_type, first_name, middle_initial, last_name, email):
         """ 
         Creates a user database record and returns the created user object.
+        :rtype: models.User
         """
         user = models.User(
             guid,

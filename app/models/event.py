@@ -18,8 +18,8 @@ class _Event(db.Model):
     __mapper_args__ = {'polymorphic_on': "type"}
     __table_args__ = (
         db.ForeignKeyConstraint(
-            ["agent_guid", "agent_auth_type"],
-            ["auth_user.guid", "auth_user.auth_type"],
+            ("agent_guid", "agent_auth_type"),
+            ("auth_user.guid", "auth_user.auth_type"),
         ),
     )
 
