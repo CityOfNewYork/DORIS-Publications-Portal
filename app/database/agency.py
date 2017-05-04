@@ -1,6 +1,6 @@
 import csv
 from . import db
-from .utils import Object, session_context
+from ._utils import Object, session_context
 from app import models
 from flask import current_app
 
@@ -14,7 +14,7 @@ class Agency(Object):
         returns None if the agency cannot be found.
         :rtype: models.Agency
         """
-        return models.Agency.query.get(ein)
+        return super(Agency, Agency)._get(models.Agency, ein)
 
     @staticmethod
     def create(ein, name, acronym=None, parent_ein=None):
@@ -22,36 +22,32 @@ class Agency(Object):
         Creates an agency database record and returns the created agency object.
         :rtype: models.Agency
         """
-        agency = models.Agency(
-            ein,
+        return super(Agency, Agency)._create(
+            models.Agency,
             name,
             acronym,
-            parent_ein,
+            parent_ein
         )
-        with session_context():
-            db.session.add(agency)
-        return agency
 
     @staticmethod
     def update(ein, name=None, acronym=None, parent_ein=None):
         """
         Updates an agency database record.
         """
-        if (name or acronym or parent_ein):
-            with session_context():
-                models.Agency.query.filter_by(
-                    ein=ein
-                ).update({
-                    col: val for col, val in {
-                        models.Agency.name: name,
-                        models.Agency.acronym: acronym,
-                        models.Agency.parent_ein: parent_ein
-                    }.items() if val is not None
-                })
+        super(Agency, Agency)._update(
+            models.Agency,
+            {"ein": ein},
+            name=name,
+            acronym=acronym,
+            parent_ein=parent_ein
+        )
 
-    @classmethod
-    def delete(cls, ein):
-        super().delete(ein)
+    @staticmethod
+    def delete(ein):
+        """
+        Deletes an agency database record.
+        """
+        super(Agency, Agency)._delete(models.Agency, ein)
 
     @classmethod
     def populate_from_csv(cls, csv_name=None):
@@ -60,8 +56,8 @@ class Agency(Object):
         """
         filename = csv_name or current_app.config['AGENCY_DATA_CSV']
         with open(filename, 'r') as data:
-            dictreader = csv.DictReader(data)
-            for row in dictreader:
+            dict_reader = csv.DictReader(data)
+            for row in dict_reader:
                 if cls.get(row['ein']) is None:  # if no dupes
                     agency = models.Agency(
                         row['ein'],

@@ -13,7 +13,7 @@ class AgencyModelTests(BaseTestCase):
         agency = Agency.get(self.SUB_AGENCY_EIN)
         user_auth_type = NYC_EMPLOYEES
         user_guid = "abc123" # TODO: generate_guid
-        User.create(user_guid, user_auth_type, "Leroy", None, "Jenkins", "ljenkins@mail.com")
+        User.create(user_guid, user_auth_type,  "Jane", None, "Doe", "jdoe@mail.com")
         registration_1 = Registration.create(user_guid, user_auth_type, self.SUB_AGENCY_EIN)
         registration_2 = Registration.create(user_guid, user_auth_type, self.SUB_AGENCY_EIN)
         self.assertEqual(agency.registrations, [registration_1, registration_2])

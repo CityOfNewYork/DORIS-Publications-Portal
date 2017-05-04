@@ -18,7 +18,7 @@ class _Event(db.Model):
     __mapper_args__ = {'polymorphic_on': "type"}
     __table_args__ = (
         db.ForeignKeyConstraint(
-            ("agent_guid", "agent_auth_type"),
+            ("user_guid", "user_auth_type"),
             ("auth_user.guid", "auth_user.auth_type"),
         ),
     )
@@ -26,8 +26,8 @@ class _Event(db.Model):
     # columns
     id = db.Column(db.Integer, primary_key=True)
     timestamp = db.Column(db.DateTime, nullable=False)
-    agent_guid = db.Column(db.String(64), nullable=False)
-    agent_auth_type = db.Column(user_auth_type, nullable=False)
+    user_guid = db.Column(db.String(64), nullable=False)
+    user_auth_type = db.Column(user_auth_type, nullable=False)
     type = db.Column(
         db.Enum(
             "document",
@@ -40,8 +40,8 @@ class _Event(db.Model):
     # relationships
     agent = db.relationship(
         "User",
-        primaryjoin="and_(_Event.agent_guid == User.guid, "
-                    "_Event.agent_auth_type == User.auth_type)",
+        primaryjoin="and_(_Event.user_guid == User.guid, "
+                    "_Event.user_auth_type == User.auth_type)",
         back_populates="events")
 
     def __init__(self, user_guid, user_auth_type):
@@ -52,7 +52,7 @@ class _Event(db.Model):
 
 class DocumentEvent(_Event):
     """
-    Define the EventDocument class for table 'event_document' with the following columns:
+    Define the DocumentEvent class for table 'event_document' with the following columns:
     
     id              integer, foreign key to `event.id`
     document_id     integer, foreign key to 'document.id'
@@ -72,14 +72,16 @@ class DocumentEvent(_Event):
     # relationships
     document = db.relationship("Document", back_populates="events")
 
-    def __init__(self, user_guid, user_auth_type, state=None):
+    def __init__(self, user_guid, user_auth_type, document_id, action, state=None):
         super().__init__(user_guid, user_auth_type)
+        self.document_id = document_id
+        self.action = action
         self.state = state
 
 
 class RegistrationEvent(_Event):
     """
-    Define the EventRegistration class for table 'event_registration' with the following columns:
+    Define the RegistrationEvent class for table 'event_registration' with the following columns:
     
     id                  integer, foreign key to `event.id`
     registration_id     integer, foreign key to 'document.id'
@@ -95,7 +97,12 @@ class RegistrationEvent(_Event):
     # columns
     id = db.Column(db.Integer, db.ForeignKey(_Event.id), primary_key=True)
     registration_id = db.Column(db.Integer, db.ForeignKey("registration.id"), nullable=False)
-    action = db.Column(db.Enum(*registration_action.ALL, name="document_action"), nullable=False)
+    action = db.Column(db.Enum(*registration_action.ALL, name="registration_action"), nullable=False)
 
     # relationships
     registration = db.relationship("Registration", back_populates="events")
+
+    def __init__(self, user_guid, user_auth_type, registration_id, action):
+        super().__init__(user_guid, user_auth_type)
+        self.registration_id = registration_id
+        self.action = action

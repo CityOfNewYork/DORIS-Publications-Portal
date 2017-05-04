@@ -5,3 +5,4 @@ db = SQLAlchemy()
 from .user import User
 from .agency import Agency
 from .registration import Registration
+from .event import DocumentEvent, RegistrationEvent

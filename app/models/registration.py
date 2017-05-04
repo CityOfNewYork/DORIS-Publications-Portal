@@ -10,22 +10,22 @@ class Registration(db.Model):
     
     id
     agency_ein
-    registrant_guid
-    registrant_auth_type    integer, primary key and foreign key to `
+    user_guid
+    user_auth_type    integer, primary key and foreign key to `
     
     """
     __tablename__ = "registration"
     __table_args__ = (
         db.ForeignKeyConstraint(
-            ("registrant_guid", "registrant_auth_type"),
+            ("user_guid", "user_auth_type"),
             ("auth_user.guid", "auth_user.auth_type"),
         ),
     )
 
     # columns
     id = db.Column(db.Integer, primary_key=True)
-    registrant_guid = db.Column(db.String(64), nullable=False)
-    registrant_auth_type = db.Column(user_auth_type, nullable=False)
+    user_guid = db.Column(db.String(64), nullable=False)
+    user_auth_type = db.Column(user_auth_type, nullable=False)
     agency_ein = db.Column(db.String(4), db.ForeignKey("agency.ein"), nullable=False)
 
     # relationships
@@ -33,14 +33,14 @@ class Registration(db.Model):
     events = db.relationship("RegistrationEvent", back_populates="registration", lazy="dynamic")
     registrant = db.relationship(
         "User",
-        primaryjoin="and_(Registration.registrant_guid == User.guid, "
-                    "Registration.registrant_auth_type == User.auth_type)",
+        primaryjoin="and_(Registration.user_guid == User.guid, "
+                    "Registration.user_auth_type == User.auth_type)",
         back_populates="registrations"
     )
 
-    def __init__(self, registrant_guid, registrant_auth_type, agency_ein):
-        self.registrant_guid = registrant_guid
-        self.registrant_auth_type = registrant_auth_type
+    def __init__(self, user_guid, user_auth_type, agency_ein):
+        self.user_guid = user_guid
+        self.user_auth_type = user_auth_type
         self.agency_ein = agency_ein
 
     @property
@@ -72,4 +72,5 @@ class Registration(db.Model):
         return self._get_date_of_action(registration_action.DENIED)
 
     def _get_date_of_action(self, action):
-        return self.events.filter_by(action=action).one().timestamp
+        event = self.events.filter_by(action=action).one_or_none()
+        return event.timestamp if event is not None else None

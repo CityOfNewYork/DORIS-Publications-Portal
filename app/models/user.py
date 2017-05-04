@@ -47,20 +47,20 @@ class User(db.Model, UserMixin):
     # relationships
     registrations = db.relationship(
         "Registration",
-        primaryjoin="and_(User.guid == Registration.registrant_guid, "
-                    "User.auth_type == Registration.registrant_auth_type)",
+        primaryjoin="and_(User.guid == Registration.user_guid, "
+                    "User.auth_type == Registration.user_auth_type)",
         back_populates="registrant"
     )
     submissions = db.relationship(
         "Document",
-        primaryjoin="and_(User.guid == Document.submitter_guid, "
-                    "User.auth_type == Document.submitter_auth_type)",
+        primaryjoin="and_(User.guid == Document.user_guid, "
+                    "User.auth_type == Document.user_auth_type)",
         back_populates="submitter"
     )
     events = db.relationship(
         "_Event",
-        primaryjoin="and_(User.guid == _Event.agent_guid, "
-                    "User.auth_type == _Event.agent_auth_type)",
+        primaryjoin="and_(User.guid == _Event.user_guid, "
+                    "User.auth_type == _Event.user_auth_type)",
         back_populates="agent"
     )
 
