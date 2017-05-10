@@ -3,21 +3,12 @@ import {MaskedInput} from 'react-text-mask';
 import {Form} from 'semantic-ui-react';
 import DatePicker from 'react-datepicker';
 import moment from 'moment';
-
 import 'react-datepicker/dist/react-datepicker.css';
 
-class Input extends Component {
-  state = {
-    value: this.props.value
-  };
 
-  handleChange = (e) => {
-    this.setState({
-      value: e.target.value
-    })
-  };
-
+class Input extends Component {  // Must be a class; DatePicker gives its customInput prop a ref
   render() {
+    const {onClick, onChange, value} = this.props;
     return (
       <Form.Input
         required
@@ -28,10 +19,10 @@ class Input extends Component {
             mask={[/\d/, /\d/, '/', /\d/, /\d/, '/', /\d/, /\d/, /\d/, /\d/]}
             placeholder="MM/DD/YYYY"
             required
-            pattern=""
-            onClick={this.props.onClick}
-            value={this.state.value}
-            onChange={this.handleChange}
+            pattern=""  // TODO: pattern for dates
+            onClick={onClick}
+            value={value}
+            onChange={onChange}
           />
         }
       />
@@ -39,25 +30,22 @@ class Input extends Component {
   }
 }
 
-class DateInput extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      startDate: moment()
-    };
-    this.handleChange = this.handleChange.bind(this);
-  }
 
-  handleChange(date) {
+class DateInput extends Component {
+  state = {
+    date: moment()
+  };
+
+  handleChange = (date) => {
     this.setState({
-      startDate: date
+      date: date
     });
-  }
+  };
 
   render() {
     return <DatePicker
-      selected={this.state.startDate}
-      customInput={<Input />}
+      selected={this.state.date}
+      customInput={<Input onChange={this.handleChange}/>}
       onChange={this.handleChange}
     />;
   }
