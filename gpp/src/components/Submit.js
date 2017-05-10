@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import {Message, Form} from 'semantic-ui-react';
 import {ErrorLabel, withValidation} from './custom';
 import FileUpload from './FileUpload';
+import Date from './Datepicker';
+import ListGenInput from './ListGenInput';
 
 
 class SubmitForm extends Component {
@@ -34,7 +36,7 @@ class SubmitForm extends Component {
     });
   };
 
-  render () {
+  render() {
     const {stateError, stateLoading, handleFieldChange} = this.props;
 
     return (
@@ -55,8 +57,12 @@ class SubmitForm extends Component {
             ref="fileUpload"
             required
             submitted={this.state.submitted}
-          />  {/* TODO: deal with server error? */}
+          /> {/* TODO: deal with server error? */}
         </Form.Field>
+
+        <ListGenInput
+          label="Additional Creators"
+        />
 
         <Form.Group widths="equal">
           {/* Title */}
@@ -72,7 +78,6 @@ class SubmitForm extends Component {
             />
             { stateError.hasOwnProperty("title") && <ErrorLabel content={ stateError.title }/> }
           </Form.Field>
-          {/* Type */}
           <Form.Field>
             <Form.Select
               label="Type"
