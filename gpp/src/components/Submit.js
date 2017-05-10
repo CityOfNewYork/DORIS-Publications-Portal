@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import {Message, Form} from 'semantic-ui-react';
 import {ErrorLabel, withValidation} from './custom';
 import FileUpload from './FileUpload';
-import Date from './Datepicker';
+import DateInput from './DateInput';
 import ListGenInput from './ListGenInput';
 
 
@@ -64,6 +64,10 @@ class SubmitForm extends Component {
           label="Additional Creators"
           ref={(creatorList) => {this.creatorList = creatorList}}
         />
+        <Form.Field>
+          <DateInput
+          />
+        </Form.Field>
         <Form.Group widths="equal">
           {/* Title */}
           <Form.Field>
