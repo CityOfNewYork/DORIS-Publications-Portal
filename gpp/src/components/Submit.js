@@ -30,9 +30,10 @@ class SubmitForm extends Component {
     });
 
     this.props.submitFormData({
-      filenames: this.refs.fileUpload.state.files.map((file) => {
+      filenames: this.fileUpload.state.files.map((file) => {
         return file.name;
-      })
+      }),
+      creators: this.creatorList.state.items
     });
   };
 
@@ -54,16 +55,15 @@ class SubmitForm extends Component {
         />
         <Form.Field>
           <FileUpload
-            ref="fileUpload"
+            ref={(fileUpload) => {this.fileUpload = fileUpload}}
             required
             submitted={this.state.submitted}
           /> {/* TODO: deal with server error? */}
         </Form.Field>
-
         <ListGenInput
           label="Additional Creators"
+          ref={(creatorList) => {this.creatorList = creatorList}}
         />
-
         <Form.Group widths="equal">
           {/* Title */}
           <Form.Field>

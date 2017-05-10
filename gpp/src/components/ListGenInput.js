@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Form, Icon, List, Segment} from 'semantic-ui-react';
+import {Form, Icon, List, Segment, Button} from 'semantic-ui-react';
 
 class ListGenInput extends Component {
   state = {
@@ -8,10 +8,19 @@ class ListGenInput extends Component {
   };
 
   onAdd = () => {
+    if (this.state.value.replace(/^\s+|\s+$/g, '')) {
+      this.setState({
+        items: [this.state.value, ...this.state.items],
+        value: ''
+      });
+    }
+  };
+
+  onRemove = (index) => (e) => {
+    e.preventDefault();
     this.setState({
-      items: [this.state.value, ...this.state.items],
-      value: ''
-    });
+      items: [...this.state.items.slice(0, index), ...this.state.items.slice(index + 1)]
+    })
   };
 
   handleChange = (e, {value}) => {
@@ -24,12 +33,18 @@ class ListGenInput extends Component {
   render() {
     const items = this.state.items.length > 0 &&
       <Segment>
-        <List divided relaxed>
+        <List divided>
           {this.state.items.map((item, index) => (
-            <List.Item
-              key={index}
-              content={item}
-            />
+            <List.Item key={index}>
+              <List.Content verticalAlign="middle">
+                <Button
+                  circular
+                  size="mini"
+                  icon="remove"
+                  onClick={this.onRemove(index)}
+                /> {item}
+              </List.Content>
+            </List.Item>
           ))}
         </List>
       </Segment>;
