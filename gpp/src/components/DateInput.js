@@ -8,9 +8,10 @@ import 'react-datepicker/dist/react-datepicker.css';
 
 class Input extends Component {  // Must be a class; DatePicker gives its customInput prop a ref
   render() {
-    const {onClick, onChange, value} = this.props;
+    const {error, onClick, onChange, value} = this.props;
     return (
       <Form.Input
+        error={error}
         required
         label="Date Published"
         name="date"
@@ -33,22 +34,42 @@ class Input extends Component {  // Must be a class; DatePicker gives its custom
 
 class DateInput extends Component {
   state = {
-    date: moment()
+    date: undefined,
+    moment: moment().startOf('day'),
+    error: false
   };
 
   handleChange = (date) => {
     this.setState({
-      date: date
+      date: date,
+      error: false
+    });
+  };
+
+  handleChangeRaw = (e) => {
+    const value = e.target.value,
+      // .match returns null if value is not in the format: DD/DD/DDDD
+      dateMatch = (value).match(/^(\d{2})\/(\d{2})\/(\d{4})$/),
+      // .parse returns NaN if value is not a valid date.
+      parsedDate = Date.parse(value);
+    this.setState({
+      // .diff will return negative values if the parsedDate is greater than today
+      error: dateMatch === null || isNaN(parsedDate) || this.state.moment.diff(parsedDate, 'days') < 0
     });
   };
 
   render() {
+    const {date, moment, error} = this.state;
     return <DatePicker
-      selected={this.state.date}
-      customInput={<Input onChange={this.handleChange}/>}
+      maxDate={moment}
+      selected={date}
+      customInput={<Input onChange={this.handleChange} error={error}/>}
       onChange={this.handleChange}
+      onChangeRaw={this.handleChangeRaw}
     />;
   }
 }
+
+// naiveDateRegex = ;
 
 export default DateInput;
