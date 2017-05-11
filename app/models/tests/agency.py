@@ -1,5 +1,6 @@
 import unittest
-from app.database import Agency, User, Registration
+from app.database import user, registration
+from app.database.agency import get as get_agency
 from app.tests.base import BaseTestCase
 from app.constants.user_auth_type import NYC_EMPLOYEES
 
@@ -10,21 +11,21 @@ class AgencyModelTests(BaseTestCase):
     SUB_AGENCY_EIN = "002A"
 
     def test_relationship_registration(self):
-        agency = Agency.get(self.SUB_AGENCY_EIN)
+        agency = get_agency(self.SUB_AGENCY_EIN)
         user_auth_type = NYC_EMPLOYEES
         user_guid = "abc123" # TODO: generate_guid
-        User.create(user_guid, user_auth_type,  "Jane", None, "Doe", "jdoe@mail.com")
-        registration_1 = Registration.create(user_guid, user_auth_type, self.SUB_AGENCY_EIN)
-        registration_2 = Registration.create(user_guid, user_auth_type, self.SUB_AGENCY_EIN)
+        user.create(user_guid, user_auth_type,  "Jane", None, "Doe", "jdoe@mail.com")
+        registration_1 = registration.create(user_guid, user_auth_type, self.SUB_AGENCY_EIN)
+        registration_2 = registration.create(user_guid, user_auth_type, self.SUB_AGENCY_EIN)
         self.assertEqual(agency.registrations, [registration_1, registration_2])
 
     def test_property_parent(self):
-        parent_agency = Agency.get(self.PARENT_AGENCY_EIN)
-        sub_agency = Agency.get(self.SUB_AGENCY_EIN)
+        parent_agency = get_agency(self.PARENT_AGENCY_EIN)
+        sub_agency = get_agency(self.SUB_AGENCY_EIN)
         self.assertEqual(parent_agency, sub_agency.parent)
 
     def test_property_no_parent(self):
-        parent_agency = Agency.get(self.PARENT_AGENCY_EIN)
+        parent_agency = get_agency(self.PARENT_AGENCY_EIN)
         self.assertIsNone(parent_agency.parent)
 
 
