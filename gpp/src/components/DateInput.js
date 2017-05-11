@@ -46,15 +46,24 @@ class DateInput extends Component {
     });
   };
 
+  static isValidDate(month, day, year) {
+    const date = new Date(year, month - 1, day);
+    // eslint-disable-next-line
+    return date && date.getMonth() + 1 == month;  // this is a perfectly reasonable use of type coercion
+  }
+
   handleChangeRaw = (e) => {
     const value = e.target.value,
       // .match returns null if value is not in the format: DD/DD/DDDD
       dateMatch = (value).match(/^(\d{2})\/(\d{2})\/(\d{4})$/),
-      // .parse returns NaN if value is not a valid date.
       parsedDate = Date.parse(value);
     this.setState({
       // .diff will return negative values if the parsedDate is greater than today
-      error: dateMatch === null || isNaN(parsedDate) || this.state.moment.diff(parsedDate, 'days') < 0
+      error: (
+        dateMatch === null ||
+        !DateInput.isValidDate(...value.split("/")) ||
+        this.state.moment.diff(parsedDate, 'days') < 0
+      )
     });
   };
 
@@ -69,7 +78,5 @@ class DateInput extends Component {
     />;
   }
 }
-
-// naiveDateRegex = ;
 
 export default DateInput;
