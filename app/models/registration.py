@@ -73,4 +73,5 @@ class Registration(db.Model):
 
     def _get_date_of_action(self, action):
         event = self.events.filter_by(action=action).one_or_none()
-        return event.timestamp if event is not None else None
+        if event is not None:
+            return event.timestamp

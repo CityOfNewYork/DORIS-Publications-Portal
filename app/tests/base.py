@@ -1,6 +1,6 @@
 import unittest
 from app import create_app
-from app.database import db, Agency
+from app.database import db, agency
 from config import TST
 
 
@@ -31,7 +31,7 @@ class BaseTestCase(unittest.TestCase):
 
     @staticmethod
     def populate_database():
-        Agency.populate_from_csv()
+        agency.populate_from_csv()
 
     @staticmethod
     def clear_database():

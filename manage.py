@@ -4,7 +4,7 @@ from flask_script import Manager, Server, Shell
 
 from config import DEV
 from app import create_app
-from app.database import db, User
+from app.database import db, user
 
 manager = Manager(create_app(DEV))
 
@@ -20,7 +20,7 @@ def recreate_tables():
 @manager.command
 def create_user(first_name, last_name, middle_initial=None, email=None):
     from app.constants import user_auth_type
-    User.create(
+    user.create(
         "generate_guid",
         user_auth_type.NYC_ID,
         first_name,

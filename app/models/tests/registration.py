@@ -1,6 +1,6 @@
 import unittest
 from app.constants import registration_action
-from app.database import Registration, Agency, User, RegistrationEvent
+from app.database import registration, agency, user, registration_event
 from app.tests.base import BaseTestCase
 from app.constants.user_auth_type import NYC_EMPLOYEES
 from sqlalchemy.exc import SQLAlchemyError
@@ -14,13 +14,13 @@ class RegistrationModelTests(BaseTestCase):
 
     def setUp(self):
         super().setUp()
-        User.create(self.USER_GUID, self.USER_AUTH_TYPE, "Jane", None, "Doe", "jdoe@mail.com")
+        user.create(self.USER_GUID, self.USER_AUTH_TYPE, "Jane", None, "Doe", "jdoe@mail.com")
         registration_args = (
             self.USER_GUID,
             self.USER_AUTH_TYPE,
             self.AGENCY_EIN
         )
-        self.registration = Registration.create(*registration_args)
+        self.registration = registration.create(*registration_args)
         self.event_args = (
             self.USER_GUID,
             self.USER_AUTH_TYPE,
@@ -30,34 +30,34 @@ class RegistrationModelTests(BaseTestCase):
         args = (self.USER_GUID, self.USER_AUTH_TYPE)
 
         # approved registration
-        self.approved_registration = Registration.create(*registration_args)
-        self.approved_registration_submission = RegistrationEvent.create(
+        self.approved_registration = registration.create(*registration_args)
+        self.approved_registration_submission = registration_event.create(
             *(args + (self.approved_registration.id, registration_action.SUBMITTED)))
-        self.approved_registration_approval = RegistrationEvent.create(
+        self.approved_registration_approval = registration_event.create(
             *(args + (self.approved_registration.id, registration_action.APPROVED)))
 
         # denied registration
-        self.denied_registration = Registration.create(*registration_args)
-        self.denied_registration_submission = RegistrationEvent.create(
+        self.denied_registration = registration.create(*registration_args)
+        self.denied_registration_submission = registration_event.create(
             *(args + (self.denied_registration.id, registration_action.SUBMITTED)))
-        self.denied_registration_denial = RegistrationEvent.create(
+        self.denied_registration_denial = registration_event.create(
             *(args + (self.denied_registration.id, registration_action.DENIED)))
 
     def test_relationship_agency(self):
-        agency = Agency.get(self.AGENCY_EIN)
-        self.assertEqual(self.registration.agency, agency)
+        agency_obj = agency.get(self.AGENCY_EIN)
+        self.assertEqual(self.registration.agency, agency_obj)
 
     def test_relationship_events(self):
-        event_1 = RegistrationEvent.create(*(self.event_args + (registration_action.APPROVED,)))
-        event_2 = RegistrationEvent.create(*(self.event_args + (registration_action.DENIED,)))
+        event_1 = registration_event.create(*(self.event_args + (registration_action.APPROVED,)))
+        event_2 = registration_event.create(*(self.event_args + (registration_action.DENIED,)))
         self.assertEqual(self.registration.events.all(), [event_1, event_2])
 
     def test_relationship_registrant(self):
-        registrant = User.get(self.USER_GUID, self.USER_AUTH_TYPE)
+        registrant = user.get(self.USER_GUID, self.USER_AUTH_TYPE)
         self.assertEqual(self.registration.registrant, registrant)
 
     def test_property_is_pending(self):
-        RegistrationEvent.create(*(self.event_args + (registration_action.SUBMITTED,)))
+        registration_event.create(*(self.event_args + (registration_action.SUBMITTED,)))
         self.assertTrue(self.registration.is_pending)
         self.assertFalse(any((self.registration.is_approved, self.registration.is_denied)))
 
@@ -83,9 +83,9 @@ class RegistrationModelTests(BaseTestCase):
 
     def test_unique_constraint(self):
         args = (self.event_args + (registration_action.APPROVED,))
-        RegistrationEvent.create(*args)
+        registration_event.create(*args)
         with self.assertRaises(SQLAlchemyError):
-            RegistrationEvent.create(*args)
+            registration_event.create(*args)
 
 
 if __name__ == "__main__":

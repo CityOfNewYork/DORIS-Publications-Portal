@@ -1,3 +1,4 @@
+from sqlalchemy import desc
 from flask_login import UserMixin
 from app.database import db
 from app.constants import USER_ID_DELIMETER
@@ -32,7 +33,7 @@ class User(db.Model, UserMixin):
 
     # columns
     guid = db.Column(db.String(64), primary_key=True)
-    auth_type = db.Column(enum_user_auth_type, primary_key=True)
+    auth_type = db.Column(enum_user_auth_type, primary_key=True)  # FIXME: not needed since only agency users can login
     first_name = db.Column(db.String(64), nullable=False)
     middle_initial = db.Column(db.String(1))
     last_name = db.Column(db.String(64), nullable=False)
@@ -49,19 +50,22 @@ class User(db.Model, UserMixin):
         "Registration",
         primaryjoin="and_(User.guid == Registration.user_guid, "
                     "User.auth_type == Registration.user_auth_type)",
-        back_populates="registrant"
+        back_populates="registrant",
+        lazy="dynamic"
     )
     submissions = db.relationship(
         "Document",
         primaryjoin="and_(User.guid == Document.user_guid, "
                     "User.auth_type == Document.user_auth_type)",
-        back_populates="submitter"
+        back_populates="submitter",
+        lazy="dynamic"
     )
     events = db.relationship(
         "_Event",
         primaryjoin="and_(User.guid == _Event.user_guid, "
                     "User.auth_type == _Event.user_auth_type)",
-        back_populates="agent"
+        back_populates="agent",
+        lazy="dynamic"
     )
 
     def __init__(self,
@@ -86,16 +90,32 @@ class User(db.Model, UserMixin):
         return '<User "{}" ({}, {})>'.format(self.name, self.guid, self.auth_type, self.name)
 
     def get_id(self):
-        """ Overrides UserMixin.get_id() """
+        """
+        Overrides UserMixin.get_id()
+        """
         return USER_ID_DELIMETER.join((self.guid, self.auth_type))
 
     @property
-    def agency(self):
-        return self.registration.agency
+    def registration(self):
+        """
+        A user's latest registration, if any.
+        """
+        return self.registrations.join("events").order_by(desc("timestamp")).first()
 
     @property
     def is_registered(self):
-        return self.registration.is_approved
+        """
+        Is the user's latest registration, if any, approved?
+        """
+        return self.registration.is_approved if self.registration is not None else False
+
+    @property
+    def agency(self):
+        """ 
+        A user's agency is determined by its latest approved registration, if any.
+        """
+        if self.is_registered:
+            return self.registration.agency
 
     @property
     def name(self):
