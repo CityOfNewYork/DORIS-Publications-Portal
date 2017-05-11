@@ -5,6 +5,7 @@ import {ErrorLabel, withValidation} from './custom';
 import FileUpload from './FileUpload';
 import DateInput from './DateInput';
 import ListGenInput from './ListGenInput';
+import YearInput from './YearInput';
 
 
 class SubmitForm extends Component {
@@ -65,9 +66,9 @@ class SubmitForm extends Component {
           ref={(creatorList) => {this.creatorList = creatorList}}
         />
         <Form.Field>
-          <DateInput
-          />
+          <DateInput />
         </Form.Field>
+        <YearInput/>
         <Form.Group widths="equal">
           {/* Title */}
           <Form.Field>

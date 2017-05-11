@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Form, Icon, List, Segment, Button} from 'semantic-ui-react';
+import {Form, Icon, List, Segment} from 'semantic-ui-react';
 
 class ListGenInput extends Component {
   state = {
@@ -37,10 +37,9 @@ class ListGenInput extends Component {
           {this.state.items.map((item, index) => (
             <List.Item key={index}>
               <List.Content verticalAlign="middle">
-                <Button
-                  circular
-                  size="mini"
-                  icon="remove"
+                <Icon
+                  link
+                  name="remove"
                   onClick={this.onRemove(index)}
                 /> {item}
               </List.Content>
