@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Dropdown, Form, Input} from 'semantic-ui-react';
+import {Select, Form, Label} from 'semantic-ui-react';
 
 class YearInput extends Component {
   state = {
@@ -24,24 +24,35 @@ class YearInput extends Component {
   render() {
     const options = [
       {key: 'cal', text: 'Calendar', value: 'calendar'},
-      {key: 'fis', text: 'Fiscal', value: 'fiscal'}
+      {key: 'fis', text: 'NYC Fiscal', value: 'fiscal'}
     ];
 
     const {isCalendar, value} = this.state;
 
     return (
-        <Form.Field>
-          <label htmlFor='year'>Year</label>
-          <Input
-            name='year'
-            label={<Dropdown defaultValue='calendar' options={options} onChange={this.onDropdownChange} />}
-            labelPosition='left'
-            maxLength='4'
-            value={value}
-            onChange={this.onInputChange}
-          />
-          {!isCalendar && value.length === 4 && `(July 1, ${value} – June 30, ${parseInt(value, 10) + 1})`}
-        </Form.Field>
+      <div>
+        <Form.Input
+          label='Associated Year'
+          name='year'
+          action={
+            <Select
+              compact
+              defaultValue='calendar'
+              options={options}
+              onChange={this.onDropdownChange}
+            />
+          }
+          maxLength='4'
+          value={value}
+          onChange={this.onInputChange}
+        />
+        {
+          !isCalendar && value.length === 4 &&
+          <Label pointing>
+            July 1, {value} – June 30, {parseInt(value, 10) + 1}
+          </Label>
+        }
+      </div>
     )
   }
 }

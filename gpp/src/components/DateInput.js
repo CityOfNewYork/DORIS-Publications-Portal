@@ -4,7 +4,7 @@ import {Form} from 'semantic-ui-react';
 import DatePicker from 'react-datepicker';
 import moment from 'moment';
 import 'react-datepicker/dist/react-datepicker.css';
-
+import './DateInput.css';
 
 class Input extends Component {  // Must be a class; DatePicker gives its customInput prop a ref
   render() {

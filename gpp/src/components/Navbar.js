@@ -75,7 +75,7 @@ class Navbar extends Component {
           </Menu.Menu>
         </Menu>
         {/* Following menu is for testing purposes only. */}
-        <Menu fixed="bottom" inverted>
+        <Menu vertical inverted compact fixed="bottom">
           <Menu.Item header>TOGGLES</Menu.Item>
           <Menu.Menu>
             <Menu.Item

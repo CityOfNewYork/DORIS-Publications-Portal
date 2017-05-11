@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import {Message, Form} from 'semantic-ui-react';
+import {Message, Form, Button} from 'semantic-ui-react';
 import {ErrorLabel, withValidation} from './custom';
 import FileUpload from './FileUpload';
 import DateInput from './DateInput';
@@ -49,6 +49,7 @@ class SubmitForm extends Component {
         { ...stateLoading && {loading: true} }
       >
         <h2>Document Submission</h2>
+
         {/* Files */}
         <Form.Field
           required
@@ -56,34 +57,75 @@ class SubmitForm extends Component {
         />
         <Form.Field>
           <FileUpload
-            ref={(fileUpload) => {this.fileUpload = fileUpload}}
+            ref={(fileUpload) => {
+              this.fileUpload = fileUpload
+            }}
             required
             submitted={this.state.submitted}
           /> {/* TODO: deal with server error? */}
         </Form.Field>
+
+        {/* Title */}
+        <Form.Field>
+          <Form.Input
+            label="Title"
+            placeholder="Look at me, I'm a Title."
+            name="title"
+            { ...stateError.hasOwnProperty("title") ? {error: true} : {}}
+            onChange={handleFieldChange}
+            maxLength="10"
+            required
+          />
+          { stateError.hasOwnProperty("title") && <ErrorLabel content={ stateError.title }/> }
+        </Form.Field>
+
+        {/* Sub-Title */}
+        <Form.Field>
+          <Form.Input
+            label="Sub-Title"
+            placeholder="I am inferior."
+            name="subtitle"
+            { ...stateError.hasOwnProperty("subtitle") ? {error: true} : {}}
+            onChange={handleFieldChange}
+            maxLength="10"
+            required
+          />
+          { stateError.hasOwnProperty("subtitle") && <ErrorLabel content={ stateError.title }/> }
+        </Form.Field>
+
+        {/* Agency */}
+        <Form.Dropdown
+          required
+          label="Agency"
+          name="agency"
+          search
+          selection
+          options={[
+            {
+              key: "doris",
+              value: "doris",
+              text: "DORIS - Department of Records & Information Services"
+            },
+            {
+              key: "doitt",
+              value: "doitt",
+              text: "DOITT - Department of Information Technology & Telecommunications"
+            },
+          ]}
+          placeholder="Select Your Agency"
+        />
+
+        {/* Additional Creators */ }
         <ListGenInput
           label="Additional Creators"
-          ref={(creatorList) => {this.creatorList = creatorList}}
+          ref={(creatorList) => {
+            this.creatorList = creatorList
+          }}
         />
-        <Form.Field>
-          <DateInput />
-        </Form.Field>
-        <YearInput/>
-        <Form.Group widths="equal">
-          {/* Title */}
-          <Form.Field>
-            <Form.Input
-              label="Title"
-              placeholder="Look at me, I'm a Title."
-              name="title"
-              { ...stateError.hasOwnProperty("title") ? {error: true} : {}}
-              onChange={handleFieldChange}
-              maxLength="10"
-              required
-            />
-            { stateError.hasOwnProperty("title") && <ErrorLabel content={ stateError.title }/> }
-          </Form.Field>
-          <Form.Field>
+
+        <Form.Group>
+          {/* Type */}
+          <Form.Field width="6">
             <Form.Select
               label="Type"
               name="type"
@@ -97,10 +139,20 @@ class SubmitForm extends Component {
             />
             { stateError.hasOwnProperty("type") && <ErrorLabel content={ stateError.type }/> }
           </Form.Field>
+
+          {/* Date Published */}
+          <Form.Field width="5">
+            <DateInput />
+          </Form.Field>
+
+          {/* Year */}
+          <Form.Field width="5">
+            <YearInput/>
+          </Form.Field>
         </Form.Group>
 
+        {/* Description */}
         <Form.Field>
-          {/* Description */}
           <Form.TextArea
             label="Description"
             placeholder="Look at me, I'm a Description. LOOK AT ME."
@@ -112,7 +164,11 @@ class SubmitForm extends Component {
           { stateError.hasOwnProperty("description") && <ErrorLabel content={ stateError.description }/> }
         </Form.Field>
 
-        <Form.Button fluid>Submit</Form.Button>
+        <Button.Group widths="2">
+          <Button color="blue" icon="send" content="Submit"/>
+          <Button.Or/>
+          <Button color="green" icon="save" content="Save"/>
+        </Button.Group>
 
         <Message
           error
