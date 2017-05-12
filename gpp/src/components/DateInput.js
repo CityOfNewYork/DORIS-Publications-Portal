@@ -1,20 +1,20 @@
 import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 import {MaskedInput} from 'react-text-mask';
 import {Form} from 'semantic-ui-react';
 import DatePicker from 'react-datepicker';
-import moment from 'moment';
 import 'react-datepicker/dist/react-datepicker.css';
 import './DateInput.css';
 
 class Input extends Component {  // Must be a class; DatePicker gives its customInput prop a ref
   render() {
-    const {error, onClick, onChange, value} = this.props;
+    const {error, onClick, onChange, value, label, name} = this.props;
     return (
       <Form.Input
         error={error}
         required
-        label="Date Published"
-        name="date"
+        label={label}
+        name={name}
         children={
           <MaskedInput
             mask={[/\d/, /\d/, '/', /\d/, /\d/, '/', /\d/, /\d/, /\d/, /\d/]}
@@ -33,9 +33,18 @@ class Input extends Component {  // Must be a class; DatePicker gives its custom
 
 
 class DateInput extends Component {
+  static propTypes = {
+    label: PropTypes.oneOfType([
+      PropTypes.string.isRequired,
+      PropTypes.element.isRequired
+    ]),
+    name: PropTypes.string.isRequired,
+    maxDate: PropTypes.object
+  };
+
   state = {
     date: undefined,
-    moment: moment().startOf('day'),
+    moment: this.props.maxDate || null,
     error: false
   };
 
@@ -62,17 +71,25 @@ class DateInput extends Component {
       error: (
         dateMatch === null ||
         !DateInput.isValidDate(...value.split("/")) ||
-        this.state.moment.diff(parsedDate, 'days') < 0
+        (this.state.moment && this.state.moment.diff(parsedDate, 'days') < 0)
       )
     });
   };
 
   render() {
     const {date, moment, error} = this.state;
+    const {label, name} = this.props;
     return <DatePicker
       maxDate={moment}
       selected={date}
-      customInput={<Input onChange={this.handleChange} error={error}/>}
+      customInput={
+        <Input
+          onChange={this.handleChange}
+          error={error}
+          label={label}
+          name={name}
+        />
+      }
       onChange={this.handleChange}
       onChangeRaw={this.handleChangeRaw}
     />;

@@ -1,16 +1,22 @@
 import React, {Component} from 'react';
-import {Select, Form, Label, Popup, Icon} from 'semantic-ui-react';
+import {Form, Label, Grid} from 'semantic-ui-react';
 import TooltippedLabel from './TooltippedLabel';
+import DateInput from './DateInput';
+import './DateInput.css';
 
 class YearInput extends Component {
+  static YEAR_TYPE_CAL = 'calendar';
+  static YEAR_TYPE_FIS = 'fiscal';
+  static YEAR_TYPE_OTH = 'other';
+
   state = {
-    isCalendar: true,
+    yearType: YearInput.YEAR_TYPE_CAL,
     value: ''
   };
 
   onDropdownChange = (e, {value}) => {
     this.setState({
-      isCalendar: value === 'calendar'
+      yearType: value
     })
   };
 
@@ -24,37 +30,85 @@ class YearInput extends Component {
 
   render() {
     const options = [
-      {key: 'cal', text: 'Calendar', value: 'calendar'},
-      {key: 'fis', text: 'NYC Fiscal', value: 'fiscal'}
+      {key: "cal", text: "Calendar", value: YearInput.YEAR_TYPE_CAL},
+      {key: "fis", text: "NYC Fiscal", value: YearInput.YEAR_TYPE_FIS},
+      {key: "oth", text: "Other", value: YearInput.YEAR_TYPE_OTH}
     ];
 
-    const {isCalendar, value} = this.state;
+    const {yearType, value} = this.state;
 
-    return (
-      <div>
-        <Form.Input
-          label={<TooltippedLabel tooltipContent="Testing 1 2 3" labelContent="Associated Year" />}
-          name='year'
-          action={
-            <Select
-              compact
-              defaultValue='calendar'
-              options={options}
-              onChange={this.onDropdownChange}
-            />
-          }
-          maxLength='4'
-          value={value}
-          onChange={this.onInputChange}
+    const yearTypePicker = (
+      <Grid.Column verticalAlign="bottom" width="4">
+        <Form.Select
+          compact
+          defaultValue={YearInput.YEAR_TYPE_CAL}
+          options={options}
+          onChange={this.onDropdownChange}
         />
-        {
-          !isCalendar && value.length === 4 &&
-          <Label pointing>
-            July 1, {value} – June 30, {parseInt(value, 10) + 1}
-          </Label>
-        }
-      </div>
-    )
+      </Grid.Column>
+    );
+
+    const yearPicker = (
+      <Grid>
+        <Grid.Column width="12">
+          <Form.Input
+            label={<TooltippedLabel tooltipContent="Testing 1 2 3" labelContent="Associated Year"/>}
+            name='year'
+            maxLength='4'
+            value={value}
+            onChange={this.onInputChange}
+          />
+        </Grid.Column>
+        {yearTypePicker}
+      </Grid>
+    );
+
+    switch (yearType) {
+      case YearInput.YEAR_TYPE_OTH:
+        return (
+          <div>
+            <Grid>
+              <Grid.Column width="6">
+                <DateInput
+                  label={<TooltippedLabel tooltipContent="Testing 1 2 3" labelContent="Associated Start Date"/>}
+                  name="startDate"
+                />
+              </Grid.Column>
+              <Grid.Column width="6">
+                <DateInput
+                  label={<TooltippedLabel tooltipContent="Testing 1 2 3" labelContent="Associated End Date"/>}
+                  name="endDate"
+                />
+              </Grid.Column>
+              {yearTypePicker}
+            </Grid>
+          </div>
+        );
+        break;
+      case YearInput.YEAR_TYPE_FIS:
+        return (
+          <div>
+            {yearPicker}
+            {value.length === 4 &&
+            <Label pointing>
+              July 1, {value} – June 30, {parseInt(value, 10) + 1}
+            </Label>
+            }
+          </div>
+        );
+        break;
+      default:
+        return (
+          <div>
+            {yearPicker}
+            {value.length === 4 &&
+            <Label pointing>
+              January 1, {value} – December 31, {parseInt(value, 10)}
+            </Label>
+            }
+          </div>
+        );
+    }
   }
 }
 

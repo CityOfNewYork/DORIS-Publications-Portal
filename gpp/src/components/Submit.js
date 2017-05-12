@@ -1,11 +1,13 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {Message, Form, Button} from 'semantic-ui-react';
+import moment from 'moment';
 import {ErrorLabel, withValidation} from './custom';
 import FileUpload from './FileUpload';
 import DateInput from './DateInput';
 import ListGenInput from './ListGenInput';
 import YearInput from './YearInput';
+import TooltippedLabel from './TooltippedLabel';
 
 
 class SubmitForm extends Component {
@@ -140,13 +142,36 @@ class SubmitForm extends Component {
             { stateError.hasOwnProperty("type") && <ErrorLabel content={ stateError.type }/> }
           </Form.Field>
 
-          {/* Date Published */}
-          <Form.Field width="5">
-            <DateInput />
+          {/* TODO: limit to 3? */}
+          <Form.Field width="10">
+            <Form.Dropdown
+              required
+              label="Subject(s)"
+              name="subjects"
+              fluid
+              multiple
+              search
+              selection
+              options={[
+                {key: 'f', text: 'Foo', value: 'foo'},
+                {key: 'b', text: 'Bar', value: 'bar'}
+              ]} />
+          </Form.Field>
+
+        </Form.Group>
+
+        <Form.Group>
+        {/* Date Published */}
+          <Form.Field width="4">
+            <DateInput
+              label={<TooltippedLabel tooltipContent="Testing 1 2 3" labelContent="Date Published" />}
+              name="datePublished"
+              maxDate={moment().startOf('day')}
+            />
           </Form.Field>
 
           {/* Year */}
-          <Form.Field width="5">
+          <Form.Field width="12">
             <YearInput/>
           </Form.Field>
         </Form.Group>
