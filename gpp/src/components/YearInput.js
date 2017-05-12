@@ -84,7 +84,6 @@ class YearInput extends Component {
             </Grid>
           </div>
         );
-        break;
       case YearInput.YEAR_TYPE_FIS:
         return (
           <div>
@@ -96,7 +95,6 @@ class YearInput extends Component {
             }
           </div>
         );
-        break;
       default:
         return (
           <div>
