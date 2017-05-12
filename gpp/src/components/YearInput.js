@@ -3,6 +3,7 @@ import {Form, Label, Grid} from 'semantic-ui-react';
 import TooltippedLabel from './TooltippedLabel';
 import DateInput from './DateInput';
 import './DateInput.css';
+import moment from 'moment';
 
 class YearInput extends Component {
   static YEAR_TYPE_CAL = 'calendar';
@@ -72,6 +73,7 @@ class YearInput extends Component {
                 <DateInput
                   label={<TooltippedLabel tooltipContent="Testing 1 2 3" labelContent="Associated Start Date"/>}
                   name="startDate"
+                  maxDate={moment().startOf('day')}
                 />
               </Grid.Column>
               <Grid.Column width="6">
