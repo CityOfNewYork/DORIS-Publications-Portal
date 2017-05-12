@@ -75,7 +75,6 @@ class SubmitForm extends Component {
             name="title"
             { ...stateError.hasOwnProperty("title") ? {error: true} : {}}
             onChange={handleFieldChange}
-            maxLength="10"
             required
           />
           { stateError.hasOwnProperty("title") && <ErrorLabel content={ stateError.title }/> }
@@ -89,8 +88,6 @@ class SubmitForm extends Component {
             name="subtitle"
             { ...stateError.hasOwnProperty("subtitle") ? {error: true} : {}}
             onChange={handleFieldChange}
-            maxLength="10"
-            required
           />
           { stateError.hasOwnProperty("subtitle") && <ErrorLabel content={ stateError.title }/> }
         </Form.Field>
