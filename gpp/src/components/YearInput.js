@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
-import {Select, Form, Label} from 'semantic-ui-react';
+import {Select, Form, Label, Popup, Icon} from 'semantic-ui-react';
+import TooltippedLabel from './TooltippedLabel';
 
 class YearInput extends Component {
   state = {
@@ -32,7 +33,7 @@ class YearInput extends Component {
     return (
       <div>
         <Form.Input
-          label='Associated Year'
+          label={<TooltippedLabel tooltipContent="Testing 1 2 3" labelContent="Associated Year" />}
           name='year'
           action={
             <Select
