@@ -41,9 +41,10 @@ class YearInput extends Component {
       <Grid.Column verticalAlign="bottom" width="4">
         <Form.Select
           compact
-          defaultValue={YearInput.YEAR_TYPE_CAL}
+          // defaultValue={YearInput.YEAR_TYPE_CAL}  // will cause issues due to remounting below
           options={options}
           onChange={this.onDropdownChange}
+          value={this.state.yearType}
         />
       </Grid.Column>
     );
