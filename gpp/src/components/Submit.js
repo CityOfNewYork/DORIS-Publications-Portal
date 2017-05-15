@@ -55,7 +55,7 @@ class SubmitForm extends Component {
         {/* Files */}
         <Form.Field
           required
-          label="File(s)"
+          label={<TooltippedLabel tooltipContent="Testing 1 2 3" labelContent="File(s)" />}
         />
         <Form.Field>
           <FileUpload
@@ -70,7 +70,7 @@ class SubmitForm extends Component {
         {/* Title */}
         <Form.Field>
           <Form.Input
-            label="Title"
+            label={<TooltippedLabel tooltipContent="Testing 1 2 3" labelContent="Title" />}
             placeholder="Look at me, I'm a Title."
             name="title"
             { ...stateError.hasOwnProperty("title") ? {error: true} : {}}
@@ -83,7 +83,7 @@ class SubmitForm extends Component {
         {/* Sub-Title */}
         <Form.Field>
           <Form.Input
-            label="Sub-Title"
+            label={<TooltippedLabel tooltipContent="Testing 1 2 3" labelContent="Sub-Title" />}
             placeholder="I am inferior."
             name="subtitle"
             { ...stateError.hasOwnProperty("subtitle") ? {error: true} : {}}
@@ -95,7 +95,7 @@ class SubmitForm extends Component {
         {/* Agency */}
         <Form.Dropdown
           required
-          label="Agency"
+          label={<TooltippedLabel tooltipContent="Testing 1 2 3" labelContent="Agency" />}
           name="agency"
           search
           selection
@@ -116,7 +116,7 @@ class SubmitForm extends Component {
 
         {/* Additional Creators */ }
         <ListGenInput
-          label="Additional Creators"
+          label={<TooltippedLabel tooltipContent="Testing 1 2 3" labelContent="Additional Creators" />}
           ref={(creatorList) => {
             this.creatorList = creatorList
           }}
@@ -126,7 +126,7 @@ class SubmitForm extends Component {
           {/* Type */}
           <Form.Field width="6">
             <Form.Select
-              label="Type"
+              label={<TooltippedLabel tooltipContent="Testing 1 2 3" labelContent="Type" />}
               name="type"
               options={[
                 {key: 'f', text: 'Foo', value: 'foo'},
@@ -143,7 +143,7 @@ class SubmitForm extends Component {
           <Form.Field width="10">
             <Form.Dropdown
               required
-              label="Subject(s)"
+              label={<TooltippedLabel tooltipContent="Testing 1 2 3" labelContent="Subject(s)" />}
               name="subjects"
               fluid
               multiple
@@ -176,7 +176,7 @@ class SubmitForm extends Component {
         {/* Description */}
         <Form.Field>
           <Form.TextArea
-            label="Description"
+            label={<TooltippedLabel tooltipContent="Testing 1 2 3" labelContent="Description" />}
             placeholder="Look at me, I'm a Description. LOOK AT ME."
             name="description"
             { ...stateError.hasOwnProperty("description") ? {error: true} : {}}

@@ -1,9 +1,10 @@
 import React, {Component} from 'react';
 import {Form, Label, Grid} from 'semantic-ui-react';
+import moment from 'moment';
 import TooltippedLabel from './TooltippedLabel';
 import DateInput from './DateInput';
 import './DateInput.css';
-import moment from 'moment';
+
 
 class YearInput extends Component {
   static YEAR_TYPE_CAL = 'calendar';
