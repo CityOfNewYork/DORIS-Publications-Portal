@@ -1,10 +1,13 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import {Message, Form} from 'semantic-ui-react';
+import {Message, Form, Button} from 'semantic-ui-react';
+import moment from 'moment';
 import {ErrorLabel, withValidation} from './custom';
 import FileUpload from './FileUpload';
-import Date from './Datepicker';
+import DateInput from './DateInput';
 import ListGenInput from './ListGenInput';
+import YearInput from './YearInput';
+import TooltippedLabel from './TooltippedLabel';
 
 
 class SubmitForm extends Component {
@@ -30,9 +33,10 @@ class SubmitForm extends Component {
     });
 
     this.props.submitFormData({
-      filenames: this.refs.fileUpload.state.files.map((file) => {
+      filenames: this.fileUpload.state.files.map((file) => {
         return file.name;
-      })
+      }),
+      creators: this.creatorList.state.items
     });
   };
 
@@ -47,40 +51,82 @@ class SubmitForm extends Component {
         { ...stateLoading && {loading: true} }
       >
         <h2>Document Submission</h2>
+
         {/* Files */}
         <Form.Field
           required
-          label="File(s)"
+          label={<TooltippedLabel tooltipContent="Testing 1 2 3" labelContent="File(s)" />}
         />
         <Form.Field>
           <FileUpload
-            ref="fileUpload"
+            ref={(fileUpload) => {
+              this.fileUpload = fileUpload
+            }}
             required
             submitted={this.state.submitted}
           /> {/* TODO: deal with server error? */}
         </Form.Field>
 
-        <ListGenInput
-          label="Additional Creators"
+        {/* Title */}
+        <Form.Field>
+          <Form.Input
+            label={<TooltippedLabel tooltipContent="Testing 1 2 3" labelContent="Title" />}
+            placeholder="Look at me, I'm a Title."
+            name="title"
+            { ...stateError.hasOwnProperty("title") ? {error: true} : {}}
+            onChange={handleFieldChange}
+            required
+          />
+          { stateError.hasOwnProperty("title") && <ErrorLabel content={ stateError.title }/> }
+        </Form.Field>
+
+        {/* Sub-Title */}
+        <Form.Field>
+          <Form.Input
+            label={<TooltippedLabel tooltipContent="Testing 1 2 3" labelContent="Sub-Title" />}
+            placeholder="I am inferior."
+            name="subtitle"
+            { ...stateError.hasOwnProperty("subtitle") ? {error: true} : {}}
+            onChange={handleFieldChange}
+          />
+          { stateError.hasOwnProperty("subtitle") && <ErrorLabel content={ stateError.title }/> }
+        </Form.Field>
+
+        {/* Agency */}
+        <Form.Dropdown
+          required
+          label={<TooltippedLabel tooltipContent="Testing 1 2 3" labelContent="Agency" />}
+          name="agency"
+          search
+          selection
+          options={[
+            {
+              key: "doris",
+              value: "doris",
+              text: "DORIS - Department of Records & Information Services"
+            },
+            {
+              key: "doitt",
+              value: "doitt",
+              text: "DOITT - Department of Information Technology & Telecommunications"
+            },
+          ]}
+          placeholder="Select Your Agency"
         />
 
-        <Form.Group widths="equal">
-          {/* Title */}
-          <Form.Field>
-            <Form.Input
-              label="Title"
-              placeholder="Look at me, I'm a Title."
-              name="title"
-              { ...stateError.hasOwnProperty("title") ? {error: true} : {}}
-              onChange={handleFieldChange}
-              maxLength="10"
-              required
-            />
-            { stateError.hasOwnProperty("title") && <ErrorLabel content={ stateError.title }/> }
-          </Form.Field>
-          <Form.Field>
+        {/* Additional Creators */ }
+        <ListGenInput
+          label={<TooltippedLabel tooltipContent="Testing 1 2 3" labelContent="Additional Creators" />}
+          ref={(creatorList) => {
+            this.creatorList = creatorList
+          }}
+        />
+
+        <Form.Group>
+          {/* Type */}
+          <Form.Field width="6">
             <Form.Select
-              label="Type"
+              label={<TooltippedLabel tooltipContent="Testing 1 2 3" labelContent="Type" />}
               name="type"
               options={[
                 {key: 'f', text: 'Foo', value: 'foo'},
@@ -92,12 +138,45 @@ class SubmitForm extends Component {
             />
             { stateError.hasOwnProperty("type") && <ErrorLabel content={ stateError.type }/> }
           </Form.Field>
+
+          {/* TODO: limit to 3? */}
+          <Form.Field width="10">
+            <Form.Dropdown
+              required
+              label={<TooltippedLabel tooltipContent="Testing 1 2 3" labelContent="Subject(s)" />}
+              name="subjects"
+              fluid
+              multiple
+              search
+              selection
+              options={[
+                {key: 'f', text: 'Foo', value: 'foo'},
+                {key: 'b', text: 'Bar', value: 'bar'}
+              ]} />
+          </Form.Field>
+
         </Form.Group>
 
+        <Form.Group>
+        {/* Date Published */}
+          <Form.Field width="4">
+            <DateInput
+              label={<TooltippedLabel tooltipContent="Testing 1 2 3" labelContent="Date Published" />}
+              name="datePublished"
+              maxDate={moment().startOf('day')}
+            />
+          </Form.Field>
+
+          {/* Year */}
+          <Form.Field width="12">
+            <YearInput/>
+          </Form.Field>
+        </Form.Group>
+
+        {/* Description */}
         <Form.Field>
-          {/* Description */}
           <Form.TextArea
-            label="Description"
+            label={<TooltippedLabel tooltipContent="Testing 1 2 3" labelContent="Description" />}
             placeholder="Look at me, I'm a Description. LOOK AT ME."
             name="description"
             { ...stateError.hasOwnProperty("description") ? {error: true} : {}}
@@ -107,7 +186,11 @@ class SubmitForm extends Component {
           { stateError.hasOwnProperty("description") && <ErrorLabel content={ stateError.description }/> }
         </Form.Field>
 
-        <Form.Button fluid>Submit</Form.Button>
+        <Button.Group widths="2">
+          <Button color="blue" icon="send" content="Submit"/>
+          <Button.Or/>
+          <Button color="green" icon="save" content="Save"/>
+        </Button.Group>
 
         <Message
           error
