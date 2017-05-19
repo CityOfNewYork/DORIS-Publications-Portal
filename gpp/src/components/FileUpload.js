@@ -161,12 +161,13 @@ class FileUpload extends Component {
   static defaultProps = {
     required: false,
     submitted: false,
-    messageIsVisible: true
   };
 
   state = {
     files: [],
     messages: [],
+    messageIsVisible: true,
+    fileHasError: false
   };
 
   /**
@@ -216,10 +217,16 @@ class FileUpload extends Component {
     }
   };
 
+  /**
+   * Move file down 1 index in the state.files array
+   */
   shiftFileDown = (index) => {
     this._shiftFile(index, false)
   };
 
+  /**
+   * Move file up 1 index in the state.files array
+   */
   shiftFileUp = (index) => {
     this._shiftFile(index)
   };
@@ -236,18 +243,41 @@ class FileUpload extends Component {
     })
   };
 
+  /**
+   * Check all refs to FileRows for errors.
+   */
   fileHasError = () => {
     for (let [_, ref] of Object.entries(this.refs)) {
       if (ref.state.error) {
         return true;
       }
     }
+    return false;
   };
 
+  /**
+   * Call fileHasError and update state now that refs are available.
+   */
+  componentDidUpdate() {
+    if (this.fileHasError()) {
+      if (!this.state.fileHasError) {
+        this.setState({
+          fileHasError: true
+        })
+      }
+    }
+    else {
+      if (this.state.fileHasError) {
+        this.setState({
+          fileHasError: false
+        })
+      }
+    }
+  }
+
   render() {
-    const {files, messages, messageIsVisible} = this.state;
+    const {files, messages, messageIsVisible, fileHasError} = this.state;
     const {required, submitted, uploadDirName} = this.props;
-    const fileHasError = this.fileHasError();
     const hasError = required && submitted && (files.length === 0 || fileHasError);
     const fileRows = files.map((file, index) =>
       <FileRow
@@ -268,7 +298,7 @@ class FileUpload extends Component {
 
     return (
       <div>
-        <Segment attached="top" style={ hasError ? {background: "#FFF6F6", borderColor: "#E0B4B4"} : {}}>
+        <Segment style={ hasError ? {background: "#FFF6F6", borderColor: "#E0B4B4"} : {}}>
           <p>
             Please add files and arrange them in the order you would like them to appear for this publication.
           </p>
@@ -296,20 +326,19 @@ class FileUpload extends Component {
           </Grid>
           { hasError &&
             <ErrorLabel
-              content={fileHasError ? "You must remove any failed uploads" : "You must add at least 1 file."}
+              content={fileHasError ? "You must remove any failed uploads." : "You must add at least 1 file."}
             />
           }
+          {
+            messages.length > 0 && messageIsVisible &&
+            <Message
+              onDismiss={() => this.setState({messageIsVisible: false})}
+              color="yellow"
+            >
+              <Message.List>{messageListItems}</Message.List>
+            </Message>
+          }
         </Segment>
-        {
-          messages.length > 0 && messageIsVisible &&
-          <Message
-            onDismiss={() => this.setState({messageIsVisible: false})}
-            color="yellow"
-            attached="bottom"
-          >
-            <Message.List>{messageListItems}</Message.List>
-          </Message>
-        }
       </div>
     )
   }

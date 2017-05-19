@@ -39,7 +39,7 @@ class SubmitForm(Form):
         ]
     )
 
-    def validate(self):
+    def validate(self):  # TODO: change to deal with parent dir and make sure all choices (and only those choices) are true
         # convert file names to secure variants
         self.filenames.data = [
             secure_filename(name) for name in self.filenames.data
