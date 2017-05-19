@@ -47,7 +47,7 @@ def create_app(conf_type):
 
     # Add resource routes
     v1.api.add_resource(v1.Publication, '/publication', '/publication/<int:id>')
-    v1.api.add_resource(v1.Upload, '/upload', '/upload/<string:filename>')
+    v1.api.add_resource(v1.Upload, '/upload/<string:dirname>', '/upload/<string:dirname>/<string:filename>')
 
     # Register blueprints
     app.register_blueprint(v1.blueprint, url_prefix="/api/v1.0")

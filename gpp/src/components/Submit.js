@@ -64,7 +64,8 @@ class SubmitForm extends Component {
             }}
             required
             submitted={this.state.submitted}
-          /> {/* TODO: deal with server error? */}
+            uploadDirName="some_ID"
+          /> {/* TODO: uploadDirName = current user's guid? */}
         </Form.Field>
 
         {/* Title */}

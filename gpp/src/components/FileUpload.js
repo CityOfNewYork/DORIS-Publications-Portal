@@ -13,6 +13,7 @@ class FileRow extends Component {
       size: PropTypes.number.isRequired,
       name: PropTypes.string.isRequired,
     }),
+    uploadDirName: PropTypes.string.isRequired,
     index: PropTypes.number.isRequired,
     isLast: PropTypes.bool.isRequired,
     onRemove: PropTypes.func.isRequired,
@@ -57,19 +58,18 @@ class FileRow extends Component {
    */
   parseResponse = () => {
     let errorMsg = "";
-    if (this.xhr.status !== 200) {
-      try {
-        errorMsg = JSON.parse(this.xhr.responseText);
+    try {
+      let jsonResponse = JSON.parse(this.xhr.responseText);
+      if (this.xhr.status !== 200 || jsonResponse.status === "fail") {
+        errorMsg = jsonResponse.data || jsonResponse.message
       }
-      catch (err) {
-        errorMsg = {
-          message: "Failed to upload file due to an unhandled server error. Please remove and try again."
-        }
-      }
+    }
+    catch (err) {
+      errorMsg = "Failed to upload file due to an unhandled server error."
     }
     this.setState({
       percent: 100,
-      error: errorMsg.message || errorMsg.data,
+      error: errorMsg,
       uploading: false
     })
   };
@@ -79,11 +79,12 @@ class FileRow extends Component {
    */
   componentDidMount() {
     // TODO: frontend validation (number?, size?, total size?, mimetype, user authenticated, etc.)
+    const {file, uploadDirName} = this.props;
     let data = new FormData();
-    data.append("file", this.props.file);
+    data.append("file", file);
     this.xhr.upload.addEventListener("progress", this.uploadProgress);
     this.xhr.upload.addEventListener("error", this.uploadFailed);
-    this.xhr.open("POST", "/api/v1.0/upload");
+    this.xhr.open("POST", "/api/v1.0/upload/" + uploadDirName);
     this.xhr.setRequestHeader("X-CSRFToken", readCookie("csrf_token"));
     this.xhr.onload = this.parseResponse;
     this.xhr.send(data);
@@ -95,13 +96,14 @@ class FileRow extends Component {
    * If the upload has failed, do nothing.
    */
   componentWillUnmount() {
+    const {file, uploadDirName} = this.props;
     if (this.xhr.readyState !== XMLHttpRequest.DONE) {
       this.xhr.abort();
     }
     else {
       if (!this.state.error) {
         csrfFetch(
-          "api/v1.0/upload/" + this.props.file.name,
+          `api/v1.0/upload/${uploadDirName}/${file.name}`,
           {method: "delete"}
         );
       }
@@ -116,11 +118,13 @@ class FileRow extends Component {
         <Grid.Column width={1}>
           { index + 1 }
         </Grid.Column>
-        <Grid.Column width={1}>
-          { index !== 0 && <Icon name="caret up" size="large" link onClick={() => onShiftDown(index)}/> }
-          { !isLast && <Icon name="caret down" size="large" link onClick={() => onShiftUp(index)}/> }
-        </Grid.Column>
-        <Grid.Column width={5}>
+        { index === 0 && isLast ? null :
+          <Grid.Column width={1}>
+            { index !== 0 && <Icon name="caret up" size="large" link onClick={() => onShiftDown(index)}/> }
+            { !isLast && <Icon name="caret down" size="large" link onClick={() => onShiftUp(index)}/> }
+          </Grid.Column>
+        }
+        <Grid.Column width={index === 0 && isLast ? 6 : 5}>
           <Form.Input placeholder={file.name}/>
         </Grid.Column>
         <Grid.Column width={3} style={{wordWrap: "break-word"}}>
@@ -150,9 +154,14 @@ class FileRow extends Component {
 
 class FileUpload extends Component {
 
+  static propTypes = {
+    uploadDirName: PropTypes.string.isRequired
+  };
+
   static defaultProps = {
     required: false,
     submitted: false,
+    messageIsVisible: true
   };
 
   state = {
@@ -162,7 +171,8 @@ class FileUpload extends Component {
 
   /**
    * Add files to the state.files array if there is anything to add
-   * and if the files have not already been added (check by file name).
+   * and if the files have not already been added (check by file name),
+   * and if the files are PDFs.
    */
   addFile = (e) => {
     const files = e.target.files;
@@ -170,7 +180,14 @@ class FileUpload extends Component {
       messages = [];
     for (let i = 0; i < files.length; i++) {
       let file = files[i];
-      if (this.state.files.filter((e) => e.name === file.name).length > 0) {
+      if (file.type !== "application/pdf") {
+        messages.push(
+          <div>
+            <strong>{file.name}</strong> is not a PDF file. Please choose a different file.
+          </div>
+        )
+      }
+      else if (this.state.files.filter((e) => e.name === file.name).length > 0) {
         messages.push(
           <div>
             <strong>{file.name}</strong> has already been added. Please choose a different file.
@@ -184,6 +201,7 @@ class FileUpload extends Component {
     this.setState({
       files: [...this.state.files, ...filesToAdd],
       messages: messages,
+      messageIsVisible: true
     })
   };
 
@@ -218,28 +236,6 @@ class FileUpload extends Component {
     })
   };
 
-  /**
-   * Cancel event if the latest file component is in
-   * an error state or is in the process of uploading.
-   */
-  checkLatestFile = (e) => {  // TODO: remove
-    if (this.refs.latestFile) {
-      let msg = "";
-      if (this.refs.latestFile.state.error) {
-        msg = "You must remove the failed upload before you can add another file.";
-      }
-      else if (this.refs.latestFile.state.uploading) {
-        msg = "You cannot add another file while while an upload is in progress.";
-      }
-      if (msg) {
-        e.preventDefault();
-      }
-      this.setState({
-        message: msg
-      });
-    }
-  };
-
   fileHasError = () => {
     for (let [_, ref] of Object.entries(this.refs)) {
       if (ref.state.error) {
@@ -249,8 +245,8 @@ class FileUpload extends Component {
   };
 
   render() {
-    const {files, messages} = this.state;
-    const {required, submitted} = this.props;
+    const {files, messages, messageIsVisible} = this.state;
+    const {required, submitted, uploadDirName} = this.props;
     const fileHasError = this.fileHasError();
     const hasError = required && submitted && (files.length === 0 || fileHasError);
     const fileRows = files.map((file, index) =>
@@ -262,7 +258,8 @@ class FileUpload extends Component {
         onRemove={this.removeFile}
         onShiftDown={this.shiftFileDown}
         onShiftUp={this.shiftFileUp}
-        ref={`file${index}`}
+        ref={"file" + index}
+        uploadDirName={uploadDirName}
       />
     );
     const messageListItems = messages.map((message, index) =>
@@ -304,8 +301,12 @@ class FileUpload extends Component {
           }
         </Segment>
         {
-          messages.length > 0 &&
-          <Message info attached="bottom">
+          messages.length > 0 && messageIsVisible &&
+          <Message
+            onDismiss={() => this.setState({messageIsVisible: false})}
+            color="yellow"
+            attached="bottom"
+          >
             <Message.List>{messageListItems}</Message.List>
           </Message>
         }

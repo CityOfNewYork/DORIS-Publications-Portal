@@ -29,10 +29,10 @@ def index():
 
 @main.route('/login')
 def login():
-    from app.database import User
-    user = User.get_first()
+    from app.database.user import get_first, create
+    user = get_first()
     if user is None:
-        User.create("GUID", "EDIRSSO", "Dirk", None, "Diggler", "doubled@email.com")
+        user = create("GUID", "EDIRSSO", "Dirk", None, "Diggler", "doubled@email.com")
     login_user(user)
     return redirect(url_for("main.index"))
 
