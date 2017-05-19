@@ -74,14 +74,14 @@ class YearInput extends Component {
               <Grid.Column width="6">
                 <DateInput
                   label={<TooltippedLabel tooltipContent="Testing 1 2 3" labelContent="Associated Start Date"/>}
-                  name="startDate"
+                  name="start_date"
                   maxDate={moment().startOf('day')}
                 />
               </Grid.Column>
               <Grid.Column width="6">
                 <DateInput
                   label={<TooltippedLabel tooltipContent="Testing 1 2 3" labelContent="Associated End Date"/>}
-                  name="endDate"
+                  name="end_date"
                 />
               </Grid.Column>
               {yearTypePicker}

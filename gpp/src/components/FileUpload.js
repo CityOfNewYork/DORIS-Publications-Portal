@@ -278,7 +278,9 @@ class FileUpload extends Component {
   render() {
     const {files, messages, messageIsVisible, fileHasError} = this.state;
     const {required, submitted, uploadDirName} = this.props;
+
     const hasError = required && submitted && (files.length === 0 || fileHasError);
+
     const fileRows = files.map((file, index) =>
       <FileRow
         key={file.name}
@@ -292,6 +294,7 @@ class FileUpload extends Component {
         uploadDirName={uploadDirName}
       />
     );
+
     const messageListItems = messages.map((message, index) =>
       <Message.Item key={index} content={message}/>
     );

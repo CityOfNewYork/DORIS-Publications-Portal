@@ -1,4 +1,4 @@
-from .publication.api import PublicationAPI as Publication
+from .document.api import DocumentAPI as Document
 from .upload.api import UploadAPI as Upload
 
 from flask import Blueprint

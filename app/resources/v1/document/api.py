@@ -5,53 +5,61 @@ from app.resources.lib import api_response
 from .forms import SubmitForm
 from flask_login import login_required
 
-
+# TODO: use db object
 from collections import namedtuple
-Document = namedtuple("Document", ["id", "title", "type", "description"])
+Document = namedtuple(
+    "Document", [
+        "id",
+        "title",
+        "subtitle",
+        "agency",
+        "creators",
+        "type",
+        "subjects",
+        "date_published",
+        "year",
+        "start_date",
+        "end_date",
+        "description"
+    ]
+)
 
 
-class PublicationAPI(Resource):
+class DocumentAPI(Resource):
 
     def get(self, id):
-        pub = Document(id,
+        doc = Document(id,
                        'A Title',
                        'TYPE',
                        'A description.')
         return api_response.success({
-            'publication': {
-                'id': pub.id,
-                'title': pub.title,
-                'type': pub.type,
-                'description': pub.description,
+            'document': {
+                'id': doc.id,
+                'title': doc.title,
+                'type': doc.type,
+                'description': doc.description,
             }
         })
 
     @login_required
     def post(self):
         try:
-            form = SubmitForm(data=request.get_json(force=True))
+            form = SubmitForm('some_ID', data=request.get_json(force=True))
         except Exception as e:
             return api_response.error(str(e))
 
         if form.validate():
-            # create publication
-            pub = Document(1,  # id
+            # create document
+            doc = Document(1,  # id
                            form.title.data,
                            form.type.data,
                            form.description.data)  # TODO: combined files name
             return api_response.success({
                 'publication': {
-                    'id': pub.id,
-                    'title': pub.title,
-                    'type': pub.type,
-                    'description': pub.description,
+                    'id': doc.id,
+                    'title': doc.title,
+                    'type': doc.type,
+                    'description': doc.description,
                 }
             })
         return api_response.fail(form.errors)
-
-
-class PublicationsApi(Resource):  # FIXME: this will probably never be used due to SearchApi
-
-    def get(self):
-        # return multiple publications
-        pass

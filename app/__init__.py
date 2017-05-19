@@ -46,7 +46,7 @@ def create_app(conf_type):
     from .main.views import main
 
     # Add resource routes
-    v1.api.add_resource(v1.Publication, '/publication', '/publication/<int:id>')
+    v1.api.add_resource(v1.Document, '/document', '/document/<int:id>')
     v1.api.add_resource(v1.Upload, '/upload/<string:dirname>', '/upload/<string:dirname>/<string:filename>')
 
     # Register blueprints

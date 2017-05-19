@@ -135,12 +135,13 @@ class SubmitForm extends Component {
               ]}
               { ...stateError.hasOwnProperty("type") ? {error: true} : {}}
               onChange={handleFieldChange}
+              search
               required
             />
             { stateError.hasOwnProperty("type") && <ErrorLabel content={ stateError.type }/> }
           </Form.Field>
 
-          {/* TODO: limit to 3? */}
+          {/* Subjects TODO: limit to 3? */}
           <Form.Field width="10">
             <Form.Dropdown
               required
@@ -163,7 +164,7 @@ class SubmitForm extends Component {
           <Form.Field width="4">
             <DateInput
               label={<TooltippedLabel tooltipContent="Testing 1 2 3" labelContent="Date Published" />}
-              name="datePublished"
+              name="date_published"
               maxDate={moment().startOf('day')}
             />
           </Form.Field>
@@ -205,6 +206,6 @@ class SubmitForm extends Component {
 
 export default withValidation(
   "post",
-  "api/v1.0/publication",
+  "api/v1.0/document",
   SubmitForm
 );
