@@ -3,6 +3,7 @@
  */
 import React from 'react'
 import {Label} from 'semantic-ui-react'
+import {PropTypes} from 'prop-types';
 import {csrfFetch} from '../utils/fetch'
 import {omit} from '../utils/object'
 
@@ -17,8 +18,15 @@ import {omit} from '../utils/object'
  *    </Form.Field>
  */
 const ErrorLabel = ({content}) => (
-  <Label className="prompt" pointing color="red" content={content}/>
+  <Label className="prompt" pointing color="red" content={Array.isArray(content) ? content.join(" ") : content}/>
 );
+
+ErrorLabel.propTypes = {
+  content: PropTypes.oneOfType([
+    PropTypes.string.isRequired,
+    PropTypes.arrayOf(PropTypes.string).isRequired
+  ])
+};
 
 /**
  * A higher-order component (HOC) that provides basic validation functionality

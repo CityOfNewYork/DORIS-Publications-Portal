@@ -23,6 +23,7 @@ class SubmitForm extends Component {
 
   state = {
     submitted: false,
+    subjects: []
   };
 
   handleSubmit = (e) => {
@@ -32,12 +33,34 @@ class SubmitForm extends Component {
       submitted: true
     });
 
+    /**
+     * Convert Moment object from dateRef into formatted string if present.
+     */
+    const formatDate = (dateRef) => (
+      dateRef && dateRef.state.date ? dateRef.state.date.format('MM/DD/YYYY') : ''
+    );
+
+    const {startDate, endDate} = this.year;
     this.props.submitFormData({
       filenames: this.fileUpload.state.files.map((file) => {
         return file.name;
       }),
-      creators: this.creatorList.state.items
+      creators: this.creatorList.state.items,
+      date_published: formatDate(this.datePublished),
+      year: this.year.state.year,
+      start_date: formatDate(startDate),
+      end_date: formatDate(endDate),
+      year_type: this.year.state.yearType
     });
+  };
+
+  onSubjectsChange = (e, {name, value}) => {
+    if (value.length <= 3) {
+      this.setState({
+        subjects: value
+      });
+      this.props.handleFieldChange(e, {name: name, value: value})
+    }
   };
 
   render() {
@@ -151,7 +174,7 @@ class SubmitForm extends Component {
             { stateError.hasOwnProperty("type") && <ErrorLabel content={ stateError.type }/> }
           </Form.Field>
 
-          {/* Subjects TODO: limit to 3? */}
+          {/* Subjects TODO: limit to 3 */}
           <Form.Field width="10">
             <Form.Dropdown
               required
@@ -161,9 +184,13 @@ class SubmitForm extends Component {
               multiple
               search
               selection
+              value={this.state.subjects}
+              onChange={this.onSubjectsChange}
               options={[
                 {key: 'f', text: 'Foo', value: 'foo'},
-                {key: 'b', text: 'Bar', value: 'bar'}
+                {key: 'b', text: 'Bar', value: 'bar'},
+                {key: 'ba', text: 'Baz', value: 'baz'},
+                {key: 'q', text: 'Qux', value: 'qux'}
               ]}
               error={stateError.hasOwnProperty("subjects")}
             />
@@ -180,13 +207,17 @@ class SubmitForm extends Component {
               name="date_published"
               maxDate={moment().startOf('day')}
               error={stateError.hasOwnProperty("date_published")}
+              ref={(datePublished) => this.datePublished = datePublished}
             />
             { stateError.hasOwnProperty("date_published") && <ErrorLabel content={ stateError.date_published }/> }
           </Form.Field>
 
           {/* Year */}
           <Form.Field width="12">
-            <YearInput stateError={stateError}/>
+            <YearInput
+              stateError={stateError}
+              ref={(year) => this.year = year}
+            />
           </Form.Field>
         </Form.Group>
 

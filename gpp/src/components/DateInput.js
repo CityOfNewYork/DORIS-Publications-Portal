@@ -39,19 +39,20 @@ class DateInput extends Component {
       PropTypes.element.isRequired
     ]),
     name: PropTypes.string.isRequired,
-    maxDate: PropTypes.object
+    maxDate: PropTypes.object,
+    error: PropTypes.bool.isRequired
   };
 
   state = {
     date: undefined,
     moment: this.props.maxDate || null,
-    error: false
+    dateError: false
   };
 
   handleChange = (date) => {
     this.setState({
       date: date,
-      error: false
+      dateError: false
     });
   };
 
@@ -68,7 +69,7 @@ class DateInput extends Component {
       parsedDate = Date.parse(value);
     this.setState({
       // .diff will return negative values if the parsedDate is greater than today
-      error: (
+      dateError: (
         dateMatch === null ||
         !DateInput.isValidDate(...value.split("/")) ||
         (this.state.moment && this.state.moment.diff(parsedDate, 'days') < 0)
@@ -77,15 +78,15 @@ class DateInput extends Component {
   };
 
   render() {
-    const {date, moment, error} = this.state;
-    const {label, name} = this.props;
+    const {date, moment, dateError} = this.state;
+    const {label, name, error} = this.props;
     return <DatePicker
       maxDate={moment}
       selected={date}
       customInput={
         <Input
           onChange={this.handleChange}
-          error={error}
+          error={dateError || error}
           label={label}
           name={name}
         />

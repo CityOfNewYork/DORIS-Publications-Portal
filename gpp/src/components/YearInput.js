@@ -24,7 +24,7 @@ class YearInput extends Component {
 
   state = {
     yearType: YearInput.YEAR_TYPE_CAL,
-    value: ''
+    year: '',
   };
 
   onDropdownChange = (e, {value}) => {
@@ -33,10 +33,10 @@ class YearInput extends Component {
     })
   };
 
-  onInputChange = (e, {value}) => {
+  onYearChange = (e, {value}) => {
     if (/^[0-9]+$/.test(value.slice(-1)) || value === '') {
       this.setState({
-        value: value
+        year: value
       })
     }
   };
@@ -48,7 +48,7 @@ class YearInput extends Component {
       {key: "oth", text: "Other", value: YearInput.YEAR_TYPE_OTH}
     ];
 
-    const {yearType, value} = this.state;
+    const {yearType, year} = this.state;
     const {stateError} = this.props;
 
     const yearTypePicker = (
@@ -59,7 +59,7 @@ class YearInput extends Component {
           options={options}
           name="year_type"
           onChange={this.onDropdownChange}
-          value={this.state.yearType}
+          value={yearType}
           error={stateError.hasOwnProperty("year_type")}
         />
         { stateError.hasOwnProperty("year_type") && <ErrorLabel content={ stateError.year_type }/> }
@@ -73,8 +73,9 @@ class YearInput extends Component {
             label={<TooltippedLabel tooltipContent="Testing 1 2 3" labelContent="Associated Year"/>}
             name='year'
             maxLength='4'
-            value={value}
-            onChange={this.onInputChange}
+            required
+            value={year}
+            onChange={this.onYearChange}
             error={stateError.hasOwnProperty("year")}
           />
           { stateError.hasOwnProperty("year") && <ErrorLabel content={ stateError.year }/> }
@@ -92,6 +93,7 @@ class YearInput extends Component {
                 <DateInput
                   label={<TooltippedLabel tooltipContent="Testing 1 2 3" labelContent="Associated Start Date"/>}
                   name="start_date"
+                  ref={(startDate) => this.startDate = startDate}
                   maxDate={moment().startOf('day')}
                   error={stateError.hasOwnProperty("start_date")}
                 />
@@ -101,6 +103,7 @@ class YearInput extends Component {
                 <DateInput
                   label={<TooltippedLabel tooltipContent="Testing 1 2 3" labelContent="Associated End Date"/>}
                   name="end_date"
+                  ref={(endDate) => this.endDate = endDate}
                   error={stateError.hasOwnProperty("end_date")}
                 />
                 { stateError.hasOwnProperty("end_date") && <ErrorLabel content={ stateError.end_date }/> }
@@ -113,9 +116,9 @@ class YearInput extends Component {
         return (
           <div>
             {yearPicker}
-            {value.length === 4 &&
+            {year.length === 4 &&
             <Label pointing>
-              July 1, {value} – June 30, {parseInt(value, 10) + 1}
+              July 1, {year} – June 30, {parseInt(year, 10) + 1}
             </Label>
             }
           </div>
@@ -124,9 +127,9 @@ class YearInput extends Component {
         return (
           <div>
             {yearPicker}
-            {value.length === 4 &&
+            {year.length === 4 &&
             <Label pointing>
-              January 1, {value} – December 31, {parseInt(value, 10)}
+              January 1, {year} – December 31, {parseInt(year, 10)}
             </Label>
             }
           </div>

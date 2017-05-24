@@ -61,7 +61,7 @@ class SubmitForm(Form):
     )
     year = IntegerField(
         validators=[
-            Length(min=4, max=4)
+            Length(min=4, max=4, message="Field must be 4 characters long.")
         ]
     )
     start_date = DateField(
