@@ -55,7 +55,7 @@ class SubmitForm extends Component {
         {/* Files */}
         <Form.Field
           required
-          label={<TooltippedLabel tooltipContent="Testing 1 2 3" labelContent="File(s)" />}
+          label={<TooltippedLabel tooltipContent="Testing 1 2 3" labelContent="File(s)"/>}
         />
         <Form.Field>
           <FileUpload
@@ -69,55 +69,65 @@ class SubmitForm extends Component {
         </Form.Field>
 
         {/* Title */}
-        <Form.Field>
-          <Form.Input
-            label={<TooltippedLabel tooltipContent="Testing 1 2 3" labelContent="Title" />}
-            placeholder="Look at me, I'm a Title."
-            name="title"
-            { ...stateError.hasOwnProperty("title") ? {error: true} : {}}
-            onChange={handleFieldChange}
-            required
-          />
-          { stateError.hasOwnProperty("title") && <ErrorLabel content={ stateError.title }/> }
-        </Form.Field>
+        <Form.Group>
+          <Form.Field width="16">
+            <Form.Input
+              label={<TooltippedLabel tooltipContent="Testing 1 2 3" labelContent="Title"/>}
+              placeholder="Look at me, I'm a Title."
+              name="title"
+              error={stateError.hasOwnProperty("title")}
+              onChange={handleFieldChange}
+              required
+            />
+            { stateError.hasOwnProperty("title") && <ErrorLabel content={ stateError.title }/> }
+          </Form.Field>
+        </Form.Group>
 
         {/* Sub-Title */}
-        <Form.Field>
-          <Form.Input
-            label={<TooltippedLabel tooltipContent="Testing 1 2 3" labelContent="Sub-Title" />}
-            placeholder="I am inferior."
-            name="subtitle"
-            { ...stateError.hasOwnProperty("subtitle") ? {error: true} : {}}
-            onChange={handleFieldChange}
-          />
-          { stateError.hasOwnProperty("subtitle") && <ErrorLabel content={ stateError.title }/> }
-        </Form.Field>
+        <Form.Group>
+          <Form.Field width="16">
+            <Form.Input
+              label={<TooltippedLabel tooltipContent="Testing 1 2 3" labelContent="Sub-Title"/>}
+              placeholder="I am inferior."
+              name="subtitle"
+              error={stateError.hasOwnProperty("subtitle")}
+              onChange={handleFieldChange}
+            />
+            { stateError.hasOwnProperty("subtitle") && <ErrorLabel content={ stateError.title }/> }
+          </Form.Field>
+        </Form.Group>
 
         {/* Agency */}
-        <Form.Dropdown
-          required
-          label={<TooltippedLabel tooltipContent="Testing 1 2 3" labelContent="Agency" />}
-          name="agency"
-          search
-          selection
-          options={[
-            {
-              key: "doris",
-              value: "doris",
-              text: "DORIS - Department of Records & Information Services"
-            },
-            {
-              key: "doitt",
-              value: "doitt",
-              text: "DOITT - Department of Information Technology & Telecommunications"
-            },
-          ]}
-          placeholder="Select Your Agency"
-        />
+        <Form.Group>
+          <Form.Field width="16">
+            <Form.Dropdown
+              required
+              label={<TooltippedLabel tooltipContent="Testing 1 2 3" labelContent="Agency"/>}
+              name="agency"
+              search
+              selection
+              options={[
+                {
+                  key: "doris",
+                  value: "doris",
+                  text: "DORIS - Department of Records & Information Services"
+                },
+                {
+                  key: "doitt",
+                  value: "doitt",
+                  text: "DOITT - Department of Information Technology & Telecommunications"
+                },
+              ]}
+              error={stateError.hasOwnProperty("agency")}
+              placeholder="Select Your Agency"
+            />
+            { stateError.hasOwnProperty("agency") && <ErrorLabel content={ stateError.agency }/> }
+          </Form.Field>
+        </Form.Group>
 
         {/* Additional Creators */ }
         <ListGenInput
-          label={<TooltippedLabel tooltipContent="Testing 1 2 3" labelContent="Additional Creators" />}
+          label={<TooltippedLabel tooltipContent="Testing 1 2 3" labelContent="Additional Creators"/>}
           ref={(creatorList) => {
             this.creatorList = creatorList
           }}
@@ -127,13 +137,13 @@ class SubmitForm extends Component {
           {/* Type */}
           <Form.Field width="6">
             <Form.Select
-              label={<TooltippedLabel tooltipContent="Testing 1 2 3" labelContent="Type" />}
+              label={<TooltippedLabel tooltipContent="Testing 1 2 3" labelContent="Type"/>}
               name="type"
               options={[
                 {key: 'f', text: 'Foo', value: 'foo'},
                 {key: 'b', text: 'Bar', value: 'bar'}
               ]}
-              { ...stateError.hasOwnProperty("type") ? {error: true} : {}}
+              error={stateError.hasOwnProperty("type")}
               onChange={handleFieldChange}
               search
               required
@@ -145,7 +155,7 @@ class SubmitForm extends Component {
           <Form.Field width="10">
             <Form.Dropdown
               required
-              label={<TooltippedLabel tooltipContent="Testing 1 2 3" labelContent="Subject(s)" />}
+              label={<TooltippedLabel tooltipContent="Testing 1 2 3" labelContent="Subject(s)"/>}
               name="subjects"
               fluid
               multiple
@@ -154,39 +164,46 @@ class SubmitForm extends Component {
               options={[
                 {key: 'f', text: 'Foo', value: 'foo'},
                 {key: 'b', text: 'Bar', value: 'bar'}
-              ]} />
+              ]}
+              error={stateError.hasOwnProperty("subjects")}
+            />
+            { stateError.hasOwnProperty("subjects") && <ErrorLabel content={ stateError.subjects }/> }
           </Form.Field>
 
         </Form.Group>
 
         <Form.Group>
-        {/* Date Published */}
+          {/* Date Published */}
           <Form.Field width="4">
             <DateInput
-              label={<TooltippedLabel tooltipContent="Testing 1 2 3" labelContent="Date Published" />}
+              label={<TooltippedLabel tooltipContent="Testing 1 2 3" labelContent="Date Published"/>}
               name="date_published"
               maxDate={moment().startOf('day')}
+              error={stateError.hasOwnProperty("date_published")}
             />
+            { stateError.hasOwnProperty("date_published") && <ErrorLabel content={ stateError.date_published }/> }
           </Form.Field>
 
           {/* Year */}
           <Form.Field width="12">
-            <YearInput/>
+            <YearInput stateError={stateError}/>
           </Form.Field>
         </Form.Group>
 
         {/* Description */}
-        <Form.Field>
-          <Form.TextArea
-            label={<TooltippedLabel tooltipContent="Testing 1 2 3" labelContent="Description" />}
-            placeholder="Look at me, I'm a Description. LOOK AT ME."
-            name="description"
-            { ...stateError.hasOwnProperty("description") ? {error: true} : {}}
-            onChange={handleFieldChange}
-            required
-          />
-          { stateError.hasOwnProperty("description") && <ErrorLabel content={ stateError.description }/> }
-        </Form.Field>
+        <Form.Group>
+          <Form.Field width="16">
+            <Form.TextArea
+              label={<TooltippedLabel tooltipContent="Testing 1 2 3" labelContent="Description"/>}
+              placeholder="Look at me, I'm a Description. LOOK AT ME."
+              name="description"
+              error={stateError.hasOwnProperty("description")}
+              onChange={handleFieldChange}
+              required
+            />
+            { stateError.hasOwnProperty("description") && <ErrorLabel content={ stateError.description }/> }
+          </Form.Field>
+        </Form.Group>
 
         <Button.Group widths="2">
           <Button color="blue" icon="send" content="Submit"/>

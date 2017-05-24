@@ -31,7 +31,6 @@ class SubmitForm(Form):
     )
     subtitle = StringField(
         validators=[
-            InputRequired(),
             Length(max=10)
         ]
     )
@@ -70,6 +69,14 @@ class SubmitForm(Form):
     )
     end_date = DateField(
         format="%m/%d/%Y"
+    )
+    year_type = SelectField(
+        choices=[("calendar", "Calendar"),
+                 ("fiscal", "NYC Fiscal"),
+                 ("other", "Other")],
+        validators=[
+            InputRequired()
+        ]
     )
     description = TextAreaField(
         validators=[
