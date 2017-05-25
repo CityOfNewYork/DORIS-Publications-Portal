@@ -128,7 +128,7 @@ class FileRow extends Component {
         <Grid.Column width={index === 0 && isLast ? 6 : 5}>
           <Form.Input
             placeholder={file.name}
-            onChange={onFileTitleChange(index, {value})}
+            onChange={onFileTitleChange(index)}
           />
         </Grid.Column>
         <Grid.Column width={3} style={{wordWrap: "break-word"}}>
@@ -207,6 +207,18 @@ class FileUpload extends Component {
       files: [...this.state.files, ...filesToAdd],
       messages: messages,
       messageIsVisible: true
+    })
+  };
+
+  fileTitleChange = (index) => (e, {value}) => {
+    let file = this.state.files[index];
+    file.title = value;
+    this.setState({
+      files: [
+        ...this.state.files.slice(0, index),
+        file,
+        ...this.state.files.slice(index + 1, this.state.files.length)
+      ]
     })
   };
 
@@ -294,6 +306,7 @@ class FileUpload extends Component {
         onRemove={this.removeFile}
         onShiftDown={this.shiftFileDown}
         onShiftUp={this.shiftFileUp}
+        onFileTitleChange={this.fileTitleChange}
         ref={"file" + index}
         uploadDirName={uploadDirName}
       />

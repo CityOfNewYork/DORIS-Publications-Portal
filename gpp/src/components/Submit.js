@@ -66,8 +66,8 @@ class SubmitForm extends Component {
     this.props.submitFormData({
       files: this.fileUpload.state.files.map((file) => {
         return {
-          title: file.title,
-          name: file.name
+          "title": file.title,
+          "name": file.name
         };
       }),
       creators: this.creatorList.state.items,

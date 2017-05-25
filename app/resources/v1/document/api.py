@@ -3,6 +3,7 @@ from flask_restful import Resource
 from app.resources.lib import api_response
 # from app.models import Document
 from .forms import SubmitForm
+from app.resources.lib.schema_utils import validate_schema
 from flask_login import login_required
 
 # TODO: use db object
@@ -44,7 +45,7 @@ class DocumentAPI(Resource):
     @login_required
     def post(self):
         try:
-            form = SubmitForm('some_ID', data=request.get_json(force=True))
+            validate_schema(request.get_json(force=True))
         except Exception as e:
             return api_response.error(str(e))
 
