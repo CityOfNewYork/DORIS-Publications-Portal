@@ -26,12 +26,12 @@ class SubmitForm(Form):
     title = StringField(
         validators=[
             InputRequired(),
-            Length(max=10)
+            Length(max=150)
         ]
     )
     subtitle = StringField(
         validators=[
-            Length(max=10)
+            Length(max=150)
         ]
     )
     agency = SelectField(
@@ -80,7 +80,8 @@ class SubmitForm(Form):
     )
     description = TextAreaField(
         validators=[
-            InputRequired()
+            InputRequired(),
+            Length(min=100, max=200)
         ]
     )
 

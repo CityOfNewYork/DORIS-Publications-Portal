@@ -23,7 +23,8 @@ class SubmitForm extends Component {
 
   state = {
     submitted: false,
-    subjects: []
+    subjects: [],
+    descriptionCharCount: 0,
   };
 
   handleSubmit = (e) => {
@@ -54,6 +55,13 @@ class SubmitForm extends Component {
     });
   };
 
+  onDescriptionChange = (e, {name, value}) => {
+    this.setState({
+      descriptionCharCount: value.length
+    });
+    this.props.handleFieldChange(e, {name: name, value: value})
+  };
+
   onSubjectsChange = (e, {name, value}) => {
     if (value.length <= 3) {
       this.setState({
@@ -65,6 +73,7 @@ class SubmitForm extends Component {
 
   render() {
     const {stateError, stateLoading, handleFieldChange} = this.props;
+    const {submitted, subjects, descriptionCharCount} = this.state;
 
     return (
       <Form
@@ -78,7 +87,12 @@ class SubmitForm extends Component {
         {/* Files */}
         <Form.Field
           required
-          label={<TooltippedLabel tooltipContent="Testing 1 2 3" labelContent="File(s)"/>}
+          label={
+            <TooltippedLabel
+              tooltipContent="Please provide all files associated with the document you are submitting."
+              labelContent="File(s)"
+            />
+          }
         />
         <Form.Field>
           <FileUpload
@@ -86,7 +100,7 @@ class SubmitForm extends Component {
               this.fileUpload = fileUpload
             }}
             required
-            submitted={this.state.submitted}
+            submitted={submitted}
             uploadDirName="some_ID"
           /> {/* TODO: uploadDirName = current user's guid? */}
         </Form.Field>
@@ -95,12 +109,18 @@ class SubmitForm extends Component {
         <Form.Group>
           <Form.Field width="16">
             <Form.Input
-              label={<TooltippedLabel tooltipContent="Testing 1 2 3" labelContent="Title"/>}
-              placeholder="Look at me, I'm a Title."
+              label={
+                <TooltippedLabel
+                  tooltipContent="On the front page of the document, what is it called? 150 characters or less."
+                  labelContent="Title"
+                />
+              }
+              placeholder="Audit Report on the Department of Flying Monkeys"
               name="title"
               error={stateError.hasOwnProperty("title")}
               onChange={handleFieldChange}
               required
+              maxLength="150"
             />
             { stateError.hasOwnProperty("title") && <ErrorLabel content={ stateError.title }/> }
           </Form.Field>
@@ -110,11 +130,16 @@ class SubmitForm extends Component {
         <Form.Group>
           <Form.Field width="16">
             <Form.Input
-              label={<TooltippedLabel tooltipContent="Testing 1 2 3" labelContent="Sub-Title"/>}
-              placeholder="I am inferior."
+              label={
+                <TooltippedLabel
+                  tooltipContent="The remainder of the document's title, if any. 150 characters or less."
+                  labelContent="Sub-Title"/>
+              }
+              placeholder="Follow-up Audit Report"
               name="subtitle"
               error={stateError.hasOwnProperty("subtitle")}
               onChange={handleFieldChange}
+              maxLength="150"
             />
             { stateError.hasOwnProperty("subtitle") && <ErrorLabel content={ stateError.title }/> }
           </Form.Field>
@@ -125,7 +150,12 @@ class SubmitForm extends Component {
           <Form.Field width="16">
             <Form.Dropdown
               required
-              label={<TooltippedLabel tooltipContent="Testing 1 2 3" labelContent="Agency"/>}
+              label={
+                <TooltippedLabel
+                  tooltipContent="What agency is the primary creator of this document?"
+                  labelContent="Agency"
+                />
+              }
               name="agency"
               search
               selection
@@ -142,7 +172,7 @@ class SubmitForm extends Component {
                 },
               ]}
               error={stateError.hasOwnProperty("agency")}
-              placeholder="Select Your Agency"
+              placeholder="DFM - Department of Flying Monkeys"
             />
             { stateError.hasOwnProperty("agency") && <ErrorLabel content={ stateError.agency }/> }
           </Form.Field>
@@ -150,7 +180,12 @@ class SubmitForm extends Component {
 
         {/* Additional Creators */ }
         <ListGenInput
-          label={<TooltippedLabel tooltipContent="Testing 1 2 3" labelContent="Additional Creators"/>}
+          label={
+            <TooltippedLabel
+              tooltipContent="What other agencies or consultants or authors, if any, contributed to the
+              creation of this document? To add authors, click the plus sign or press [enter]."
+              labelContent="Additional Creators"/>
+          }
           ref={(creatorList) => {
             this.creatorList = creatorList
           }}
@@ -160,7 +195,7 @@ class SubmitForm extends Component {
           {/* Type */}
           <Form.Field width="6">
             <Form.Select
-              label={<TooltippedLabel tooltipContent="Testing 1 2 3" labelContent="Type"/>}
+              label="Type"
               name="type"
               options={[
                 {key: 'f', text: 'Foo', value: 'foo'},
@@ -168,24 +203,26 @@ class SubmitForm extends Component {
               ]}
               error={stateError.hasOwnProperty("type")}
               onChange={handleFieldChange}
+              placeholder="Select a Document Type"
               search
               required
             />
             { stateError.hasOwnProperty("type") && <ErrorLabel content={ stateError.type }/> }
           </Form.Field>
 
-          {/* Subjects TODO: limit to 3 */}
+          {/* Subjects */}
           <Form.Field width="10">
             <Form.Dropdown
               required
-              label={<TooltippedLabel tooltipContent="Testing 1 2 3" labelContent="Subject(s)"/>}
+              label="Subject(s)"
               name="subjects"
               fluid
               multiple
               search
               selection
-              value={this.state.subjects}
+              value={subjects}
               onChange={this.onSubjectsChange}
+              placeholder="Select up to 3 Subjects"
               options={[
                 {key: 'f', text: 'Foo', value: 'foo'},
                 {key: 'b', text: 'Bar', value: 'bar'},
@@ -203,7 +240,11 @@ class SubmitForm extends Component {
           {/* Date Published */}
           <Form.Field width="4">
             <DateInput
-              label={<TooltippedLabel tooltipContent="Testing 1 2 3" labelContent="Date Published"/>}
+              label={
+                <TooltippedLabel
+                  tooltipContent="This document's date of publication by the agency."
+                  labelContent="Date Published"/>
+              }
               name="date_published"
               maxDate={moment().startOf('day')}
               error={stateError.hasOwnProperty("date_published")}
@@ -225,12 +266,23 @@ class SubmitForm extends Component {
         <Form.Group>
           <Form.Field width="16">
             <Form.TextArea
-              label={<TooltippedLabel tooltipContent="Testing 1 2 3" labelContent="Description"/>}
-              placeholder="Look at me, I'm a Description. LOOK AT ME."
+              label={
+                <label>
+                  <TooltippedLabel
+                    tooltipContent="A brief (100 - 200 characters) explanation of the contents of this document."
+                    labelContent="Description"
+                  />
+                  <span style={{color: "red", float: "right", fontWeight: "normal"}}>
+                    {descriptionCharCount < 100 && 100 - descriptionCharCount}
+                  </span>
+                </label>
+              }
               name="description"
               error={stateError.hasOwnProperty("description")}
-              onChange={handleFieldChange}
+              onChange={this.onDescriptionChange}
               required
+              minLength="100"
+              maxLength="200"
             />
             { stateError.hasOwnProperty("description") && <ErrorLabel content={ stateError.description }/> }
           </Form.Field>

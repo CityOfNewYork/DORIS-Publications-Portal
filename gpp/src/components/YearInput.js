@@ -70,7 +70,12 @@ class YearInput extends Component {
       <Grid>
         <Grid.Column width="12">
           <Form.Input
-            label={<TooltippedLabel tooltipContent="Testing 1 2 3" labelContent="Associated Year"/>}
+            label={
+              <TooltippedLabel
+                tooltipContent="The year covered by this document."
+                labelContent="Associated Year"
+              />
+            }
             name='year'
             maxLength='4'
             required
@@ -91,7 +96,12 @@ class YearInput extends Component {
             <Grid>
               <Grid.Column width="6">
                 <DateInput
-                  label={<TooltippedLabel tooltipContent="Testing 1 2 3" labelContent="Associated Start Date"/>}
+                  label={
+                    <TooltippedLabel
+                      tooltipContent="The start date covered by this document."
+                      labelContent="Associated Start Date"
+                    />
+                  }
                   name="start_date"
                   ref={(startDate) => this.startDate = startDate}
                   maxDate={moment().startOf('day')}
@@ -101,7 +111,11 @@ class YearInput extends Component {
               </Grid.Column>
               <Grid.Column width="6">
                 <DateInput
-                  label={<TooltippedLabel tooltipContent="Testing 1 2 3" labelContent="Associated End Date"/>}
+                  label={
+                    <TooltippedLabel
+                      tooltipContent="The end date covered by this document."
+                      labelContent="Associated End Date"/>
+                  }
                   name="end_date"
                   ref={(endDate) => this.endDate = endDate}
                   error={stateError.hasOwnProperty("end_date")}
