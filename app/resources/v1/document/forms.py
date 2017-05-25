@@ -1,4 +1,5 @@
 import os
+import json
 from flask import current_app
 from app.resources.lib.forms import Form
 from werkzeug.utils import secure_filename
@@ -17,7 +18,7 @@ from wtforms import (
 
 
 class SubmitForm(Form):
-    filenames = SelectMultipleField(
+    files = SelectMultipleField(
         validators=[
             InputRequired()
         ],
@@ -87,15 +88,19 @@ class SubmitForm(Form):
 
     def __init__(self, uploads_dirname, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        self.file_titles = []
         self.uploads_dirname = uploads_dirname
 
     def validate(self):
-        # convert file names to secure variants
-        self.filenames.data = [
-            secure_filename(name) for name in self.filenames.data
-        ]
-        # populate filenames.choices
-        self.filenames.choices = (
+        # extract filenames and titles
+        file_names = []
+        for file_ in self.files.data:
+            file_ = json.loads(file_)
+            self.file_titles.append(file_['title'])
+            file_names.append(secure_filename(file_['name']))
+        self.files.data = file_names
+        # populate files.choices with files present in upload directory
+        self.files.choices = (
             (name, None) for name in os.listdir(
                 os.path.join(current_app.config['UPLOAD_DIRECTORY'], self.uploads_dirname))
             if os.path.isfile(os.path.join(

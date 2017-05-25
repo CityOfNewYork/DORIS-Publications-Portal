@@ -64,8 +64,11 @@ class SubmitForm extends Component {
 
     const {startDate, endDate} = this.year;
     this.props.submitFormData({
-      filenames: this.fileUpload.state.files.map((file) => {
-        return file.name;
+      files: this.fileUpload.state.files.map((file) => {
+        return {
+          title: file.title,
+          name: file.name
+        };
       }),
       creators: this.creatorList.state.items,
       date_published: formatDate(this.datePublished),

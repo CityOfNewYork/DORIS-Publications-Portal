@@ -18,7 +18,8 @@ class FileRow extends Component {
     isLast: PropTypes.bool.isRequired,
     onRemove: PropTypes.func.isRequired,
     onShiftDown: PropTypes.func.isRequired,
-    onShiftUp: PropTypes.func.isRequired
+    onShiftUp: PropTypes.func.isRequired,
+    onFileTitleChange: PropTypes.func.isRequired
   };
 
   state = {
@@ -111,7 +112,7 @@ class FileRow extends Component {
   }
 
   render() {
-    const {file, index, isLast, onRemove, onShiftDown, onShiftUp} = this.props;
+    const {file, index, isLast, onRemove, onShiftDown, onShiftUp, onFileTitleChange} = this.props;
 
     return (
       <Grid.Row>
@@ -125,7 +126,10 @@ class FileRow extends Component {
           </Grid.Column>
         }
         <Grid.Column width={index === 0 && isLast ? 6 : 5}>
-          <Form.Input placeholder={file.name}/>
+          <Form.Input
+            placeholder={file.name}
+            onChange={onFileTitleChange(index, {value})}
+          />
         </Grid.Column>
         <Grid.Column width={3} style={{wordWrap: "break-word"}}>
           { file.name }
