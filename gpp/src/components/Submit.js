@@ -23,9 +23,30 @@ class SubmitForm extends Component {
 
   state = {
     submitted: false,
+    reportTypeChoices: [],
     subjects: [],
+    subjectsChoices: [],
     descriptionCharCount: 0,
   };
+
+  fetchChoices = (endpoint, stateKey) => {
+    fetch(endpoint).then((response) => (
+      response.json()
+    )).then((json) => {
+      this.setState({
+        [stateKey]: json.data.map((item) => ({
+          key: item.value,
+          text: item.text,
+          value: item.value
+        }))
+      })
+    })
+  };
+
+  componentWillMount() {
+    this.fetchChoices('/api/v1.0/subjects', 'subjectsChoices');
+    this.fetchChoices('/api/v1.0/report_types', 'reportTypeChoices');
+  }
 
   handleSubmit = (e) => {
     e.preventDefault();
@@ -73,7 +94,7 @@ class SubmitForm extends Component {
 
   render() {
     const {stateError, stateLoading, handleFieldChange} = this.props;
-    const {submitted, subjects, descriptionCharCount} = this.state;
+    const {submitted, subjects, descriptionCharCount, subjectsChoices, reportTypeChoices} = this.state;
 
     return (
       <Form
@@ -195,19 +216,16 @@ class SubmitForm extends Component {
           {/* Type */}
           <Form.Field width="6">
             <Form.Select
-              label="Type"
-              name="type"
-              options={[
-                {key: 'f', text: 'Foo', value: 'foo'},
-                {key: 'b', text: 'Bar', value: 'bar'}
-              ]}
-              error={stateError.hasOwnProperty("type")}
+              label="Report Type"
+              name="report_type"
+              options={reportTypeChoices}
+              error={stateError.hasOwnProperty("report_type")}
               onChange={handleFieldChange}
               placeholder="Select a Document Type"
               search
               required
             />
-            { stateError.hasOwnProperty("type") && <ErrorLabel content={ stateError.type }/> }
+            { stateError.hasOwnProperty("report_type") && <ErrorLabel content={ stateError.report_type }/> }
           </Form.Field>
 
           {/* Subjects */}
@@ -223,12 +241,7 @@ class SubmitForm extends Component {
               value={subjects}
               onChange={this.onSubjectsChange}
               placeholder="Select up to 3 Subjects"
-              options={[
-                {key: 'f', text: 'Foo', value: 'foo'},
-                {key: 'b', text: 'Bar', value: 'bar'},
-                {key: 'ba', text: 'Baz', value: 'baz'},
-                {key: 'q', text: 'Qux', value: 'qux'}
-              ]}
+              options={subjectsChoices}
               error={stateError.hasOwnProperty("subjects")}
             />
             { stateError.hasOwnProperty("subjects") && <ErrorLabel content={ stateError.subjects }/> }
@@ -272,8 +285,8 @@ class SubmitForm extends Component {
                     tooltipContent="A brief (100 - 200 characters) explanation of the contents of this document."
                     labelContent="Description"
                   />
-                  <span style={{color: "red", float: "right", fontWeight: "normal"}}>
-                    {descriptionCharCount < 100 && 100 - descriptionCharCount}
+                  <span style={{color: descriptionCharCount < 100 ? "red" : "green", float: "right", fontWeight: "normal"}}>
+                    {descriptionCharCount}
                   </span>
                 </label>
               }

@@ -9,8 +9,8 @@ Subject = namedtuple("Subject", ["text", "value"])
 class SubjectsAPI(Resource):
 
     def get(self):
-        return api_response.success({
-            [{
+        return api_response.success([
+            {
                 "text": subject.text,
                 "value": subject.value
             } for subject in [
@@ -41,7 +41,6 @@ class SubjectsAPI(Resource):
                 Subject("Civil Service", "civil_service"),
                 Subject("Climate", "climate"),
                 Subject("Coastal", "coastal"),
-                Subject("Colleges and Universities", "colleges_universities"),
                 Subject("Community Relations", "community_relations"),
                 Subject("Consumers", "consumers"),
                 Subject("Conventions", "conventions"),
@@ -84,7 +83,6 @@ class SubjectsAPI(Resource):
                 Subject("Geography", "geography"),
                 Subject("Government", "government"),
                 Subject("Government - Citizen participation", "government_citizen_participation"),
-                Subject("Government and Politics", "government_politics"),
                 Subject("Hazardous Materials", "hazardous_materials"),
                 Subject("Health", "health"),
                 Subject("History", "history"),
@@ -159,7 +157,7 @@ class SubjectsAPI(Resource):
                 Subject("Snow Removal", "snow_removal"),
                 Subject("Special Districts", "special_districts"),
                 Subject("State of New York", "state_new_york"),
-                Subject("Staten Island Borough", "borough_staten_island"),
+                Subject("Staten Island, Borough of", "borough_staten_island"),
                 Subject("Statistics", "statistics"),
                 Subject("Statistics, Education", "statistics_education"),
                 Subject("Statistics, Police", "statistics_police"),
@@ -187,11 +185,12 @@ class SubjectsAPI(Resource):
                 Subject("Transit", "transit"),
                 Subject("Transit - Rapid", "transit_rapid"),
                 Subject("Transportation", "transportation"),
-                Subject("Transportation - Finance", "transportaion_finance"),
+                Subject("Transportation - Finance", "transportation_finance"),
                 Subject("Transportation - School", "transportation_school"),
-                Subject("Transportation- Planning", "trabsportation_planning"),
+                Subject("Transportation- Planning", "transportation_planning"),
                 Subject("Trees", "trees"),
                 Subject("Trusts and Estates", "trusts_estates"),
+                Subject("Universities and Colleges", "universities_colleges"),
                 Subject("Vendors and Contracts", "vendors_contracts"),
                 Subject("Veterans", "veterans"),
                 Subject("Volunteers", "volunteers"),
@@ -202,5 +201,5 @@ class SubjectsAPI(Resource):
                 Subject("Women", "women"),
                 Subject("World Trade Center", "world_trade_center"),
                 Subject("Youth", "youth")
-            ]]
-        })
+            ]
+        ])

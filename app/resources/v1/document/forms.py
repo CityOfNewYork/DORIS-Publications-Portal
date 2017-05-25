@@ -40,7 +40,7 @@ class SubmitForm(Form):
             InputRequired()
         ]
     )
-    type = SelectField(
+    report_type = SelectField(
         choices=[("foo", "Foo"), ("bar", "Bar")],
         validators=[
             InputRequired()

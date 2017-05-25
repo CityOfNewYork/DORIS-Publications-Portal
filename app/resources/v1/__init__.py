@@ -1,7 +1,7 @@
 from .document.api import DocumentAPI as Document
 from .upload.api import UploadAPI as Upload
 from .subjects.api import SubjectsAPI as Subject
-from .types.api import TypesAPI as Types
+from .report_types.api import ReportTypesAPI as ReportTypes
 
 from flask import Blueprint
 from flask_restful import Api
