@@ -344,7 +344,8 @@ class FileUpload extends Component {
               />
             </Grid.Column>
           </Grid>
-          { hasError &&
+          {
+            hasError &&
             <ErrorLabel
               content={fileHasError ? "You must remove any failed uploads." : "You must add at least 1 file."}
             />

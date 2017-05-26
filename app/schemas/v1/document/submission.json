@@ -1,7 +1,6 @@
 {
     "$schema": "http://json-schema.org/draft-04/schema#",
     "definitions": {},
-    "id": "http://example.com/example.json",
     "properties": {
         "creators": {
             "id": "/properties/creators",
@@ -14,7 +13,10 @@
         "date_published": {
             "id": "/properties/date_published",
             "pattern": "\\d{2}/\\d{2}/\\d{4}",
-            "type": "string"
+            "type": "string",
+            "error": {
+                "pattern": "This is not a valid date value."
+            }
         },
         "description": {
             "id": "/properties/description",
@@ -25,7 +27,10 @@
         "end_date": {
             "id": "/properties/end_date",
             "pattern": "\\d{2}/\\d{2}/\\d{4}",
-            "type": "string"
+            "type": "string",
+            "error": {
+                "pattern": "This is not a valid date value."
+            }
         },
         "files": {
             "id": "/properties/files",
@@ -49,14 +54,14 @@
             },
             "type": "array"
         },
-        "report_type": {
-            "id": "/properties/report_type",
-            "type": "string"
-        },
+        "report_type": { "$ref": "report_type.json#/report_type" },
         "start_date": {
             "id": "/properties/start_date",
             "pattern": "\\d{2}/\\d{2}/\\d{4}",
-            "type": "string"
+            "type": "string",
+            "error": {
+                "pattern": "This is not a valid date value."
+            }
         },
         "subjects": {
             "id": "/properties/subjects",
@@ -69,17 +74,18 @@
         },
         "subtitle": {
             "id": "/properties/subtitle",
+            "maxLength": 150,
             "type": "string"
         },
         "title": {
             "id": "/properties/title",
-            "maxLength": 1,
+            "maxLength": 150,
             "type": "string"
         },
         "year": {
             "id": "/properties/year",
-            "maximum": 4,
-            "minimum": 4,
+            "maximum": 2017,
+            "minimum": 1600,
             "type": "integer"
         },
         "year_type": {
@@ -89,12 +95,26 @@
     },
     "required": [
         "files",
+        "agency",
         "description",
         "title",
         "date_published",
         "subjects",
         "report_type",
         "year_type"
+    ],
+    "anyOf": [
+        {
+            "required": [
+                "year"
+            ]
+        },
+        {
+            "required": [
+                "end_date",
+                "start_date"
+            ]
+        }
     ],
     "type": "object"
 }

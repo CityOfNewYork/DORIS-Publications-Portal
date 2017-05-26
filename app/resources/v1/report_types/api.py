@@ -24,7 +24,7 @@ class ReportTypesAPI(Resource):
                 ReportType("Directives", "directives"),
                 ReportType("Environmental impact statements", "environmental_impact_statements_draft"),
                 ReportType("Environmental impact statements", "environmental_impact_statements_final"),
-                ReportType("Executive Orders", "executive orders"),
+                ReportType("Executive Orders", "executive_orders"),
                 ReportType("Guides", "guides"),
                 ReportType("Laws / Legislation", "laws_legislation"),
                 ReportType("Manuals / Directories", "manuals_directories"),

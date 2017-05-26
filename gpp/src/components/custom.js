@@ -68,9 +68,17 @@ function withValidation(method, action, FormComponent) {
 
       const ERR_MSG = "We cannot process your submission at this time.";
 
+      let formData = {};
+      const {data} = this.state;
+      for (let prop in data) {
+        if (data[prop]) {
+          formData[prop] = data[prop]
+        }
+      }
+
       csrfFetch(action, {
         method: method,
-        body: JSON.stringify({...this.state.data, ...extraData}),
+        body: JSON.stringify({...formData, ...extraData}),
       }).then((response) => {
         // stop loading
         this.setState({loading: false});

@@ -63,7 +63,7 @@ class SubmitForm extends Component {
     );
 
     const {startDate, endDate} = this.year;
-    this.props.submitFormData({
+    let formData = {
       files: this.fileUpload.state.files.map((file) => {
         return {
           "title": file.title,
@@ -72,11 +72,22 @@ class SubmitForm extends Component {
       }),
       creators: this.creatorList.state.items,
       date_published: formatDate(this.datePublished),
-      year: this.year.state.year,
-      start_date: formatDate(startDate),
-      end_date: formatDate(endDate),
       year_type: this.year.state.yearType
-    });
+    };
+
+    const optionalData = {
+      year: parseInt(this.year.state.year, 10),
+      start_date: formatDate(startDate),
+      end_date: formatDate(endDate)
+    };
+
+    for (let prop in optionalData) {
+      if (optionalData[prop]) {
+        formData[prop] = optionalData[prop]
+      }
+    }
+
+    this.props.submitFormData(formData)
   };
 
   onDescriptionChange = (e, {name, value}) => {
@@ -110,7 +121,7 @@ class SubmitForm extends Component {
 
         {/* Files */}
         <Form.Field
-          required
+          // required
           label={
             <TooltippedLabel
               tooltipContent="Please provide all files associated with the document you are submitting."
@@ -123,7 +134,7 @@ class SubmitForm extends Component {
             ref={(fileUpload) => {
               this.fileUpload = fileUpload
             }}
-            required
+            // required
             submitted={submitted}
             uploadDirName="some_ID"
           /> {/* TODO: uploadDirName = current user's guid? */}
@@ -143,7 +154,7 @@ class SubmitForm extends Component {
               name="title"
               error={stateError.hasOwnProperty("title")}
               onChange={handleFieldChange}
-              required
+              // required
               maxLength="150"
             />
             { stateError.hasOwnProperty("title") && <ErrorLabel content={ stateError.title }/> }
@@ -173,7 +184,7 @@ class SubmitForm extends Component {
         <Form.Group>
           <Form.Field width="16">
             <Form.Dropdown
-              required
+              // required
               label={
                 <TooltippedLabel
                   tooltipContent="What agency is the primary creator of this document?"
@@ -196,7 +207,7 @@ class SubmitForm extends Component {
                 },
               ]}
               error={stateError.hasOwnProperty("agency")}
-              placeholder="DFM - Department of Flying Monkeys"
+              placeholder="Select an Agency"
             />
             { stateError.hasOwnProperty("agency") && <ErrorLabel content={ stateError.agency }/> }
           </Form.Field>
@@ -206,8 +217,9 @@ class SubmitForm extends Component {
         <ListGenInput
           label={
             <TooltippedLabel
-              tooltipContent="What other agencies or consultants or authors, if any, contributed to the
-              creation of this document? To add authors, click the plus sign or press [enter]."
+              tooltipContent="What other agencies, consultants, or authors, if any, contributed to the
+              creation of this document? To add authors, click the plus sign or press [enter] after
+              you have filled out the field."
               labelContent="Additional Creators"/>
           }
           ref={(creatorList) => {
@@ -226,7 +238,7 @@ class SubmitForm extends Component {
               onChange={handleFieldChange}
               placeholder="Select a Document Type"
               search
-              required
+              // required
             />
             { stateError.hasOwnProperty("report_type") && <ErrorLabel content={ stateError.report_type }/> }
           </Form.Field>
@@ -234,7 +246,7 @@ class SubmitForm extends Component {
           {/* Subjects */}
           <Form.Field width="10">
             <Form.Dropdown
-              required
+              // required
               label="Subject(s)"
               name="subjects"
               fluid
@@ -296,7 +308,7 @@ class SubmitForm extends Component {
               name="description"
               error={stateError.hasOwnProperty("description")}
               onChange={this.onDescriptionChange}
-              required
+              // required
               minLength="100"
               maxLength="200"
             />

@@ -3,8 +3,10 @@ from flask_restful import Resource
 from app.resources.lib import api_response
 # from app.models import Document
 from .forms import SubmitForm
-from app.resources.lib.schema_utils import validate_schema
+from app.resources.lib.schema_utils import validate_schema, validate_json
 from flask_login import login_required
+
+SCHEMA_PATH = 'v1/document/'
 
 # TODO: use db object
 from collections import namedtuple
@@ -45,22 +47,18 @@ class DocumentAPI(Resource):
     @login_required
     def post(self):
         try:
-            validate_schema(request.get_json(force=True))
+            json = request.get_json(force=True)
         except Exception as e:
             return api_response.error(str(e))
-
-        if form.validate():
+        errors = validate_json(json, SCHEMA_PATH, 'submission')
+        if not errors:
             # create document
             doc = Document(1,  # id
-                           form.title.data,
-                           form.type.data,
-                           form.description.data)  # TODO: combined files name
+                           json.title)
             return api_response.success({
                 'publication': {
                     'id': doc.id,
                     'title': doc.title,
-                    'type': doc.type,
-                    'description': doc.description,
                 }
             })
-        return api_response.fail(form.errors)
+        return api_response.fail(errors)

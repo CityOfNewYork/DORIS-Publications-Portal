@@ -78,7 +78,7 @@ class YearInput extends Component {
             }
             name='year'
             maxLength='4'
-            required
+            // required
             value={year}
             onChange={this.onYearChange}
             error={stateError.hasOwnProperty("year")}
