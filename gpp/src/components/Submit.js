@@ -231,7 +231,12 @@ class SubmitForm extends Component {
           {/* Type */}
           <Form.Field width="6">
             <Form.Select
-              label="Report Type"
+              label={
+                <TooltippedLabel
+                  tooltipContent="TODO"
+                  labelContent="Report Type"
+                />
+              }
               name="report_type"
               options={reportTypeChoices}
               error={stateError.hasOwnProperty("report_type")}
@@ -244,10 +249,15 @@ class SubmitForm extends Component {
           </Form.Field>
 
           {/* Subjects */}
-          <Form.Field width="10">
+          <Form.Field width="6">
             <Form.Dropdown
               // required
-              label="Subject(s)"
+              label={
+                <TooltippedLabel
+                  tooltipContent="TODO"
+                  labelContent="Subject(s)"
+                />
+              }
               name="subjects"
               fluid
               multiple
@@ -262,16 +272,14 @@ class SubmitForm extends Component {
             { stateError.hasOwnProperty("subjects") && <ErrorLabel content={ stateError.subjects }/> }
           </Form.Field>
 
-        </Form.Group>
-
-        <Form.Group>
           {/* Date Published */}
           <Form.Field width="4">
             <DateInput
               label={
                 <TooltippedLabel
                   tooltipContent="This document's date of publication by the agency."
-                  labelContent="Date Published"/>
+                  labelContent="Date Published"
+                />
               }
               name="date_published"
               maxDate={moment().startOf('day')}
@@ -281,8 +289,11 @@ class SubmitForm extends Component {
             { stateError.hasOwnProperty("date_published") && <ErrorLabel content={ stateError.date_published }/> }
           </Form.Field>
 
+        </Form.Group>
+
+        <Form.Group>
           {/* Year */}
-          <Form.Field width="12">
+          <Form.Field width="16">
             <YearInput
               stateError={stateError}
               ref={(year) => this.year = year}
@@ -300,7 +311,8 @@ class SubmitForm extends Component {
                     tooltipContent="A brief (100 - 200 characters) explanation of the contents of this document."
                     labelContent="Description"
                   />
-                  <span style={{color: descriptionCharCount < 100 ? "red" : "green", float: "right", fontWeight: "normal"}}>
+                  <span
+                    style={{color: descriptionCharCount < 100 ? "red" : "green", float: "right", fontWeight: "normal"}}>
                     {descriptionCharCount}
                   </span>
                 </label>

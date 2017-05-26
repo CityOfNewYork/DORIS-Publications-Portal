@@ -1,37 +1,38 @@
 {
-  "$schema": "http://json-schema.org/draft-04/schema#",
-  "report_type": {
-    "type": "string",
-    "enum": [
-      "adjunctions_decisions",
-      "audit_report",
-      "brochures",
-      "budget_finance",
-      "bulletins",
-      "calendars",
-      "data_statistics",
-      "directives",
-      "environmental_impact_statements_draft",
-      "environmental_impact_statements_final",
-      "executive_orders",
-      "guides",
-      "laws_legislation",
-      "manuals_directories",
-      "minutes",
-      "newletters",
-      "other",
-      "plans",
-      "press_releases",
-      "proceedings",
-      "reports_annual",
-      "reports_biennial",
-      "reports_monthly",
-      "reports_weekly",
-      "reports_other",
-      "studies"
-    ],
-    "error": {
-      "enum": "This is not a valid report type."
+    "$schema": "http://json-schema.org/draft-04/schema#",
+
+    "report_type": {
+        "type": "string",
+        "enum": [
+            "adjunctions_decisions",
+            "audit_report",
+            "brochures",
+            "budget_finance",
+            "bulletins",
+            "calendars",
+            "data_statistics",
+            "directives",
+            "environmental_impact_statements_draft",
+            "environmental_impact_statements_final",
+            "executive_orders",
+            "guides",
+            "laws_legislation",
+            "manuals_directories",
+            "minutes",
+            "newletters",
+            "other",
+            "plans",
+            "press_releases",
+            "proceedings",
+            "reports_annual",
+            "reports_biennial",
+            "reports_monthly",
+            "reports_weekly",
+            "reports_other",
+            "studies"
+        ],
+        "error": {
+            "enum": "This is not a valid report type."
+        }
     }
-  }
 }

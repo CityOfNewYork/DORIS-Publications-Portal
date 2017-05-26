@@ -50,13 +50,13 @@ of a toggleable boolean: `authenticated`.
 application state across a browser refresh.
 
 ### How To: Forms
+#### TODO: Explain jsonschema custom error messages
+~~#### Part 1 - BE~~
 
-#### Part 1 - BE
-
-1. Create a `forms.py` file in the corresponding resource package 
+~~1. Create a `forms.py` file in the corresponding resource package
 (e.g. `app/resources/v1/publications/`) if the file does not yet exist.
 2. In `forms.py`, use WTForms to create a form class with fields that mostly will only consist of validators.
-3. In your resource api, use the newly-created form to validate request data.
+3. In your resource api, use the newly-created form to validate request data.~~
 
 #### Part 2 - FE
 

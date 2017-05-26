@@ -1,5 +1,6 @@
 {
     "$schema": "http://json-schema.org/draft-04/schema#",
+
     "definitions": {},
     "properties": {
         "creators": {
@@ -63,15 +64,7 @@
                 "pattern": "This is not a valid date value."
             }
         },
-        "subjects": {
-            "id": "/properties/subjects",
-            "items": {
-                "id": "/properties/subjects/items",
-                "type": "string"
-            },
-            "maxItems": 3,
-            "type": "array"
-        },
+        "subjects": { "$ref": "subjects.json#/subjects" },
         "subtitle": {
             "id": "/properties/subtitle",
             "maxLength": 150,

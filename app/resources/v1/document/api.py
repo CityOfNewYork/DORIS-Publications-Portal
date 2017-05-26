@@ -2,8 +2,7 @@ from flask import request
 from flask_restful import Resource
 from app.resources.lib import api_response
 # from app.models import Document
-from .forms import SubmitForm
-from app.resources.lib.schema_utils import validate_schema, validate_json
+from app.resources.lib.schema_utils import validate_json
 from flask_login import login_required
 
 SCHEMA_PATH = 'v1/document/'

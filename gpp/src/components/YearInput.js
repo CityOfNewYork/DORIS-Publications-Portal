@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import {Form, Label, Grid} from 'semantic-ui-react';
+import {Form, Label, Grid, Segment} from 'semantic-ui-react';
 import moment from 'moment';
 import TooltippedLabel from './TooltippedLabel';
 import {ErrorLabel} from './custom';
@@ -93,59 +93,65 @@ class YearInput extends Component {
       case YearInput.YEAR_TYPE_OTH:
         return (
           <div>
-            <Grid>
-              <Grid.Column width="6">
-                <DateInput
-                  label={
-                    <TooltippedLabel
-                      tooltipContent="The start date covered by this document."
-                      labelContent="Associated Start Date"
-                    />
-                  }
-                  name="start_date"
-                  ref={(startDate) => this.startDate = startDate}
-                  maxDate={moment().startOf('day')}
-                  error={stateError.hasOwnProperty("start_date")}
-                />
-                { stateError.hasOwnProperty("start_date") && <ErrorLabel content={ stateError.start_date }/> }
-              </Grid.Column>
-              <Grid.Column width="6">
-                <DateInput
-                  label={
-                    <TooltippedLabel
-                      tooltipContent="The end date covered by this document."
-                      labelContent="Associated End Date"/>
-                  }
-                  name="end_date"
-                  ref={(endDate) => this.endDate = endDate}
-                  error={stateError.hasOwnProperty("end_date")}
-                />
-                { stateError.hasOwnProperty("end_date") && <ErrorLabel content={ stateError.end_date }/> }
-              </Grid.Column>
-              {yearTypePicker}
-            </Grid>
+            <Segment>
+              <Grid>
+                <Grid.Column width="6">
+                  <DateInput
+                    label={
+                      <TooltippedLabel
+                        tooltipContent="The start date covered by this document."
+                        labelContent="Associated Start Date"
+                      />
+                    }
+                    name="start_date"
+                    ref={(startDate) => this.startDate = startDate}
+                    maxDate={moment().startOf('day')}
+                    error={stateError.hasOwnProperty("start_date")}
+                  />
+                  { stateError.hasOwnProperty("start_date") && <ErrorLabel content={ stateError.start_date }/> }
+                </Grid.Column>
+                <Grid.Column width="6">
+                  <DateInput
+                    label={
+                      <TooltippedLabel
+                        tooltipContent="The end date covered by this document."
+                        labelContent="Associated End Date"/>
+                    }
+                    name="end_date"
+                    ref={(endDate) => this.endDate = endDate}
+                    error={stateError.hasOwnProperty("end_date")}
+                  />
+                  { stateError.hasOwnProperty("end_date") && <ErrorLabel content={ stateError.end_date }/> }
+                </Grid.Column>
+                {yearTypePicker}
+              </Grid>
+            </Segment>
           </div>
         );
       case YearInput.YEAR_TYPE_FIS:
         return (
           <div>
-            {yearPicker}
-            {year.length === 4 &&
-            <Label pointing>
-              July 1, {year} – June 30, {parseInt(year, 10) + 1}
-            </Label>
-            }
+            <Segment>
+              {yearPicker}
+              {year.length === 4 &&
+              <Label pointing>
+                July 1, {year} – June 30, {parseInt(year, 10) + 1}
+              </Label>
+              }
+            </Segment>
           </div>
         );
       default:
         return (
           <div>
-            {yearPicker}
-            {year.length === 4 &&
-            <Label pointing>
-              January 1, {year} – December 31, {parseInt(year, 10)}
-            </Label>
-            }
+            <Segment>
+              {yearPicker}
+              {year.length === 4 &&
+              <Label pointing>
+                January 1, {year} – December 31, {parseInt(year, 10)}
+              </Label>
+              }
+            </Segment>
           </div>
         );
     }
