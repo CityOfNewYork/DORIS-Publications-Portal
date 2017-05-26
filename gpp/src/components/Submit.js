@@ -206,6 +206,7 @@ class SubmitForm extends Component {
                   text: "DOITT - Department of Information Technology & Telecommunications"
                 },
               ]}
+              onChange={handleFieldChange}
               error={stateError.hasOwnProperty("agency")}
               placeholder="Select an Agency"
             />
@@ -323,6 +324,7 @@ class SubmitForm extends Component {
               // required
               minLength="100"
               maxLength="200"
+              rows="3"
             />
             { stateError.hasOwnProperty("description") && <ErrorLabel content={ stateError.description }/> }
           </Form.Field>

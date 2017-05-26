@@ -45,7 +45,7 @@ def validate_json(data, schema_path, schema_name):
                 for value in error.validator_value:
                     for property_name in value["required"]:
                         if not data.get(property_name):
-                            errors[property_name] = ["This field is required"]
+                            errors[property_name] = ["This field is required."]
                 continue
             elif error.schema_path[0] == "required":
                 property_name = error.validator_value[error.schema_path[1]]

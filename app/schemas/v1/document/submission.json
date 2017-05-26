@@ -77,7 +77,6 @@
         },
         "year": {
             "id": "/properties/year",
-            "maximum": 2017,
             "minimum": 1600,
             "type": "integer"
         },

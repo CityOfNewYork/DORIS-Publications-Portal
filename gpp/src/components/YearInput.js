@@ -52,7 +52,7 @@ class YearInput extends Component {
     const {stateError} = this.props;
 
     const yearTypePicker = (
-      <Grid.Column verticalAlign="bottom" width="4">
+      <Grid.Column verticalAlign="top" width="4">
         <Form.Select
           compact
           // defaultValue={YearInput.YEAR_TYPE_CAL}  // will cause issues due to remounting below
@@ -61,6 +61,7 @@ class YearInput extends Component {
           onChange={this.onDropdownChange}
           value={yearType}
           error={stateError.hasOwnProperty("year_type")}
+          style={{marginTop: 29}}
         />
         { stateError.hasOwnProperty("year_type") && <ErrorLabel content={ stateError.year_type }/> }
       </Grid.Column>

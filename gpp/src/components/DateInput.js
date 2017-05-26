@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import {MaskedInput} from 'react-text-mask';
 import {Form} from 'semantic-ui-react';
 import DatePicker from 'react-datepicker';
+import moment from 'moment';
 import 'react-datepicker/dist/react-datepicker.css';
 import './DateInput.css';
 
@@ -67,14 +68,19 @@ class DateInput extends Component {
       // .match returns null if value is not in the format: DD/DD/DDDD
       dateMatch = (value).match(/^(\d{2})\/(\d{2})\/(\d{4})$/),
       parsedDate = Date.parse(value);
+    const invalidFormat = dateMatch === null || !DateInput.isValidDate(...value.split("/"));
     this.setState({
       // .diff will return negative values if the parsedDate is greater than today
       dateError: (
-        dateMatch === null ||
-        !DateInput.isValidDate(...value.split("/")) ||
-        (this.state.moment && this.state.moment.diff(parsedDate, 'days') < 0)
+        invalidFormat || (this.state.moment && this.state.moment.diff(parsedDate, 'days') < 0)
       )
     });
+    // update the date value if the format is valid, even though the date itself might be wrong
+    if (!invalidFormat) {
+      this.setState({
+        date: moment(value, "MM/DD/YYYY")
+      })
+    }
   };
 
   render() {
