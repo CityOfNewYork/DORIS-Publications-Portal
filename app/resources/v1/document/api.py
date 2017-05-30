@@ -4,6 +4,7 @@ from flask import (
     current_app
 )
 from flask_restful import Resource
+from werkzeug.utils import secure_filename
 from datetime import datetime
 from app.resources.lib import api_response
 # from app.models import Document
@@ -61,7 +62,13 @@ class DocumentAPI(Resource):
         if errors.get("files") is None:
             file_errors = []
             for file_ in json["files"]:
-                if not os.path.exists(os.path.join(current_app.config["UPLOAD_DIRECTORY"], "some_ID", file_["name"])):
+                if not os.path.exists(
+                    os.path.join(
+                        current_app.config["UPLOAD_DIRECTORY"],
+                        "some_ID",
+                        secure_filename(file_["name"])
+                    )
+                ):
                     file_errors.append(
                         "{} : There was an error submitting this file. Please remove and re-upload.".format(
                             file_["name"]))

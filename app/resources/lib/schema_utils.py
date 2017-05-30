@@ -23,7 +23,7 @@ def _required(validator, required, instance, schema):
 
 # Construct validator as extension of Json Schema Draft 3.
 Validator = jsonschema.validators.extend(
-    validator=jsonschema.validators.Draft3Validator,
+    validator=jsonschema.validators.Draft4Validator,
     validators={
         'required': _required
     }

@@ -19,7 +19,8 @@ class YearInput extends Component {
       start_date: PropTypes.string,
       end_date: PropTypes.string,
       year_type: PropTypes.string
-    })
+    }),
+    removeError: PropTypes.func.isRequired
   };
 
   state = {
@@ -29,11 +30,13 @@ class YearInput extends Component {
 
   onDropdownChange = (e, {value}) => {
     this.setState({
-      yearType: value
+      yearType: value,
+      year: ''
     })
   };
 
   onYearChange = (e, {value}) => {
+    this.props.removeError("year");
     if (/^[0-9]+$/.test(value.slice(-1)) || value === '') {
       this.setState({
         year: value
@@ -49,7 +52,7 @@ class YearInput extends Component {
     ];
 
     const {yearType, year} = this.state;
-    const {stateError} = this.props;
+    const {stateError, removeError} = this.props;
 
     const yearTypePicker = (
       <Grid.Column width="4">
@@ -108,6 +111,7 @@ class YearInput extends Component {
                     ref={(startDate) => this.startDate = startDate}
                     maxDate={moment().startOf('day')}
                     error={stateError.hasOwnProperty("start_date")}
+                    onChange={() => removeError("start_date")}
                   />
                   { stateError.hasOwnProperty("start_date") && <ErrorLabel content={ stateError.start_date }/> }
                 </Grid.Column>
@@ -121,6 +125,7 @@ class YearInput extends Component {
                     name="end_date"
                     ref={(endDate) => this.endDate = endDate}
                     error={stateError.hasOwnProperty("end_date")}
+                    onChange={() => removeError("end_date")}
                   />
                   { stateError.hasOwnProperty("end_date") && <ErrorLabel content={ stateError.end_date }/> }
                 </Grid.Column>

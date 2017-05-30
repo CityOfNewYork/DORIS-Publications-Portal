@@ -41,7 +41,8 @@ class DateInput extends Component {
     ]),
     name: PropTypes.string.isRequired,
     maxDate: PropTypes.object,
-    error: PropTypes.bool.isRequired
+    error: PropTypes.bool.isRequired,
+    onChange: PropTypes.func.isRequired
   };
 
   state = {
@@ -51,6 +52,7 @@ class DateInput extends Component {
   };
 
   handleChange = (date) => {
+    this.props.onChange();
     this.setState({
       date: date,
       dateError: false
@@ -64,6 +66,7 @@ class DateInput extends Component {
   }
 
   handleChangeRaw = (e) => {
+    this.props.onChange();
     const value = e.target.value,
       // .match returns null if value is not in the format: DD/DD/DDDD
       dateMatch = (value).match(/^(\d{2})\/(\d{2})\/(\d{4})$/),

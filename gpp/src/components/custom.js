@@ -120,6 +120,7 @@ function withValidation(method, action, FormComponent) {
         stateLoading={ this.state.loading }
         submitFormData={ this.submitFormData }
         handleFieldChange={ this.handleFieldChange }
+        removeError={ this.removeError }
       />
     }
   }

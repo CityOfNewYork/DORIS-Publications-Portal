@@ -107,7 +107,7 @@ class SubmitForm extends Component {
   };
 
   render() {
-    const {stateError, stateLoading, handleFieldChange} = this.props;
+    const {stateError, stateLoading, handleFieldChange, removeError} = this.props;
     const {submitted, subjects, descriptionCharCount, subjectsChoices, reportTypeChoices} = this.state;
 
     return (
@@ -288,6 +288,7 @@ class SubmitForm extends Component {
               maxDate={moment().startOf('day')}
               error={stateError.hasOwnProperty("date_published")}
               ref={(datePublished) => this.datePublished = datePublished}
+              onChange={() => removeError("date_published")}
             />
             { stateError.hasOwnProperty("date_published") && <ErrorLabel content={ stateError.date_published }/> }
           </Form.Field>
@@ -300,6 +301,7 @@ class SubmitForm extends Component {
             <YearInput
               stateError={stateError}
               ref={(year) => this.year = year}
+              removeError={removeError}
             />
           </Form.Field>
         </Form.Group>
@@ -324,7 +326,6 @@ class SubmitForm extends Component {
               error={stateError.hasOwnProperty("description")}
               onChange={this.onDescriptionChange}
               // required
-              minLength="100"
               maxLength="200"
               rows="3"
             />
