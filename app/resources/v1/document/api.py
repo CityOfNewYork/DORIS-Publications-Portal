@@ -1,4 +1,8 @@
-from flask import request
+import os
+from flask import (
+    request,
+    current_app
+)
 from flask_restful import Resource
 from datetime import datetime
 from app.resources.lib import api_response
@@ -53,6 +57,18 @@ class DocumentAPI(Resource):
 
         errors = validate_json(json, SCHEMA_PATH, 'submission')
 
+        # validate files
+        if errors.get("files") is None:
+            file_errors = []
+            for file_ in json["files"]:
+                if not os.path.exists(os.path.join(current_app.config["UPLOAD_DIRECTORY"], "some_ID", file_["name"])):
+                    file_errors.append(
+                        "{} : There was an error submitting this file. Please remove and re-upload.".format(
+                            file_["name"]))
+            errors["files"] = file_errors
+        else:
+            errors["files"] = ["There was an issue submitting your file(s)."]
+
         # validate publication date
         if errors.get("date_published") is None:
             # TODO: offset by timezone
@@ -76,7 +92,7 @@ class DocumentAPI(Resource):
             doc = Document(1,  # id
                            json['title'])
             return api_response.success({
-                'publication': {
+                'document': {
                     'id': doc.id,
                     'title': doc.title,
                 }

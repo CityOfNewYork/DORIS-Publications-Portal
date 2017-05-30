@@ -1,10 +1,9 @@
 {
-    "$schema": "http://json-schema.org/draft-04/schema#",
+    "$schema": "http://json-schema.org/draft-03/schema#",
 
     "definitions": {},
     "properties": {
         "creators": {
-            "id": "/properties/creators",
             "items": {
                 "id": "/properties/creators/items",
                 "type": "string"
@@ -12,7 +11,6 @@
             "type": "array"
         },
         "date_published": {
-            "id": "/properties/date_published",
             "pattern": "\\d{2}/\\d{2}/\\d{4}",
             "type": "string",
             "error": {
@@ -20,13 +18,11 @@
             }
         },
         "description": {
-            "id": "/properties/description",
             "maxLength": 200,
             "minLength": 100,
             "type": "string"
         },
         "end_date": {
-            "id": "/properties/end_date",
             "pattern": "\\d{2}/\\d{2}/\\d{4}",
             "type": "string",
             "error": {
@@ -34,30 +30,25 @@
             }
         },
         "files": {
-            "id": "/properties/files",
             "items": {
-                "id": "/properties/files/items",
                 "properties": {
                     "name": {
-                        "id": "/properties/files/items/properties/name",
                         "type": "string"
                     },
                     "title": {
-                        "id": "/properties/files/items/properties/title",
                         "type": "string"
                     }
                 },
                 "required": [
-                    "name",
-                    "title"
+                    "name"
                 ],
                 "type": "object"
             },
-            "type": "array"
+            "type": "array",
+            "minItems": 1
         },
         "report_type": { "$ref": "report_type.json#/report_type" },
         "start_date": {
-            "id": "/properties/start_date",
             "pattern": "\\d{2}/\\d{2}/\\d{4}",
             "type": "string",
             "error": {
@@ -66,22 +57,18 @@
         },
         "subjects": { "$ref": "subjects.json#/subjects" },
         "subtitle": {
-            "id": "/properties/subtitle",
             "maxLength": 150,
             "type": "string"
         },
         "title": {
-            "id": "/properties/title",
             "maxLength": 150,
             "type": "string"
         },
         "year": {
-            "id": "/properties/year",
             "minimum": 1600,
             "type": "integer"
         },
         "year_type": {
-            "id": "/properties/year_type",
             "type": "string"
         }
     },

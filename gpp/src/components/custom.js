@@ -17,8 +17,12 @@ import {omit} from '../utils/object'
  *      { isThereAnError && <ErrorLabel content=( theError }/>
  *    </Form.Field>
  */
-const ErrorLabel = ({content}) => (
-  <Label className="prompt" pointing color="red" content={Array.isArray(content) ? content.join(" ") : content}/>
+const ErrorLabel = ({content, style}) => (
+  <Label style={style}
+         className="prompt"
+         pointing
+         color="red"
+         content={Array.isArray(content) ? content.join(" ") : content}/>
 );
 
 ErrorLabel.propTypes = {

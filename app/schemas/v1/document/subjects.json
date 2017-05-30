@@ -1,10 +1,8 @@
 {
-    "$schema": "http://json-schema.org/draft-04/schema#",
+    "$schema": "http://json-schema.org/draft-03/schema#",
 
     "subjects": {
-        "id": "/properties/subjects",
         "items": {
-            "id": "/properties/subjects/items",
             "type": "string",
             "enum": [
                 "accounting",

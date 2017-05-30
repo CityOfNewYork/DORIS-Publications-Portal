@@ -52,7 +52,7 @@ class YearInput extends Component {
     const {stateError} = this.props;
 
     const yearTypePicker = (
-      <Grid.Column verticalAlign="top" width="4">
+      <Grid.Column width="4">
         <Form.Select
           compact
           // defaultValue={YearInput.YEAR_TYPE_CAL}  // will cause issues due to remounting below

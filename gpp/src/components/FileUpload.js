@@ -159,18 +159,22 @@ class FileRow extends Component {
 class FileUpload extends Component {
 
   static propTypes = {
-    uploadDirName: PropTypes.string.isRequired
+    required: PropTypes.bool,
+    submitted: PropTypes.bool,
+    uploadDirName: PropTypes.string.isRequired,
+    errors: PropTypes.array
   };
 
   static defaultProps = {
     required: false,
     submitted: false,
+    errors: []
   };
 
   state = {
     files: [],
-    messages: [],
-    messageIsVisible: true,
+    warningMessages: [],
+    warningMessageIsVisible: true,
     fileHasError: false
   };
 
@@ -205,8 +209,8 @@ class FileUpload extends Component {
     }
     this.setState({
       files: [...this.state.files, ...filesToAdd],
-      messages: messages,
-      messageIsVisible: true
+      warningMessages: messages,
+      warningMessageIsVisible: true
     })
   };
 
@@ -292,8 +296,8 @@ class FileUpload extends Component {
   }
 
   render() {
-    const {files, messages, messageIsVisible, fileHasError} = this.state;
-    const {required, submitted, uploadDirName} = this.props;
+    const {files, warningMessages, warningMessageIsVisible, fileHasError} = this.state;
+    const {required, submitted, uploadDirName, errors} = this.props;
 
     const hasError = required && submitted && (files.length === 0 || fileHasError);
 
@@ -312,7 +316,11 @@ class FileUpload extends Component {
       />
     );
 
-    const messageListItems = messages.map((message, index) =>
+    const errorMessageListItems = errors.map((message, index) =>
+      <Message.Item key={index} content={<strong>{message}</strong>}/>
+    );
+
+    const warningMessageListItems = warningMessages.map((message, index) =>
       <Message.Item key={index} content={message}/>
     );
 
@@ -345,21 +353,28 @@ class FileUpload extends Component {
             </Grid.Column>
           </Grid>
           {
-            hasError &&
-            <ErrorLabel
-              content={fileHasError ? "You must remove any failed uploads." : "You must add at least 1 file."}
-            />
+            errors.length > 0 && files.length > 0 &&
+            <Message error>
+              <Message.List>{errorMessageListItems}</Message.List>
+            </Message>
           }
           {
-            messages.length > 0 && messageIsVisible &&
+            warningMessages.length > 0 && warningMessageIsVisible &&
             <Message
-              onDismiss={() => this.setState({messageIsVisible: false})}
-              color="yellow"
+              onDismiss={() => this.setState({warningMessageIsVisible: false})}
+              warning
             >
-              <Message.List>{messageListItems}</Message.List>
+              <Message.List>{warningMessageListItems}</Message.List>
             </Message>
           }
         </Segment>
+        {
+          hasError &&
+          <ErrorLabel
+            content={fileHasError ? "You must remove any failed uploads." : "You must add at least 1 file."}
+            style={{marginTop: 0}}
+          />
+        }
       </div>
     )
   }

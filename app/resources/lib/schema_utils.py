@@ -21,9 +21,9 @@ def _required(validator, required, instance, schema):
             yield error
 
 
-# Construct validator as extension of Json Schema Draft 4.
+# Construct validator as extension of Json Schema Draft 3.
 Validator = jsonschema.validators.extend(
-    validator=jsonschema.validators.Draft4Validator,
+    validator=jsonschema.validators.Draft3Validator,
     validators={
         'required': _required
     }

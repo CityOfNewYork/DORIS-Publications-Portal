@@ -114,14 +114,15 @@ class SubmitForm extends Component {
       <Form
         onSubmit={this.handleSubmit}
         // only set error attribute if there is an error *message*
-        { ...typeof stateError === "string" && {error: true} }
         { ...stateLoading && {loading: true} }
+        error
+        warning
       >
         <h2>Document Submission</h2>
 
         {/* Files */}
         <Form.Field
-          // required
+          required
           label={
             <TooltippedLabel
               tooltipContent="Please provide all files associated with the document you are submitting."
@@ -134,9 +135,10 @@ class SubmitForm extends Component {
             ref={(fileUpload) => {
               this.fileUpload = fileUpload
             }}
-            // required
+            required
             submitted={submitted}
             uploadDirName="some_ID"
+            errors={stateError.hasOwnProperty("files") ? stateError.files : []}
           /> {/* TODO: uploadDirName = current user's guid? */}
         </Form.Field>
 
@@ -336,11 +338,13 @@ class SubmitForm extends Component {
           <Button color="green" icon="save" content="Save"/>
         </Button.Group>
 
-        <Message
-          error
-          header="There was an error with your submission"
-          content={ typeof stateError === "string" ? stateError : "" }
-        />
+        { typeof stateError === "string" &&
+          <Message
+            error
+            header="There was an error with your submission"
+            content={ typeof stateError === "string" ? stateError : "" }
+          />
+        }
       </Form>
     )
   }
