@@ -53,6 +53,7 @@ class DocumentAPI(Resource):
     def post(self):
         try:
             json = request.get_json(force=True)
+            # TODO: utility for stripping values
         except Exception as e:
             return api_response.error(str(e))
 
@@ -108,3 +109,8 @@ class DocumentAPI(Resource):
                 }
             })
         return api_response.fail(errors)
+
+    @login_required
+    def patch(self, doc_id):
+        # TODO: edits once document is created
+        pass

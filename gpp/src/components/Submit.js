@@ -156,7 +156,7 @@ class SubmitForm extends Component {
               name="title"
               error={stateError.hasOwnProperty("title")}
               onChange={handleFieldChange}
-              // required
+              required
               maxLength="150"
             />
             { stateError.hasOwnProperty("title") && <ErrorLabel content={ stateError.title }/> }
@@ -186,7 +186,7 @@ class SubmitForm extends Component {
         <Form.Group>
           <Form.Field width="16">
             <Form.Dropdown
-              // required
+              required
               label={
                 <TooltippedLabel
                   tooltipContent="What agency is the primary creator of this document?"
@@ -246,7 +246,7 @@ class SubmitForm extends Component {
               onChange={handleFieldChange}
               placeholder="Select a Document Type"
               search
-              // required
+              required
             />
             { stateError.hasOwnProperty("report_type") && <ErrorLabel content={ stateError.report_type }/> }
           </Form.Field>
@@ -254,7 +254,7 @@ class SubmitForm extends Component {
           {/* Subjects */}
           <Form.Field width="6">
             <Form.Dropdown
-              // required
+              required
               label={
                 <TooltippedLabel
                   tooltipContent="TODO"
@@ -325,7 +325,7 @@ class SubmitForm extends Component {
               name="description"
               error={stateError.hasOwnProperty("description")}
               onChange={this.onDescriptionChange}
-              // required
+              required
               maxLength="200"
               rows="3"
             />

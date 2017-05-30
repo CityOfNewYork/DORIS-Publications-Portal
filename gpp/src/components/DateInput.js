@@ -13,14 +13,14 @@ class Input extends Component {  // Must be a class; DatePicker gives its custom
     return (
       <Form.Input
         error={error}
-        // required
+        required
         label={label}
         name={name}
         children={
           <MaskedInput
             mask={[/\d/, /\d/, '/', /\d/, /\d/, '/', /\d/, /\d/, /\d/, /\d/]}
             placeholder="MM/DD/YYYY"
-            // required
+            required
             pattern="(0[1-9]|1[012])[- /.](0[1-9]|[12][0-9]|3[01])[- /.]\d\d\d\d"
             onClick={onClick}
             value={value}
