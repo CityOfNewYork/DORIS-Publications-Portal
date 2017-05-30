@@ -63,18 +63,21 @@ class DocumentAPI(Resource):
             file_errors = []
             for file_ in json["files"]:
                 if not os.path.exists(
-                    os.path.join(
-                        current_app.config["UPLOAD_DIRECTORY"],
-                        "some_ID",
-                        secure_filename(file_["name"])
-                    )
+                        os.path.join(
+                            current_app.config["UPLOAD_DIRECTORY"],
+                            "some_ID",
+                            secure_filename(file_["name"])
+                        )
                 ):
                     file_errors.append(
                         "{} : There was an error submitting this file. Please remove and re-upload.".format(
                             file_["name"]))
             errors["files"] = file_errors
         else:
-            errors["files"] = ["There was an issue submitting your file(s)."]
+            errors["files"] = [
+                "There was an issue submitting your file(s). "
+                "Please make sure you have entered a title for every file."
+            ]
 
         # validate publication date
         if errors.get("date_published") is None:
@@ -91,8 +94,8 @@ class DocumentAPI(Resource):
                 start = datetime.strptime(start, "%m/%d/%Y")
                 end = datetime.strptime(end, "%m/%d/%Y")
                 if start >= end:
-                    errors["start_date"] = ["This date must be less than the end date."]
-                    errors["end_date"] = ["This date must be greater than the start date."]
+                    errors["start_date"] = ["This date must be earlier than the end date."]
+                    errors["end_date"] = ["This date must be later than the start date."]
 
         if not errors:
             # create document

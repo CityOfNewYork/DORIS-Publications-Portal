@@ -59,7 +59,7 @@ function withValidation(method, action, FormComponent) {
       this.setState({
         data: {
           ...this.state.data,
-          [name]: value
+          [name]: value.replace(/^\s+|\s+$/g, '')
         }});
       this.removeError(name);
     };

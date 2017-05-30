@@ -19,13 +19,15 @@ class FileRow extends Component {
     onRemove: PropTypes.func.isRequired,
     onShiftDown: PropTypes.func.isRequired,
     onShiftUp: PropTypes.func.isRequired,
-    onFileTitleChange: PropTypes.func.isRequired
+    onFileTitleChange: PropTypes.func.isRequired,
+    submitted: PropTypes.bool.isRequired
   };
 
   state = {
     percent: 0,
     error: "",
     uploading: true,
+    title: '',
   };
 
   // Fetch API does not support upload progress yet.
@@ -111,8 +113,15 @@ class FileRow extends Component {
     }
   }
 
+  onTitleChange = (index) => (e, {value}) => {
+    this.setState({
+      title: value.replace(/^\s+|\s+$/g, '')
+    });
+    this.props.onFileTitleChange(index, value)
+  };
+
   render() {
-    const {file, index, isLast, onRemove, onShiftDown, onShiftUp, onFileTitleChange} = this.props;
+    const {file, index, isLast, onRemove, onShiftDown, onShiftUp, submitted} = this.props;
 
     return (
       <Grid.Row>
@@ -128,7 +137,8 @@ class FileRow extends Component {
         <Grid.Column width={index === 0 && isLast ? 6 : 5}>
           <Form.Input
             placeholder={file.name}
-            onChange={onFileTitleChange(index)}
+            onChange={this.onTitleChange(index)}
+            error={submitted && this.state.title.length < 3}
           />
         </Grid.Column>
         <Grid.Column width={3} style={{wordWrap: "break-word"}}>
@@ -214,7 +224,7 @@ class FileUpload extends Component {
     })
   };
 
-  fileTitleChange = (index) => (e, {value}) => {
+  fileTitleChange = (index, value) => {
     let file = this.state.files[index];
     file.title = value;
     this.setState({
@@ -313,6 +323,7 @@ class FileUpload extends Component {
         onFileTitleChange={this.fileTitleChange}
         ref={"file" + index}
         uploadDirName={uploadDirName}
+        submitted={submitted}
       />
     );
 
