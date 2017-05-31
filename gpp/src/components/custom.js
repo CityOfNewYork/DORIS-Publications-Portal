@@ -47,6 +47,7 @@ function withValidation(method, action, FormComponent) {
     state = {
       data: {},
       error: {},
+      successMessage: '',
       loading: false,
     };
 
@@ -111,7 +112,8 @@ function withValidation(method, action, FormComponent) {
         // interpret valid JSend response here
         switch (json.status) {
           case "success":
-            this.setState({error: {}});
+            debugger;
+            this.setState({error: {}, successMessage: json.data.success_message.text});
             break;
           case "fail":
             this.setState({error: json.data});
@@ -142,6 +144,7 @@ function withValidation(method, action, FormComponent) {
         removeError={ this.removeError }
         validateProperty={ this.validateProperty }
         validatePropertySynthetic={ this.validatePropertySynthetic }
+        successMessage={ this.state.successMessage }
       />
     }
   }

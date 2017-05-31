@@ -130,6 +130,11 @@ class SubmitForm extends Component {
         error
         warning
       >
+        {this.props.successMessage &&
+        <Message success>
+          {this.props.successMessage}
+        </Message>
+        }
         <h2>Document Submission</h2>
 
         {/* Files */}

@@ -20,16 +20,16 @@ Document = namedtuple(
     "Document", [
         "id",
         "title",
-        # "subtitle",
-        # "agency",
-        # "creators",
-        # "type",
-        # "subjects",
-        # "date_published",
-        # "year",
-        # "start_date",
-        # "end_date",
-        # "description"
+        "subtitle",
+        "agency",
+        "creators",
+        "report_type",
+        "subjects",
+        "date_published",
+        "year",
+        "start_date",
+        "end_date",
+        "description"
     ]
 )
 
@@ -73,7 +73,8 @@ class DocumentAPI(Resource):
                     file_errors.append(
                         "{} : There was an error submitting this file. Please remove and re-upload.".format(
                             file_["name"]))
-            errors["files"] = file_errors
+            if file_errors:
+                errors["files"] = file_errors
         else:
             errors["files"] = [
                 "There was an issue submitting your file(s). "
@@ -101,11 +102,34 @@ class DocumentAPI(Resource):
         if not errors:
             # create document
             doc = Document(1,  # id
-                           json['title'])
+                           json["title"],
+                           json.get("subtitle"),
+                           json["agency"],
+                           json.get("creators"),
+                           json["report_type"],
+                           json["subjects"],
+                           json["date_published"],
+                           json.get("year"),
+                           json.get("start_date"),
+                           json.get("end_date"),
+                           json["description"])
             return api_response.success({
-                'document': {
-                    'id': doc.id,
-                    'title': doc.title,
+                "document": {
+                    "id": doc.id,
+                    "title": doc.title,
+                    "subtitle": doc.subtitle,
+                    "agency": doc.agency,
+                    "creators": doc.creators,
+                    "report_type": doc.report_type,
+                    "subjects": doc.subjects,
+                    "date_published": doc.date_published,
+                    "year": doc.year,
+                    "start_date": doc.start_date,
+                    "end_date": doc.end_date,
+                    "description": doc.description
+                },
+                "success_message": {
+                    "text": "Your publication has been submitted for approval."
                 }
             })
         return api_response.fail(errors)
