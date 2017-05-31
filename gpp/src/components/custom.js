@@ -6,9 +6,7 @@ import {Label} from 'semantic-ui-react'
 import {PropTypes} from 'prop-types';
 import {csrfFetch} from '../utils/fetch'
 import {omit} from '../utils/object'
-import {validate_json} from '../utils/jsonschema';
-
-import schema from '../utils/schemas/document'
+import {validate_property} from '../utils/jsonschema';
 
 
 /**
@@ -63,8 +61,26 @@ function withValidation(method, action, FormComponent) {
         data: {
           ...this.state.data,
           [name]: typeof value === "string" ? value.replace(/^\s+|\s+$/g, '') : value
-        }});
+        }
+      });
       this.removeError(name);
+    };
+
+    validateProperty = (schema) => (e) => {
+      const {value} = e.target;
+      this.validatePropertySynthetic(schema)(e, {
+        name: e.target.name,
+        value: /^\d+$/.test(value) ? parseInt(value, 10) : value
+      })
+    };
+
+    validatePropertySynthetic = (schema) => (e, {name, value}) => {
+      const errors = validate_property({[name]: value}, schema, name);
+      if (errors.length > 0) {
+        this.setState({
+          error: {...this.state.error, [name]: errors}
+        })
+      }
     };
 
     submitFormData = (extraData = {}) => {
@@ -82,8 +98,6 @@ function withValidation(method, action, FormComponent) {
           formData[prop] = data[prop]
         }
       }
-
-      validate_json({...formData, ...extraData}, schema);
 
       csrfFetch(action, {
         method: method,
@@ -126,6 +140,8 @@ function withValidation(method, action, FormComponent) {
         submitFormData={ this.submitFormData }
         handleFieldChange={ this.handleFieldChange }
         removeError={ this.removeError }
+        validateProperty={ this.validateProperty }
+        validatePropertySynthetic={ this.validatePropertySynthetic }
       />
     }
   }

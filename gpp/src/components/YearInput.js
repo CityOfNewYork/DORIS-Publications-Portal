@@ -20,7 +20,8 @@ class YearInput extends Component {
       end_date: PropTypes.string,
       year_type: PropTypes.string
     }),
-    removeError: PropTypes.func.isRequired
+    removeError: PropTypes.func.isRequired,
+    onBlur: PropTypes.func.isRequired
   };
 
   state = {
@@ -52,7 +53,7 @@ class YearInput extends Component {
     ];
 
     const {yearType, year} = this.state;
-    const {stateError, removeError} = this.props;
+    const {stateError, removeError, onBlur} = this.props;
 
     const yearTypePicker = (
       <Grid.Column width="4">
@@ -86,6 +87,7 @@ class YearInput extends Component {
             value={year}
             onChange={this.onYearChange}
             error={stateError.hasOwnProperty("year")}
+            onBlur={onBlur}
           />
           { stateError.hasOwnProperty("year") && <ErrorLabel content={ stateError.year }/> }
         </Grid.Column>
@@ -112,6 +114,7 @@ class YearInput extends Component {
                     maxDate={moment().startOf('day')}
                     error={stateError.hasOwnProperty("start_date")}
                     onChange={() => removeError("start_date")}
+                    onBlur={onBlur}
                   />
                   { stateError.hasOwnProperty("start_date") && <ErrorLabel content={ stateError.start_date }/> }
                 </Grid.Column>
@@ -126,6 +129,7 @@ class YearInput extends Component {
                     ref={(endDate) => this.endDate = endDate}
                     error={stateError.hasOwnProperty("end_date")}
                     onChange={() => removeError("end_date")}
+                    onBlur={onBlur}
                   />
                   { stateError.hasOwnProperty("end_date") && <ErrorLabel content={ stateError.end_date }/> }
                 </Grid.Column>
@@ -139,10 +143,11 @@ class YearInput extends Component {
           <div>
             <Segment>
               {yearPicker}
-              {year.length === 4 &&
-              <Label pointing>
-                July 1, {year} – June 30, {parseInt(year, 10) + 1}
-              </Label>
+              {
+                year.length === 4 && !stateError.hasOwnProperty("year") &&
+                <Label pointing>
+                  July 1, {year} – June 30, {parseInt(year, 10) + 1}
+                </Label>
               }
             </Segment>
           </div>
@@ -152,7 +157,7 @@ class YearInput extends Component {
           <div>
             <Segment>
               {yearPicker}
-              {year.length === 4 &&
+              {year.length === 4 && !stateError.hasOwnProperty("year") &&
               <Label pointing>
                 January 1, {year} – December 31, {parseInt(year, 10)}
               </Label>

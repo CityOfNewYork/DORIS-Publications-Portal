@@ -7,9 +7,10 @@ import moment from 'moment';
 import 'react-datepicker/dist/react-datepicker.css';
 import './DateInput.css';
 
-class Input extends Component {  // Must be a class; DatePicker gives its customInput prop a ref
+class Input extends Component {  // !!! Must be a class; DatePicker gives its customInput prop a ref
   render() {
-    const {error, onClick, onChange, value, label, name} = this.props;
+    const {error, onClick, onChange, validateOnBlur, value, label, inputName} = this.props;
+
     return (
       <Form.Input
         error={error}
@@ -20,11 +21,13 @@ class Input extends Component {  // Must be a class; DatePicker gives its custom
           <MaskedInput
             mask={[/\d/, /\d/, '/', /\d/, /\d/, '/', /\d/, /\d/, /\d/, /\d/]}
             placeholder="MM/DD/YYYY"
+            name={inputName}
             required
             pattern="(0[1-9]|1[012])[- /.](0[1-9]|[12][0-9]|3[01])[- /.]\d\d\d\d"
             onClick={onClick}
             value={value}
             onChange={onChange}
+            onBlur={validateOnBlur}
           />
         }
       />
@@ -42,7 +45,8 @@ class DateInput extends Component {
     name: PropTypes.string.isRequired,
     maxDate: PropTypes.object,
     error: PropTypes.bool.isRequired,
-    onChange: PropTypes.func.isRequired
+    onChange: PropTypes.func.isRequired,
+    onBlur: PropTypes.func.isRequired
   };
 
   state = {
@@ -88,16 +92,18 @@ class DateInput extends Component {
 
   render() {
     const {date, moment, dateError} = this.state;
-    const {label, name, error} = this.props;
+    const {label, name, error, onBlur} = this.props;
+
     return <DatePicker
       maxDate={moment}
       selected={date}
       customInput={
         <Input
           onChange={this.handleChange}
+          validateOnBlur={onBlur}
           error={dateError || error}
           label={label}
-          name={name}
+          inputName={name}
         />
       }
       onChange={this.handleChange}

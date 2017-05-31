@@ -8,6 +8,7 @@ import DateInput from './DateInput';
 import ListGenInput from './ListGenInput';
 import YearInput from './YearInput';
 import TooltippedLabel from './TooltippedLabel';
+import schema from '../utils/schemas/document'
 
 
 class SubmitForm extends Component {
@@ -19,6 +20,9 @@ class SubmitForm extends Component {
     stateLoading: PropTypes.bool.isRequired,
     handleFieldChange: PropTypes.func.isRequired,
     submitFormData: PropTypes.func.isRequired,
+    removeError: PropTypes.func.isRequired,
+    validateProperty: PropTypes.func.isRequired,
+    validatePropertySynthetic: PropTypes.func.isRequired
   };
 
   state = {
@@ -115,7 +119,7 @@ class SubmitForm extends Component {
   };
 
   render() {
-    const {stateError, stateLoading, handleFieldChange, removeError} = this.props;
+    const {stateError, stateLoading, handleFieldChange, removeError, validateProperty, validatePropertySynthetic} = this.props;
     const {submitted, subjects, descriptionCharCount, subjectsChoices, reportTypeChoices} = this.state;
 
     return (
@@ -164,6 +168,7 @@ class SubmitForm extends Component {
               name="title"
               error={stateError.hasOwnProperty("title")}
               onChange={handleFieldChange}
+              onBlur={validateProperty(schema)}
               required
               maxLength="150"
             />
@@ -184,6 +189,7 @@ class SubmitForm extends Component {
               name="subtitle"
               error={stateError.hasOwnProperty("subtitle")}
               onChange={handleFieldChange}
+              onBlur={validateProperty(schema)}
               maxLength="150"
             />
             { stateError.hasOwnProperty("subtitle") && <ErrorLabel content={ stateError.title }/> }
@@ -239,7 +245,7 @@ class SubmitForm extends Component {
         />
 
         <Form.Group>
-          {/* Type */}
+          {/* Report Type */}
           <Form.Field width="6">
             <Form.Select
               label={
@@ -276,6 +282,7 @@ class SubmitForm extends Component {
               selection
               value={subjects}
               onChange={this.onSubjectsChange}
+              onBlur={validatePropertySynthetic(schema)}
               placeholder="Select up to 3 Subjects"
               options={subjectsChoices}
               error={stateError.hasOwnProperty("subjects")}
@@ -297,6 +304,7 @@ class SubmitForm extends Component {
               error={stateError.hasOwnProperty("date_published")}
               ref={(datePublished) => this.datePublished = datePublished}
               onChange={() => removeError("date_published")}
+              onBlur={validateProperty(schema)}
             />
             { stateError.hasOwnProperty("date_published") && <ErrorLabel content={ stateError.date_published }/> }
           </Form.Field>
@@ -310,6 +318,7 @@ class SubmitForm extends Component {
               stateError={stateError}
               ref={(year) => this.year = year}
               removeError={removeError}
+              onBlur={validateProperty(schema)}
             />
           </Form.Field>
         </Form.Group>
@@ -333,6 +342,7 @@ class SubmitForm extends Component {
               name="description"
               error={stateError.hasOwnProperty("description")}
               onChange={this.onDescriptionChange}
+              onBlur={validateProperty(schema)}
               required
               maxLength="200"
               rows="3"
