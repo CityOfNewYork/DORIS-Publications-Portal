@@ -12,7 +12,11 @@ from flask_wtf.csrf import generate_csrf
 main = Blueprint('main', __name__)
 
 
+# all routes accessible by react router should be listed here!
 @main.route('/')
+@main.route('/faq')
+@main.route('/about')
+@main.route('/contact')
 def index():
     """
     Sends the CSRF token from server to client as a cookie so that the client can scrape it out

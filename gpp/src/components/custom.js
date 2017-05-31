@@ -7,6 +7,8 @@ import {PropTypes} from 'prop-types';
 import {csrfFetch} from '../utils/fetch'
 import {omit} from '../utils/object'
 
+import {validate_json, submissionSubset} from '../utils/jsonschema';
+
 
 /**
  * Use this to display error messages directly below a form field.
@@ -59,7 +61,7 @@ function withValidation(method, action, FormComponent) {
       this.setState({
         data: {
           ...this.state.data,
-          [name]: value.replace(/^\s+|\s+$/g, '')
+          [name]: typeof value === "string" ? value.replace(/^\s+|\s+$/g, '') : value
         }});
       this.removeError(name);
     };
@@ -79,6 +81,8 @@ function withValidation(method, action, FormComponent) {
           formData[prop] = data[prop]
         }
       }
+
+      validate_json(formData, submissionSubset);
 
       csrfFetch(action, {
         method: method,

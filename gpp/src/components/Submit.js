@@ -40,6 +40,14 @@ class SubmitForm extends Component {
           value: item.value
         }))
       })
+    }).catch(() => {
+      this.setState({
+        [stateKey]: [{
+          key: 'none',
+          text: 'None - Check Server',
+          value: 'none'
+        }]
+      })
     })
   };
 
@@ -87,7 +95,7 @@ class SubmitForm extends Component {
       }
     }
 
-    this.props.submitFormData(formData)
+    this.props.submitFormData(formData);
   };
 
   onDescriptionChange = (e, {name, value}) => {
