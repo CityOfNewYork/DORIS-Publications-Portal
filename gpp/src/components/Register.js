@@ -177,9 +177,10 @@ class Register extends Component {
               <Segment>
                 {/* Registration Terms */}
                 <Form.Checkbox
-                  label="I acknowledge that I am the designated agency contact for submission of records to the ML.
-                  If there is any change (such as my reassignment to other duties or some other agency), I will notify
-                  my supervisor that a new agency contact for the ML needs to be appointed and registered."
+                  label="I acknowledge that I am the designated agency contact for submission of records to the
+                  Municipal Library. If there is any change (such as my reassignment to other duties or some other
+                  agency), I will notify my supervisor that a new agency contact for the Municipal Library needs to be
+                  appointed and registered."
                 />
               </Segment>
               <Form.Button fluid>Submit</Form.Button>
