@@ -112,7 +112,6 @@ function withValidation(method, action, FormComponent) {
         // interpret valid JSend response here
         switch (json.status) {
           case "success":
-            debugger;
             this.setState({error: {}, successMessage: json.data.success_message.text});
             break;
           case "fail":
