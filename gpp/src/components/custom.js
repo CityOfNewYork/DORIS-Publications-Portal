@@ -6,8 +6,9 @@ import {Label} from 'semantic-ui-react'
 import {PropTypes} from 'prop-types';
 import {csrfFetch} from '../utils/fetch'
 import {omit} from '../utils/object'
+import {validate_json} from '../utils/jsonschema';
 
-import {validate_json, submissionSubset} from '../utils/jsonschema';
+import schema from '../utils/schemas/document'
 
 
 /**
@@ -82,7 +83,7 @@ function withValidation(method, action, FormComponent) {
         }
       }
 
-      validate_json(formData, submissionSubset);
+      validate_json({...formData, ...extraData}, schema);
 
       csrfFetch(action, {
         method: method,
