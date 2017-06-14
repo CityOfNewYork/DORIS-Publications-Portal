@@ -14,7 +14,7 @@ class ReportTypesAPI(Resource):
                 "text": type_.text,
                 "value": type_.value
             } for type_ in [
-                ReportType("Adjunctions / Decisions", "adjunctions_decisions"),
+                ReportType("Adjudications / Decisions", "adjudications_decisions"),
                 ReportType("Audit Report", "audit_report"),
                 ReportType("Brochures", "brochures"),
                 ReportType("Budget / Finance", "budget_finance"),

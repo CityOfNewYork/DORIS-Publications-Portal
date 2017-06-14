@@ -55,7 +55,7 @@ export default {
     "report_type": {
       "type": "string",
       "enum": [
-        "adjunctions_decisions",
+        "adjudications_decisions",
         "audit_report",
         "brochures",
         "budget_finance",
@@ -307,7 +307,7 @@ export default {
       "type": "string",
       "error": {
         "maxLength": "Please shorten your title to at most 150 characters.",
-        "minLength": "Please lengthen your title to at most 10 characters."
+        "minLength": "Please lengthen your title to at least 10 characters."
       }
     },
     "year": {

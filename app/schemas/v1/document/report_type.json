@@ -4,7 +4,7 @@
     "report_type": {
         "type": "string",
         "enum": [
-            "adjunctions_decisions",
+            "adjudications_decisions",
             "audit_report",
             "brochures",
             "budget_finance",

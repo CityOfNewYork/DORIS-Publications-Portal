@@ -75,9 +75,11 @@
         },
         "title": {
             "maxLength": 150,
+            "minLength": 10,
             "type": "string",
             "error": {
-                "maxLength": "Please shorten your title to at most 150 characters."
+                "maxLength": "Please shorten your title to at most 150 characters.",
+                "minLength": "Please lengthen your title to at least 10 characters."
             }
         },
         "year": {

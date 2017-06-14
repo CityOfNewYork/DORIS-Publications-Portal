@@ -17,6 +17,7 @@ class SubmitForm extends Component {
       PropTypes.object.isRequired,
       PropTypes.string.isRequired,
     ]),
+    successMessage: PropTypes.string.isRequired,
     stateLoading: PropTypes.bool.isRequired,
     handleFieldChange: PropTypes.func.isRequired,
     submitFormData: PropTypes.func.isRequired,
@@ -119,9 +120,8 @@ class SubmitForm extends Component {
   };
 
   render() {
-    const {stateError, stateLoading, handleFieldChange, removeError, validateProperty, validatePropertySynthetic} = this.props;
+    const {stateError, successMessage, stateLoading, handleFieldChange, removeError, validateProperty, validatePropertySynthetic} = this.props;
     const {submitted, subjects, descriptionCharCount, subjectsChoices, reportTypeChoices} = this.state;
-
     return (
       <Form
         onSubmit={this.handleSubmit}
@@ -129,10 +129,11 @@ class SubmitForm extends Component {
         { ...stateLoading && {loading: true} }
         error
         warning
+        success
       >
-        {this.props.successMessage &&
+        {successMessage &&
         <Message success>
-          {this.props.successMessage}
+          {successMessage}
         </Message>
         }
         <h2>Document Submission</h2>
