@@ -228,6 +228,8 @@ class SubmitForm extends Component {
                   text: "DOITT - Department of Information Technology & Telecommunications"
                 },
               ]}
+              selectOnBlur={false}
+              onBlur={validatePropertySynthetic(schema)}
               onChange={handleFieldChange}
               error={stateError.hasOwnProperty("agency")}
               placeholder="Select an Agency"
@@ -263,7 +265,9 @@ class SubmitForm extends Component {
               name="report_type"
               options={reportTypeChoices}
               error={stateError.hasOwnProperty("report_type")}
+              onBlur={validatePropertySynthetic(schema)}
               onChange={handleFieldChange}
+              selectOnBlur={false}
               placeholder="Select a Document Type"
               search
               required

@@ -83,7 +83,8 @@ export default {
         "studies"
       ],
       "error": {
-        "enum": "This is not a valid report type."
+        "enum": "This is not a valid report type.",
+        "required": "You must choose a report type."
       }
     },
     "start_date": {
@@ -308,6 +309,12 @@ export default {
       "error": {
         "maxLength": "Please shorten your title to at most 150 characters.",
         "minLength": "Please lengthen your title to at least 10 characters."
+      }
+    },
+    "agency": {
+      "type": "string",
+      "error": {
+        "required": "You must choose an agency."
       }
     },
     "year": {

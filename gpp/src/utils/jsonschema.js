@@ -8,7 +8,7 @@ function validate_json(data, schema) {
 function validate_property(data, schema, name) {
   const errors = validate_json(data, schema);
   return errors.filter(
-    (error) => error.property === "instance." + name
+    (error) => error.property === "instance." + name || error.argument === Object.keys(data)[0]
   ).map((error) => schema.properties[name].error[error.name] || error.message);
 }
 
