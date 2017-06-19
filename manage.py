@@ -6,7 +6,8 @@ from config import DEV
 from app import create_app
 from app.database import db, user
 
-manager = Manager(create_app(DEV))
+app = create_app(DEV)
+manager = Manager(app)
 
 # recreate_tables ------------------------------------------------------------------------------------------------------
 
