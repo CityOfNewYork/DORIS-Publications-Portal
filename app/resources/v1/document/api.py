@@ -51,7 +51,7 @@ class DocumentAPI(Resource):
     @login_required
     def post(self):
         """
-        Submission of a document.
+        Handle the submission of a document.
 
         Example Request Payload:
             {
@@ -76,8 +76,6 @@ class DocumentAPI(Resource):
         :return: JSON response
         """
         try:
-            import ipdb
-            ipdb.set_trace()
             json = request.get_json(force=True)
             # TODO: utility for stripping values
         except Exception as e:

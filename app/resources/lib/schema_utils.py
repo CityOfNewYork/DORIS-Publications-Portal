@@ -4,13 +4,13 @@ import jsonschema
 from flask import current_app
 
 
-# https://github.com/Julian/jsonschema/issues/119
-
 # Custom validators
 def _required(validator, required, instance, schema):
     """
     The JSON schema validator currently does not have a way to retrieve the name of a missing required property.
     This function is a workaround that appends the name to the schema_path.
+
+    Source: https://github.com/Julian/jsonschema/issues/119
 
     :param validator: JSON Schema Draft 4
     :param required:
@@ -46,7 +46,8 @@ def validate_json(data, schema_path, schema_name):
     :param data: JSON data to be validated
     :param schema_path: path to schema
     :param schema_name: name of the schema
-    :return: dictionary
+    :return: dictionary of key-value ({property: error message}) pairs for validation errors
+    :rtype: dict
     """
     errors = {}
     with open(os.path.join(

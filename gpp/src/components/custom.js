@@ -1,11 +1,11 @@
 /**
  * Custom and utility components that can be used alongside semantic-ui-react components
  */
-import React from 'react'
-import {Label} from 'semantic-ui-react'
+import React from 'react';
+import {Label} from 'semantic-ui-react';
 import {PropTypes} from 'prop-types';
-import {csrfFetch} from '../utils/fetch'
-import {omit} from '../utils/object'
+import {csrfFetch} from '../utils/fetch';
+import {omit} from '../utils/object';
 import {validate_property} from '../utils/jsonschema';
 
 
