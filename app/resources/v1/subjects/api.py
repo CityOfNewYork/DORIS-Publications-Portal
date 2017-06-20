@@ -14,6 +14,7 @@ class SubjectsAPI(Resource):
                 "text": subject.text,
                 "value": subject.value
             } for subject in [
+                # TODO: store in db
                 Subject("Accounting", "accounting"),
                 Subject("Advertising", "advertising"),
                 Subject("Aged", "aged"),

@@ -33,6 +33,7 @@ def index():
 
 @main.route('/login')
 def login():
+    # TODO: remove this before deploying to live environment. this is just for testing purposes only
     from app.database.user import get_first, create
     user = get_first()
     if user is None:

@@ -7,7 +7,6 @@ from flask_restful import Resource
 from werkzeug.utils import secure_filename
 from datetime import datetime
 from app.resources.lib import api_response
-# from app.models import Document
 from app.resources.lib.schema_utils import validate_json
 from flask_login import login_required
 
@@ -51,7 +50,34 @@ class DocumentAPI(Resource):
 
     @login_required
     def post(self):
+        """
+        Submission of a document.
+
+        Example Request Payload:
+            {
+                "title": "testing123",
+                "agency": "doris",
+                "report_type": "adjudications_decisions",
+                "subjects":[
+                    "advertising"
+                ],
+                "description": "testing description",
+                "files":[
+                    {
+                        "title":"test",
+                        "name":"DT-38764594-150317-1628.pdf"
+                    }
+                ],
+                "date_published":"06/20/2017",
+                "year_type":"calendar",
+                "year":1600
+            }
+
+        :return: JSON response
+        """
         try:
+            import ipdb
+            ipdb.set_trace()
             json = request.get_json(force=True)
             # TODO: utility for stripping values
         except Exception as e:
