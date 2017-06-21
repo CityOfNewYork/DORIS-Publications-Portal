@@ -1,10 +1,12 @@
 /**
  * Custom and utility components that can be used alongside semantic-ui-react components
  */
-import React from 'react'
-import {Label} from 'semantic-ui-react'
-import {csrfFetch} from '../utils/fetch'
-import {omit} from '../utils/object'
+import React from 'react';
+import {Label} from 'semantic-ui-react';
+import {PropTypes} from 'prop-types';
+import {csrfFetch} from '../utils/fetch';
+import {omit} from '../utils/object';
+import {validate_property} from '../utils/jsonschema';
 
 
 /**
@@ -16,9 +18,20 @@ import {omit} from '../utils/object'
  *      { isThereAnError && <ErrorLabel content=( theError }/>
  *    </Form.Field>
  */
-const ErrorLabel = ({content}) => (
-  <Label className="prompt" pointing color="red" content={content}/>
+const ErrorLabel = ({content, style}) => (
+  <Label style={style}
+         className="prompt"
+         pointing
+         color="red"
+         content={Array.isArray(content) ? content.join(" ") : content}/>
 );
+
+ErrorLabel.propTypes = {
+  content: PropTypes.oneOfType([
+    PropTypes.string.isRequired,
+    PropTypes.arrayOf(PropTypes.string).isRequired
+  ])
+};
 
 /**
  * A higher-order component (HOC) that provides basic validation functionality
@@ -34,6 +47,7 @@ function withValidation(method, action, FormComponent) {
     state = {
       data: {},
       error: {},
+      successMessage: '',
       loading: false,
     };
 
@@ -47,9 +61,27 @@ function withValidation(method, action, FormComponent) {
       this.setState({
         data: {
           ...this.state.data,
-          [name]: value
-        }});
+          [name]: typeof value === "string" ? value.replace(/^\s+|\s+$/g, '') : value
+        }
+      });
       this.removeError(name);
+    };
+
+    validateProperty = (schema) => (e) => {
+      const {value} = e.target;
+      this.validatePropertySynthetic(schema)(e, {
+        name: e.target.name,
+        value: /^\d+$/.test(value) ? parseInt(value, 10) : value
+      })
+    };
+
+    validatePropertySynthetic = (schema) => (e, {name, value}) => {
+      const errors = validate_property({[name]: value}, schema, name);
+      if (errors.length > 0) {
+        this.setState({
+          error: {...this.state.error, [name]: errors}
+        })
+      }
     };
 
     submitFormData = (extraData = {}) => {
@@ -60,9 +92,17 @@ function withValidation(method, action, FormComponent) {
 
       const ERR_MSG = "We cannot process your submission at this time.";
 
+      let formData = {};
+      const {data} = this.state;
+      for (let prop in data) {
+        if (data[prop]) {
+          formData[prop] = data[prop]
+        }
+      }
+
       csrfFetch(action, {
         method: method,
-        body: JSON.stringify({...this.state.data, ...extraData}),
+        body: JSON.stringify({...formData, ...extraData}),
       }).then((response) => {
         // stop loading
         this.setState({loading: false});
@@ -72,7 +112,7 @@ function withValidation(method, action, FormComponent) {
         // interpret valid JSend response here
         switch (json.status) {
           case "success":
-            this.setState({error: {}});
+            this.setState({error: {}, successMessage: json.data.success_message.text});
             break;
           case "fail":
             this.setState({error: json.data});
@@ -100,6 +140,10 @@ function withValidation(method, action, FormComponent) {
         stateLoading={ this.state.loading }
         submitFormData={ this.submitFormData }
         handleFieldChange={ this.handleFieldChange }
+        removeError={ this.removeError }
+        validateProperty={ this.validateProperty }
+        validatePropertySynthetic={ this.validatePropertySynthetic }
+        successMessage={ this.state.successMessage }
       />
     }
   }

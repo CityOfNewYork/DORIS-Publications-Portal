@@ -53,10 +53,20 @@ application state across a browser refresh.
 
 #### Part 1 - BE
 
-1. Create a `forms.py` file in the corresponding resource package 
-(e.g. `app/resources/v1/publications/`) if the file does not yet exist.
-2. In `forms.py`, use WTForms to create a form class with fields that mostly will only consist of validators.
-3. In your resource api, use the newly-created form to validate request data.
+- To quickly generate a jsonschema for a specific form, go [here](https://jsonschema.net/#/editor).
+  - Please refer to `app/schemas` for examples.
+- We stray from the spec when providing custom error messages.
+  - These error messages should be parsed by a validation utility. See `validate_json` in `app/resources/lib.py`.
+```json
+"date": {
+    "pattern": "\\d{2}/\\d{2}/\\d{4}",
+    "type": "string",
+    "error": {  // not spec-compliant
+        "pattern": "This is not a valid date value."
+    }
+}
+``` 
+
 
 #### Part 2 - FE
 

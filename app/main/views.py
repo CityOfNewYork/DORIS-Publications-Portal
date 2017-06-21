@@ -12,7 +12,11 @@ from flask_wtf.csrf import generate_csrf
 main = Blueprint('main', __name__)
 
 
+# all routes accessible by react router should be listed here!
 @main.route('/')
+@main.route('/faq')
+@main.route('/about')
+@main.route('/contact')
 def index():
     """
     Sends the CSRF token from server to client as a cookie so that the client can scrape it out
@@ -29,10 +33,11 @@ def index():
 
 @main.route('/login')
 def login():
-    from app.database import User
-    user = User.get_first()
+    # TODO: remove this before deploying to live environment. this is just for testing purposes only
+    from app.database.user import get_first, create
+    user = get_first()
     if user is None:
-        User.create("GUID", "EDIRSSO", "Dirk", None, "Diggler", "doubled@email.com")
+        user = create("GUID", "EDIRSSO", "Dirk", None, "Diggler", "doubled@email.com")
     login_user(user)
     return redirect(url_for("main.index"))
 

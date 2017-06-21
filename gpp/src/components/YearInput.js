@@ -1,7 +1,9 @@
 import React, {Component} from 'react';
-import {Form, Label, Grid} from 'semantic-ui-react';
+import PropTypes from 'prop-types';
+import {Form, Label, Grid, Segment} from 'semantic-ui-react';
 import moment from 'moment';
 import TooltippedLabel from './TooltippedLabel';
+import {ErrorLabel} from './custom';
 import DateInput from './DateInput';
 import './DateInput.css';
 
@@ -11,21 +13,34 @@ class YearInput extends Component {
   static YEAR_TYPE_FIS = 'fiscal';
   static YEAR_TYPE_OTH = 'other';
 
+  static props = {
+    stateError: PropTypes.shape({
+      year: PropTypes.string,
+      start_date: PropTypes.string,
+      end_date: PropTypes.string,
+      year_type: PropTypes.string
+    }),
+    removeError: PropTypes.func.isRequired,
+    onBlur: PropTypes.func.isRequired
+  };
+
   state = {
     yearType: YearInput.YEAR_TYPE_CAL,
-    value: ''
+    year: '',
   };
 
   onDropdownChange = (e, {value}) => {
     this.setState({
-      yearType: value
+      yearType: value,
+      year: ''
     })
   };
 
-  onInputChange = (e, {value}) => {
+  onYearChange = (e, {value}) => {
+    this.props.removeError("year");
     if (/^[0-9]+$/.test(value.slice(-1)) || value === '') {
       this.setState({
-        value: value
+        year: value
       })
     }
   };
@@ -37,17 +52,22 @@ class YearInput extends Component {
       {key: "oth", text: "Other", value: YearInput.YEAR_TYPE_OTH}
     ];
 
-    const {yearType, value} = this.state;
+    const {yearType, year} = this.state;
+    const {stateError, removeError, onBlur} = this.props;
 
     const yearTypePicker = (
-      <Grid.Column verticalAlign="bottom" width="4">
+      <Grid.Column width="4">
         <Form.Select
           compact
           // defaultValue={YearInput.YEAR_TYPE_CAL}  // will cause issues due to remounting below
           options={options}
+          name="year_type"
           onChange={this.onDropdownChange}
-          value={this.state.yearType}
+          value={yearType}
+          error={stateError.hasOwnProperty("year_type")}
+          style={{marginTop: 29}}
         />
+        { stateError.hasOwnProperty("year_type") && <ErrorLabel content={ stateError.year_type }/> }
       </Grid.Column>
     );
 
@@ -55,12 +75,21 @@ class YearInput extends Component {
       <Grid>
         <Grid.Column width="12">
           <Form.Input
-            label={<TooltippedLabel tooltipContent="Testing 1 2 3" labelContent="Associated Year"/>}
+            label={
+              <TooltippedLabel
+                tooltipContent="The year covered by this document."
+                labelContent="Associated Year"
+              />
+            }
             name='year'
             maxLength='4'
-            value={value}
-            onChange={this.onInputChange}
+            required
+            value={year}
+            onChange={this.onYearChange}
+            error={stateError.hasOwnProperty("year")}
+            onBlur={onBlur}
           />
+          { stateError.hasOwnProperty("year") && <ErrorLabel content={ stateError.year }/> }
         </Grid.Column>
         {yearTypePicker}
       </Grid>
@@ -70,44 +99,70 @@ class YearInput extends Component {
       case YearInput.YEAR_TYPE_OTH:
         return (
           <div>
-            <Grid>
-              <Grid.Column width="6">
-                <DateInput
-                  label={<TooltippedLabel tooltipContent="Testing 1 2 3" labelContent="Associated Start Date"/>}
-                  name="startDate"
-                  maxDate={moment().startOf('day')}
-                />
-              </Grid.Column>
-              <Grid.Column width="6">
-                <DateInput
-                  label={<TooltippedLabel tooltipContent="Testing 1 2 3" labelContent="Associated End Date"/>}
-                  name="endDate"
-                />
-              </Grid.Column>
-              {yearTypePicker}
-            </Grid>
+            <Segment>
+              <Grid>
+                <Grid.Column width="6">
+                  <DateInput
+                    label={
+                      <TooltippedLabel
+                        tooltipContent="The start date covered by this document."
+                        labelContent="Associated Start Date"
+                      />
+                    }
+                    name="start_date"
+                    ref={(startDate) => this.startDate = startDate}
+                    maxDate={moment().startOf('day')}
+                    error={stateError.hasOwnProperty("start_date")}
+                    onChange={() => removeError("start_date")}
+                    onBlur={onBlur}
+                  />
+                  { stateError.hasOwnProperty("start_date") && <ErrorLabel content={ stateError.start_date }/> }
+                </Grid.Column>
+                <Grid.Column width="6">
+                  <DateInput
+                    label={
+                      <TooltippedLabel
+                        tooltipContent="The end date covered by this document."
+                        labelContent="Associated End Date"/>
+                    }
+                    name="end_date"
+                    ref={(endDate) => this.endDate = endDate}
+                    error={stateError.hasOwnProperty("end_date")}
+                    onChange={() => removeError("end_date")}
+                    onBlur={onBlur}
+                  />
+                  { stateError.hasOwnProperty("end_date") && <ErrorLabel content={ stateError.end_date }/> }
+                </Grid.Column>
+                {yearTypePicker}
+              </Grid>
+            </Segment>
           </div>
         );
       case YearInput.YEAR_TYPE_FIS:
         return (
           <div>
-            {yearPicker}
-            {value.length === 4 &&
-            <Label pointing>
-              July 1, {value} – June 30, {parseInt(value, 10) + 1}
-            </Label>
-            }
+            <Segment>
+              {yearPicker}
+              {
+                year.length === 4 && !stateError.hasOwnProperty("year") &&
+                <Label pointing>
+                  July 1, {year} – June 30, {parseInt(year, 10) + 1}
+                </Label>
+              }
+            </Segment>
           </div>
         );
       default:
         return (
           <div>
-            {yearPicker}
-            {value.length === 4 &&
-            <Label pointing>
-              January 1, {value} – December 31, {parseInt(value, 10)}
-            </Label>
-            }
+            <Segment>
+              {yearPicker}
+              {year.length === 4 && !stateError.hasOwnProperty("year") &&
+              <Label pointing>
+                January 1, {year} – December 31, {parseInt(year, 10)}
+              </Label>
+              }
+            </Segment>
           </div>
         );
     }

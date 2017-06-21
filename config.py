@@ -21,6 +21,8 @@ class Config(object):
 
     UPLOAD_DIRECTORY = env.get('UPLOAD_DIRECORY') or os.path.join(basedir, 'uploads')
 
+    SCHEMAS_DIRECTORY = env.get('SCHEMAS_DIRECTORY') or os.path.join(basedir, 'app/schemas')
+
 
 class ConfigDevelopment(Config):
     DEBUG = True

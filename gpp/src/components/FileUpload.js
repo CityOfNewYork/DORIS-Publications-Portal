@@ -13,17 +13,21 @@ class FileRow extends Component {
       size: PropTypes.number.isRequired,
       name: PropTypes.string.isRequired,
     }),
+    uploadDirName: PropTypes.string.isRequired,
     index: PropTypes.number.isRequired,
     isLast: PropTypes.bool.isRequired,
     onRemove: PropTypes.func.isRequired,
     onShiftDown: PropTypes.func.isRequired,
-    onShiftUp: PropTypes.func.isRequired
+    onShiftUp: PropTypes.func.isRequired,
+    onFileTitleChange: PropTypes.func.isRequired,
+    submitted: PropTypes.bool.isRequired
   };
 
   state = {
     percent: 0,
     error: "",
     uploading: true,
+    title: '',
   };
 
   // Fetch API does not support upload progress yet.
@@ -57,19 +61,18 @@ class FileRow extends Component {
    */
   parseResponse = () => {
     let errorMsg = "";
-    if (this.xhr.status !== 200) {
-      try {
-        errorMsg = JSON.parse(this.xhr.responseText);
+    try {
+      let jsonResponse = JSON.parse(this.xhr.responseText);
+      if (this.xhr.status !== 200 || jsonResponse.status === "fail") {
+        errorMsg = jsonResponse.data || jsonResponse.message
       }
-      catch (err) {
-        errorMsg = {
-          message: "Failed to upload file due to an unhandled server error. Please remove and try again."
-        }
-      }
+    }
+    catch (err) {
+      errorMsg = "Failed to upload file due to an unhandled server error."
     }
     this.setState({
       percent: 100,
-      error: errorMsg.message || errorMsg.data,
+      error: errorMsg,
       uploading: false
     })
   };
@@ -79,11 +82,12 @@ class FileRow extends Component {
    */
   componentDidMount() {
     // TODO: frontend validation (number?, size?, total size?, mimetype, user authenticated, etc.)
+    const {file, uploadDirName} = this.props;
     let data = new FormData();
-    data.append("file", this.props.file);
+    data.append("file", file);
     this.xhr.upload.addEventListener("progress", this.uploadProgress);
     this.xhr.upload.addEventListener("error", this.uploadFailed);
-    this.xhr.open("POST", "/api/v1.0/upload");
+    this.xhr.open("POST", "/api/v1.0/upload/" + uploadDirName);
     this.xhr.setRequestHeader("X-CSRFToken", readCookie("csrf_token"));
     this.xhr.onload = this.parseResponse;
     this.xhr.send(data);
@@ -95,33 +99,47 @@ class FileRow extends Component {
    * If the upload has failed, do nothing.
    */
   componentWillUnmount() {
+    const {file, uploadDirName} = this.props;
     if (this.xhr.readyState !== XMLHttpRequest.DONE) {
       this.xhr.abort();
     }
     else {
       if (!this.state.error) {
         csrfFetch(
-          "api/v1.0/upload/" + this.props.file.name,
+          `api/v1.0/upload/${uploadDirName}/${file.name}`,
           {method: "delete"}
         );
       }
     }
   }
 
+  onTitleChange = (index) => (e, {value}) => {
+    this.setState({
+      title: value.replace(/^\s+|\s+$/g, '')
+    });
+    this.props.onFileTitleChange(index, value)
+  };
+
   render() {
-    const {file, index, isLast, onRemove, onShiftDown, onShiftUp} = this.props;
+    const {file, index, isLast, onRemove, onShiftDown, onShiftUp, submitted} = this.props;
 
     return (
       <Grid.Row>
         <Grid.Column width={1}>
           { index + 1 }
         </Grid.Column>
-        <Grid.Column width={1}>
-          { index !== 0 && <Icon name="caret up" size="large" link onClick={() => onShiftDown(index)}/> }
-          { !isLast && <Icon name="caret down" size="large" link onClick={() => onShiftUp(index)}/> }
-        </Grid.Column>
-        <Grid.Column width={5}>
-          <Form.Input placeholder={file.name}/>
+        { index === 0 && isLast ? null :
+          <Grid.Column width={1}>
+            { index !== 0 && <Icon name="caret up" size="large" link onClick={() => onShiftDown(index)}/> }
+            { !isLast && <Icon name="caret down" size="large" link onClick={() => onShiftUp(index)}/> }
+          </Grid.Column>
+        }
+        <Grid.Column width={index === 0 && isLast ? 6 : 5}>
+          <Form.Input
+            placeholder={file.name}
+            onChange={this.onTitleChange(index)}
+            error={submitted && this.state.title.length < 3}
+          />
         </Grid.Column>
         <Grid.Column width={3} style={{wordWrap: "break-word"}}>
           { file.name }
@@ -150,19 +168,30 @@ class FileRow extends Component {
 
 class FileUpload extends Component {
 
+  static propTypes = {
+    required: PropTypes.bool,
+    submitted: PropTypes.bool,
+    uploadDirName: PropTypes.string.isRequired,
+    errors: PropTypes.array
+  };
+
   static defaultProps = {
     required: false,
     submitted: false,
+    errors: []
   };
 
   state = {
     files: [],
-    messages: [],
+    warningMessages: [],
+    warningMessageIsVisible: true,
+    fileHasError: false
   };
 
   /**
    * Add files to the state.files array if there is anything to add
-   * and if the files have not already been added (check by file name).
+   * and if the files have not already been added (check by file name),
+   * and if the files are PDFs.
    */
   addFile = (e) => {
     const files = e.target.files;
@@ -170,7 +199,14 @@ class FileUpload extends Component {
       messages = [];
     for (let i = 0; i < files.length; i++) {
       let file = files[i];
-      if (this.state.files.filter((e) => e.name === file.name).length > 0) {
+      if (file.type !== "application/pdf") {
+        messages.push(
+          <div>
+            <strong>{file.name}</strong> is not a PDF file. Please choose a different file.
+          </div>
+        )
+      }
+      else if (this.state.files.filter((e) => e.name === file.name).length > 0) {
         messages.push(
           <div>
             <strong>{file.name}</strong> has already been added. Please choose a different file.
@@ -183,7 +219,20 @@ class FileUpload extends Component {
     }
     this.setState({
       files: [...this.state.files, ...filesToAdd],
-      messages: messages,
+      warningMessages: messages,
+      warningMessageIsVisible: true
+    })
+  };
+
+  fileTitleChange = (index, value) => {
+    let file = this.state.files[index];
+    file.title = value;
+    this.setState({
+      files: [
+        ...this.state.files.slice(0, index),
+        file,
+        ...this.state.files.slice(index + 1, this.state.files.length)
+      ]
     })
   };
 
@@ -198,10 +247,16 @@ class FileUpload extends Component {
     }
   };
 
+  /**
+   * Move file down 1 index in the state.files array
+   */
   shiftFileDown = (index) => {
     this._shiftFile(index, false)
   };
 
+  /**
+   * Move file up 1 index in the state.files array
+   */
   shiftFileUp = (index) => {
     this._shiftFile(index)
   };
@@ -219,40 +274,43 @@ class FileUpload extends Component {
   };
 
   /**
-   * Cancel event if the latest file component is in
-   * an error state or is in the process of uploading.
+   * Check all refs to FileRows for errors.
    */
-  checkLatestFile = (e) => {  // TODO: remove
-    if (this.refs.latestFile) {
-      let msg = "";
-      if (this.refs.latestFile.state.error) {
-        msg = "You must remove the failed upload before you can add another file.";
-      }
-      else if (this.refs.latestFile.state.uploading) {
-        msg = "You cannot add another file while while an upload is in progress.";
-      }
-      if (msg) {
-        e.preventDefault();
-      }
-      this.setState({
-        message: msg
-      });
-    }
-  };
-
   fileHasError = () => {
     for (let [_, ref] of Object.entries(this.refs)) {
       if (ref.state.error) {
         return true;
       }
     }
+    return false;
   };
 
+  /**
+   * Call fileHasError and update state now that refs are available.
+   */
+  componentDidUpdate() {
+    if (this.fileHasError()) {
+      if (!this.state.fileHasError) {
+        this.setState({
+          fileHasError: true
+        })
+      }
+    }
+    else {
+      if (this.state.fileHasError) {
+        this.setState({
+          fileHasError: false
+        })
+      }
+    }
+  }
+
   render() {
-    const {files, messages} = this.state;
-    const {required, submitted} = this.props;
-    const fileHasError = this.fileHasError();
+    const {files, warningMessages, warningMessageIsVisible, fileHasError} = this.state;
+    const {required, submitted, uploadDirName, errors} = this.props;
+
     const hasError = required && submitted && (files.length === 0 || fileHasError);
+
     const fileRows = files.map((file, index) =>
       <FileRow
         key={file.name}
@@ -262,16 +320,24 @@ class FileUpload extends Component {
         onRemove={this.removeFile}
         onShiftDown={this.shiftFileDown}
         onShiftUp={this.shiftFileUp}
-        ref={`file${index}`}
+        onFileTitleChange={this.fileTitleChange}
+        ref={"file" + index}
+        uploadDirName={uploadDirName}
+        submitted={submitted}
       />
     );
-    const messageListItems = messages.map((message, index) =>
+
+    const errorMessageListItems = errors.map((message, index) =>
+      <Message.Item key={index} content={<strong>{message}</strong>}/>
+    );
+
+    const warningMessageListItems = warningMessages.map((message, index) =>
       <Message.Item key={index} content={message}/>
     );
 
     return (
       <div>
-        <Segment attached="top" style={ hasError ? {background: "#FFF6F6", borderColor: "#E0B4B4"} : {}}>
+        <Segment style={ hasError ? {background: "#FFF6F6", borderColor: "#E0B4B4"} : {}}>
           <p>
             Please add files and arrange them in the order you would like them to appear for this publication.
           </p>
@@ -297,17 +363,28 @@ class FileUpload extends Component {
               />
             </Grid.Column>
           </Grid>
-          { hasError &&
-            <ErrorLabel
-              content={fileHasError ? "You must remove any failed uploads" : "You must add at least 1 file."}
-            />
+          {
+            errors.length > 0 && files.length > 0 &&
+            <Message error>
+              <Message.List>{errorMessageListItems}</Message.List>
+            </Message>
+          }
+          {
+            warningMessages.length > 0 && warningMessageIsVisible &&
+            <Message
+              onDismiss={() => this.setState({warningMessageIsVisible: false})}
+              warning
+            >
+              <Message.List>{warningMessageListItems}</Message.List>
+            </Message>
           }
         </Segment>
         {
-          messages.length > 0 &&
-          <Message info attached="bottom">
-            <Message.List>{messageListItems}</Message.List>
-          </Message>
+          hasError &&
+          <ErrorLabel
+            content={fileHasError ? "You must remove any failed uploads." : "You must add at least 1 file."}
+            style={{marginTop: 0}}
+          />
         }
       </div>
     )
