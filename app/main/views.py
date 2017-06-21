@@ -2,11 +2,8 @@ from flask import (
     current_app,
     make_response,
     render_template,
-    redirect,
-    url_for,
     Blueprint,
 )
-from flask_login import login_user, logout_user
 from flask_wtf.csrf import generate_csrf
 
 main = Blueprint('main', __name__)
@@ -29,20 +26,3 @@ def index():
                              csrf_token=generate_csrf(),
                              max_age=current_app.config['WTF_CSRF_TIME_LIMIT']))
     return response
-
-
-@main.route('/login')
-def login():
-    # TODO: remove this before deploying to live environment. this is just for testing purposes only
-    from app.database.user import get_first, create
-    user = get_first()
-    if user is None:
-        user = create("GUID", "EDIRSSO", "Dirk", None, "Diggler", "doubled@email.com")
-    login_user(user)
-    return redirect(url_for("main.index"))
-
-
-@main.route('/logout')
-def logout():
-    logout_user()
-    return redirect(url_for("main.index"))

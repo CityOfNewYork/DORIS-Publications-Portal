@@ -1,3 +1,4 @@
+from .auth.api import AuthAPI as Auth
 from .document.api import DocumentAPI as Document
 from .upload.api import UploadAPI as Upload
 from .subjects.api import SubjectsAPI as Subject

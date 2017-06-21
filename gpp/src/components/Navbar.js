@@ -14,13 +14,19 @@ class Navbar extends Component {
   };
 
   loginBE = () => {
-    csrfFetch("/login");
-    this.setState({authenticatedBE: true})
+    csrfFetch("/api/v1.0/auth", {
+      method: "post",
+    }).then(() => {
+      this.setState({authenticatedBE: true})
+    });
   };
 
   logoutBE = () => {
-    csrfFetch("/logout");
-    this.setState({authenticatedBE: false});
+    csrfFetch("/api/v1.0/auth", {
+      method: "delete",
+    }).then(() => {
+      this.setState({authenticatedBE: false});
+    });
   };
 
   setActivePath = () => {
