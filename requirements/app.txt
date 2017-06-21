@@ -14,6 +14,7 @@ Flask-SQLAlchemy==2.1
 Flask-WTF==0.14.2
 itsdangerous==0.24
 Jinja2==2.9.5
+jsonschema==2.6.0
 Mako==1.0.6
 MarkupSafe==0.23
 packaging==16.8
