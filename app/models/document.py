@@ -1,3 +1,4 @@
+from sqlalchemy.dialects.postgresql import JSONB
 from app.database import db
 from app.constants import document_action
 from .event import DocumentEvent
@@ -8,24 +9,25 @@ class Document(db.Model):
     """
     Define the Document class for the table 'publication' with the following columns:
     
-    COLUMNS         MODS 3.6 EQUIVALENT     DESCRIPTION
+    COLUMNS           MODS 3.6 EQUIVALENT      DESCRIPTION
     
-    id              NA                      integer, primary key
-    user_guid       NA                      varchar(64), foreign key to 'auth_user.guid'
-    user_auth_type  NA                      user_auth_type, foreign key to 'auth_user.auth_type'
-    title           titleInfo.title         varchar(), chief title of this resource
-    subtitle        titleInfo.subTitle      varchar(), the remainder of the title information
-    names           name.namePart           json, ...
-    type            genre.type              publication_type, ...
-    publisher       originInfo.publisher    varchar(), entity that produced this resource
-    date_created    originInfo.dateCreated  datetime, date of creation
-    date_issued     originInfo.dateIssuesd  datetime, date of publication
-    language        language.languageTerm   language_code, ISO-639-2 language code
-    topic           subject.topic           topic, term/phrase representing primary topic of focus
-    geographic      subject.geographic      varchar(), geographic designation
-    temporal        subject.temporal        temporal, chronological subject terms or temporal coverage
-    url             location.url            varchar(), Uniform Resource Location of resource
-                                                       (once available on portal)
+    id                NA                       integer, primary key
+    user_guid         NA                       varchar(64), foreign key to 'auth_user.guid'
+    user_auth_type    NA                       user_auth_type, foreign key to 'auth_user.auth_type'
+    title             titleInfo.title          varchar(), chief title of this resource
+    subtitle          titleInfo.subTitle       varchar(), the remainder of the title information
+    names             name.namePart            json, ...
+    type              genre.type               publication_type, ...
+    publisher         originInfo.publisher     varchar(), entity that produced this resource
+    date_created      originInfo.dateCreated   datetime, date of creation
+    date_issued       originInfo.dateIssued    datetime, date of publication NOT portal publication date
+    language          language.languageTerm    language_code, ISO-639-2 language code
+    topic             subject.topic            topic, term/phrase representing primary topic of focus
+    geographic        subject.geographic       varchar(), geographic designation
+    temporal          subject.temporal         temporal, chronological subject terms or temporal coverage
+    report_year_type  NA                       year_type, ENUM
+    report_year_start NA                       datetime, start date
+    report_year_end   NA                       datetime, end date
         
     language codes are retrieved from https://www.loc.gov/standards/iso639-2/php/code_list.php
     
@@ -43,7 +45,7 @@ class Document(db.Model):
     user_auth_type = db.Column(user_auth_type, nullable=False)
     title = db.Column(db.String(), nullable=False)
     subtitle = db.Column(db.String())
-    names = db.Column(db.JSON(), nullable=False)
+    names = db.Column(JSONB, nullable=False)
     type = db.Column(
         db.Enum(
             "foo",
@@ -76,7 +78,15 @@ class Document(db.Model):
         ),
         nullable=False
     )
-    url = db.Column(db.String())
+    report_year_type = db.Column(
+        db.Enum(
+            "quux",
+            name="year_type"
+        ),
+        nullable=False
+    )
+    report_year_start = db.Column(db.Datetime(), nullable=False)
+    report_year_end = db.Column(db.Datetime(), nullable=False)
 
     # relationships
     files = db.relationship("File", back_populates="document")
