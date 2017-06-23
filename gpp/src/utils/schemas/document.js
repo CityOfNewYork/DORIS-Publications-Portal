@@ -35,12 +35,11 @@ export default {
         "type": "object",
         "properties": {
           "name": {
-            "type": "string",
-            "maxLength": 64
+            "type": "string"
           },
           "title": {
             "type": "string",
-            "maxLength": 64,
+            "maxLength": 140,
             "minLength": 3
           }
         },

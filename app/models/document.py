@@ -1,3 +1,4 @@
+from datetime import datetime
 from sqlalchemy.dialects.postgresql import JSONB
 from app.database import db
 from app.constants import document_action
@@ -16,15 +17,13 @@ class Document(db.Model):
     user_auth_type    NA                       user_auth_type, foreign key to 'auth_user.auth_type'
     title             titleInfo.title          varchar(), chief title of this resource
     subtitle          titleInfo.subTitle       varchar(), the remainder of the title information
-    names             name.namePart            json, ...
+    names             name.namePart            json, {'primary_agency': <agency_id>, 'additional_creators': [<additional_creators>]}
     type              genre.type               publication_type, ...
-    publisher         originInfo.publisher     varchar(), entity that produced this resource
-    date_created      originInfo.dateCreated   datetime, date of creation
-    date_issued       originInfo.dateIssued    datetime, date of publication NOT portal publication date
+    date_created      originInfo.dateCreated   datetime, creation date of document record
+    date_published    originInfo.dateIssued    datetime, date of publication NOT portal publication date
     language          language.languageTerm    language_code, ISO-639-2 language code
     topic             subject.topic            topic, term/phrase representing primary topic of focus
     geographic        subject.geographic       varchar(), geographic designation
-    temporal          subject.temporal         temporal, chronological subject terms or temporal coverage
     report_year_type  NA                       year_type, ENUM
     report_year_start NA                       datetime, start date
     report_year_end   NA                       datetime, end date
@@ -43,8 +42,8 @@ class Document(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_guid = db.Column(db.String(64), nullable=False)
     user_auth_type = db.Column(user_auth_type, nullable=False)
-    title = db.Column(db.String(), nullable=False)
-    subtitle = db.Column(db.String())
+    title = db.Column(db.String(150), nullable=False)
+    subtitle = db.Column(db.String(150))
     names = db.Column(JSONB, nullable=False)
     type = db.Column(
         db.Enum(
@@ -53,9 +52,8 @@ class Document(db.Model):
         ),
         nullable=False
     )
-    publisher = db.Column(db.String(), nullable=False)
     date_created = db.Column(db.DateTime(), nullable=False)
-    date_issued = db.Column(db.DateTime(), nullable=False)
+    date_published = db.Column(db.DateTime(), nullable=False)
     language = db.Column(
         db.Enum(
             "bar",
@@ -70,14 +68,7 @@ class Document(db.Model):
         ),
         nullable=False
     )
-    geographic = db.Column(db.String())
-    temporal = db.Column(
-        db.Enum(
-            "qux",
-            name="temporal"
-        ),
-        nullable=False
-    )
+    # TODO: geographic = db.Column(db.String())
     report_year_type = db.Column(
         db.Enum(
             "quux",
@@ -85,8 +76,8 @@ class Document(db.Model):
         ),
         nullable=False
     )
-    report_year_start = db.Column(db.Datetime(), nullable=False)
-    report_year_end = db.Column(db.Datetime(), nullable=False)
+    report_year_start = db.Column(db.DateTime(), nullable=False)
+    report_year_end = db.Column(db.DateTime(), nullable=False)
 
     # relationships
     files = db.relationship("File", back_populates="document")
@@ -103,11 +94,11 @@ class Document(db.Model):
         return self.events.order_by(DocumentEvent.timestamp.desc()).first().action
 
     @property
-    def date_created(self):
-        return self.events.order_by(DocumentEvent.timestamp.asc()).first().timestamp
-
-    @property
-    def date_published(self):
+    def published_date(self):
+        """
+        Returns the portal publication date of the document.
+        :rtype: datetime
+        """
         return self.events.filter_by(document_action.PUBLISHED).one().timestamp
 
     def as_dict(self, event_type):  # TODO: for DocumentEvent.state, possibly use DataDiff
@@ -116,3 +107,35 @@ class Document(db.Model):
             "subtitle": self.subtitle,
             # ...
         }
+
+    def __init__(self,
+                 user_guid,
+                 user_auth_type,
+                 title,
+                 names,
+                 type_,
+                 publisher,
+                 date_published,
+                 language,
+                 topic,
+                 temporal,
+                 report_year_type,
+                 report_year_start,
+                 report_year_end,
+                 subtitle=None
+                 ):
+        self.user_guid = user_guid
+        self.user_auth_type = user_auth_type
+        self.title = title
+        self.subtitle = subtitle
+        self.names = names
+        self.type = type_
+        self.publisher = publisher
+        self.date_created = datetime.utcnow()
+        self.date_published = date_published
+        self.language = language
+        self.topic = topic
+        self.temporal = temporal
+        self.report_year_type = report_year_type
+        self.report_year_start = report_year_start
+        self.report_year_end = report_year_end

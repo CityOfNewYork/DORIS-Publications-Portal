@@ -16,7 +16,7 @@ class File(db.Model):
 
     # columns
     id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(), nullable=False)
+    title = db.Column(db.String(140), nullable=False)
     name = db.Column(db.String(), nullable=False)
     hash = db.Column(db.String(), nullable=False)
     document_id = db.Column(db.Integer, db.ForeignKey("document.id"), nullable=False)
@@ -24,8 +24,8 @@ class File(db.Model):
     # relationships
     document = db.relationship("Document", back_populates="files")
 
-    def __init__(self, title, name, document_id):
+    def __init__(self, title, name, document_id, hash_):
         self.title = title
         self.name = name
         self.document_id = document_id
-        # self.hash = get_hash()
+        self.hash = hash_

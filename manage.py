@@ -1,5 +1,6 @@
 import subprocess
 
+from flask_migrate import Migrate, MigrateCommand
 from flask_script import Manager, Server, Shell
 
 from config import DEV
@@ -8,6 +9,7 @@ from app.database import db, user
 
 app = create_app(DEV)
 manager = Manager(app)
+migrate = Migrate(app, db)
 
 # recreate_tables ------------------------------------------------------------------------------------------------------
 
@@ -63,6 +65,7 @@ def make_shell_context():
 
 
 manager.add_command("shell", Shell(make_context=make_shell_context))
+manager.add_command("db", MigrateCommand)
 
 if __name__ == "__main__":
     manager.run()
