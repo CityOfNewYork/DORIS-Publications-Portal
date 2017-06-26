@@ -1,14 +1,19 @@
 from datetime import datetime
-from sqlalchemy.dialects.postgresql import JSONB
+from sqlalchemy.dialects.postgresql import ARRAY, JSONB
 from app.database import db
-from app.constants import document_action
+from app.constants import (
+    language,
+    document_action,
+    report_year_type
+)
+from .report_type import ReportType
 from .event import DocumentEvent
 from ._enums import user_auth_type
 
 
 class Document(db.Model):
     """
-    Define the Document class for the table 'publication' with the following columns:
+    Define the Document class for the table 'document' with the following columns:
     
     COLUMNS           MODS 3.6 EQUIVALENT      DESCRIPTION
     
@@ -18,7 +23,7 @@ class Document(db.Model):
     title             titleInfo.title          varchar(), chief title of this resource
     subtitle          titleInfo.subTitle       varchar(), the remainder of the title information
     names             name.namePart            json, {'primary_agency': <agency_id>, 'additional_creators': [<additional_creators>]}
-    type              genre.type               publication_type, ...
+    type              genre.type               publication_type, foreign key to 'report_type.name'
     date_created      originInfo.dateCreated   datetime, creation date of document record
     date_published    originInfo.dateIssued    datetime, date of publication NOT portal publication date
     language          language.languageTerm    language_code, ISO-639-2 language code
@@ -45,33 +50,33 @@ class Document(db.Model):
     title = db.Column(db.String(150), nullable=False)
     subtitle = db.Column(db.String(150))
     names = db.Column(JSONB, nullable=False)
-    type = db.Column(
-        db.Enum(
-            "foo",
-            name="document_type"
-        ),
-        nullable=False
-    )
-    date_created = db.Column(db.DateTime(), nullable=False)
-    date_published = db.Column(db.DateTime(), nullable=False)
+    type = db.Column(db.String(64), db.ForeignKey("report_type.name"), nullable=False)
     language = db.Column(
         db.Enum(
-            "bar",
+            language.ENGLISH,
+            language.SPANISH,
+            language.CHINESE,
+            language.RUSSIAN,
+            language.ARABIC,
+            language.BENGALI,
+            language.FRENCH,
+            language.HAITIAN_CREOLE,
+            language.ITALIAN,
+            language.KOREAN,
+            language.POLISH,
+            language.URDU,
+            language.YIDDISH,
             name="language"
         ),
         nullable=False
     )
-    topic = db.Column(
-        db.Enum(
-            "baz",
-            name="topic"
-        ),
-        nullable=False
-    )
+    topic = db.Column(ARRAY(db.String(120)), nullable=False)
     # TODO: geographic = db.Column(db.String())
     report_year_type = db.Column(
         db.Enum(
-            "quux",
+            report_year_type.CALENDAR,
+            report_year_type.FISCAL,
+            report_year_type.OTHER,
             name="year_type"
         ),
         nullable=False
@@ -94,7 +99,15 @@ class Document(db.Model):
         return self.events.order_by(DocumentEvent.timestamp.desc()).first().action
 
     @property
-    def published_date(self):
+    def date_created(self):
+        """
+        Returns the date the document was created on the portal.
+        :rtype: datetime
+        """
+        return self.events.order_by(DocumentEvent.timestamp.asc()).first().timestamp
+
+    @property
+    def date_published(self):
         """
         Returns the portal publication date of the document.
         :rtype: datetime
@@ -115,11 +128,10 @@ class Document(db.Model):
                  names,
                  type_,
                  publisher,
-                 date_published,
-                 language,
+                 doc_language,
                  topic,
                  temporal,
-                 report_year_type,
+                 year_type,
                  report_year_start,
                  report_year_end,
                  subtitle=None
@@ -131,11 +143,12 @@ class Document(db.Model):
         self.names = names
         self.type = type_
         self.publisher = publisher
-        self.date_created = datetime.utcnow()
-        self.date_published = date_published
-        self.language = language
+        self.language = doc_language
         self.topic = topic
         self.temporal = temporal
-        self.report_year_type = report_year_type
+        self.report_year_type = year_type
         self.report_year_start = report_year_start
         self.report_year_end = report_year_end
+
+    def __repr__(self):
+        return '<Document %r>' % self.id

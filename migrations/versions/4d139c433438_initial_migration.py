@@ -1,8 +1,8 @@
 """initial migration
 
-Revision ID: e9cd5f5cb16b
+Revision ID: 4d139c433438
 Revises: 
-Create Date: 2017-06-23 21:13:26.689652
+Create Date: 2017-06-26 18:48:27.532289
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 from sqlalchemy.dialects import postgresql
 
 # revision identifiers, used by Alembic.
-revision = 'e9cd5f5cb16b'
+revision = '4d139c433438'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -41,6 +41,12 @@ def upgrade():
     sa.PrimaryKeyConstraint('guid', 'auth_type'),
     sa.UniqueConstraint('email')
     )
+    op.create_table('report_type',
+    sa.Column('id', sa.Integer(), nullable=False),
+    sa.Column('name', sa.String(length=64), nullable=False),
+    sa.PrimaryKeyConstraint('id'),
+    sa.UniqueConstraint('name')
+    )
     op.create_table('document',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('user_guid', sa.String(length=64), nullable=False),
@@ -48,14 +54,13 @@ def upgrade():
     sa.Column('title', sa.String(length=150), nullable=False),
     sa.Column('subtitle', sa.String(length=150), nullable=True),
     sa.Column('names', postgresql.JSONB(astext_type=sa.Text()), nullable=False),
-    sa.Column('type', sa.Enum('foo', name='document_type'), nullable=False),
-    sa.Column('date_created', sa.DateTime(), nullable=False),
-    sa.Column('date_published', sa.DateTime(), nullable=False),
-    sa.Column('language', sa.Enum('bar', name='language'), nullable=False),
-    sa.Column('topic', sa.Enum('baz', name='topic'), nullable=False),
-    sa.Column('report_year_type', sa.Enum('quux', name='year_type'), nullable=False),
+    sa.Column('type', sa.String(length=64), nullable=False),
+    sa.Column('language', sa.Enum('english', 'spanish', 'chinese', 'russian', 'arabic', 'bengali', 'french', 'haitian_creole', 'italian', 'korean', 'polish', 'urdu', 'yiddish', name='language'), nullable=False),
+    sa.Column('topic', postgresql.ARRAY(sa.String(length=120)), nullable=False),
+    sa.Column('report_year_type', sa.Enum('calendar', 'fiscal', 'other', name='year_type'), nullable=False),
     sa.Column('report_year_start', sa.DateTime(), nullable=False),
     sa.Column('report_year_end', sa.DateTime(), nullable=False),
+    sa.ForeignKeyConstraint(['type'], ['report_type.name'], ),
     sa.ForeignKeyConstraint(['user_guid', 'user_auth_type'], ['auth_user.guid', 'auth_user.auth_type'], ),
     sa.PrimaryKeyConstraint('id')
     )
@@ -80,7 +85,7 @@ def upgrade():
     op.create_table('event_document',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('document_id', sa.Integer(), nullable=False),
-    sa.Column('action', sa.Enum('resubmitted', 'approved', 'saved', 'published', 'changes_requested', 'submitted', name='document_action'), nullable=False),
+    sa.Column('action', sa.Enum('changes_requested', 'submitted', 'published', 'resubmitted', 'approved', 'saved', name='document_action'), nullable=False),
     sa.Column('state', sa.JSON(), nullable=True),
     sa.ForeignKeyConstraint(['document_id'], ['document.id'], ),
     sa.ForeignKeyConstraint(['id'], ['event.id'], ),
@@ -89,7 +94,7 @@ def upgrade():
     op.create_table('event_registration',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('registration_id', sa.Integer(), nullable=False),
-    sa.Column('action', sa.Enum('denied', 'submitted', 'approved', name='registration_action'), nullable=False),
+    sa.Column('action', sa.Enum('submitted', 'denied', 'approved', name='registration_action'), nullable=False),
     sa.ForeignKeyConstraint(['id'], ['event.id'], ),
     sa.ForeignKeyConstraint(['registration_id'], ['registration.id'], ),
     sa.PrimaryKeyConstraint('id'),
@@ -115,6 +120,7 @@ def downgrade():
     op.drop_table('registration')
     op.drop_table('event')
     op.drop_table('document')
+    op.drop_table('report_type')
     op.drop_table('auth_user')
     op.drop_table('agency')
     # ### end Alembic commands ###
