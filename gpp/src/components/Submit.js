@@ -258,7 +258,8 @@ class SubmitForm extends Component {
             <Form.Select
               label={
                 <TooltippedLabel
-                  tooltipContent="TODO"
+                  tooltipContent="See dropdown for a list of the most common kinds of reports and pick the one
+                  closest to what you are submitting."
                   labelContent="Report Type"
                 />
               }
@@ -281,7 +282,8 @@ class SubmitForm extends Component {
               required
               label={
                 <TooltippedLabel
-                  tooltipContent="TODO"
+                  tooltipContent="Select what subjects you feel are the most relevant subjects covered in this report.
+                  Pick up to three. Start typing in the box (which will autofill), or use dropdown to pick subjects."
                   labelContent="Subject(s)"
                 />
               }
