@@ -31,6 +31,8 @@ class SubmitForm extends Component {
     reportTypeChoices: [],
     subjects: [],
     subjectsChoices: [],
+    language: "english",
+    languageChoices: [],
     descriptionCharCount: 0,
   };
 
@@ -59,6 +61,7 @@ class SubmitForm extends Component {
   componentWillMount() {
     this.fetchChoices('/api/v1.0/subjects', 'subjectsChoices');
     this.fetchChoices('/api/v1.0/report_types', 'reportTypeChoices');
+    this.fetchChoices('/api/v1.0/languages', 'languageChoices')
   }
 
   handleSubmit = (e) => {
@@ -119,9 +122,17 @@ class SubmitForm extends Component {
     }
   };
 
+  // TODO: utilize this across other fields and functions (onSubjectsChange)? might need this in order to validate json schema
+  onLanguageChange = (e, {name, value}) => {
+    this.setState({
+      [name]: value
+    });
+    this.props.handleFieldChange(e, {name: name, value: value})
+  };
+
   render() {
     const {stateError, successMessage, stateLoading, handleFieldChange, removeError, validateProperty, validatePropertySynthetic} = this.props;
-    const {submitted, subjects, descriptionCharCount, subjectsChoices, reportTypeChoices} = this.state;
+    const {submitted, subjects, language, descriptionCharCount, subjectsChoices, reportTypeChoices, languageChoices} = this.state;
     return (
       <Form
         onSubmit={this.handleSubmit}
@@ -302,8 +313,32 @@ class SubmitForm extends Component {
             { stateError.hasOwnProperty("subjects") && <ErrorLabel content={ stateError.subjects }/> }
           </Form.Field>
 
-          {/* Date Published */}
+          {/* Language */}
           <Form.Field width="4">
+            <Form.Dropdown
+              required
+              label={
+                <TooltippedLabel
+                  tooltipContent="Testing 123"
+                  labelContent="Language"
+                />
+              }
+              fluid
+              selection
+              name="language"
+              value={language}
+              onBlur={validatePropertySynthetic(schema)}
+              onChange={this.onLanguageChange}
+              options={languageChoices}
+              error={stateError.hasOwnProperty("language")}
+            />
+            { stateError.hasOwnProperty("language") && <ErrorLabel content={ stateError.language }/> }
+          </Form.Field>
+        </Form.Group>
+
+        <Form.Group>
+          {/* Date Published */}
+          <Form.Field width="16">
             <DateInput
               label={
                 <TooltippedLabel
@@ -320,7 +355,6 @@ class SubmitForm extends Component {
             />
             { stateError.hasOwnProperty("date_published") && <ErrorLabel content={ stateError.date_published }/> }
           </Form.Field>
-
         </Form.Group>
 
         <Form.Group>
@@ -370,11 +404,11 @@ class SubmitForm extends Component {
         </Button.Group>
 
         { typeof stateError === "string" &&
-          <Message
-            error
-            header="There was an error with your submission"
-            content={ typeof stateError === "string" ? stateError : "" }
-          />
+        <Message
+          error
+          header="There was an error with your submission"
+          content={ typeof stateError === "string" ? stateError : "" }
+        />
         }
       </Form>
     )
