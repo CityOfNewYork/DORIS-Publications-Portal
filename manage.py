@@ -64,5 +64,17 @@ def make_shell_context():
 
 manager.add_command("shell", Shell(make_context=make_shell_context))
 
+# TODO: REMOVE ME. This is a proof of concept only
+@manager.command
+def generate_schema():
+    import json
+    from app.models.schema import Schema
+    base_schema = Schema.query.filter_by(name='submission_base').one().json
+    title = Schema.query.filter_by(name='title').one()
+    subtitle = Schema.query.filter_by(name='subtitle').one()
+    base_schema['properties'][title.name] = title.json
+    base_schema['properties'][subtitle.name] = subtitle.json
+    print(json.dumps(base_schema))
+
 if __name__ == "__main__":
     manager.run()
