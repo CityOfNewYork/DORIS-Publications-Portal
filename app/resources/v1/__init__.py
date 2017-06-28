@@ -1,5 +1,5 @@
 from .auth.api import AuthAPI as Auth
-from .document.api import DocumentAPI as Document
+from .documents.api import DocumentsAPI as Documents
 from .upload.api import UploadAPI as Upload
 from .subjects.api import SubjectsAPI as Subjects
 from .report_types.api import ReportTypesAPI as ReportTypes

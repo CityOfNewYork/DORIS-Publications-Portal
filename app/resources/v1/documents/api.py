@@ -34,7 +34,7 @@ Document = namedtuple(
 )
 
 
-class DocumentAPI(Resource):
+class DocumentsAPI(Resource):
     def get(self, id):
         doc = Document(id,
                        'A Title',

@@ -27,11 +27,11 @@ class Document(db.Model):
     date_created      originInfo.dateCreated   datetime, creation date of document record
     date_published    originInfo.dateIssued    datetime, date of publication NOT portal publication date
     language          language.languageTerm    language_code, ISO-639-2 language code
-    topic             subject.topic            topic, term/phrase representing primary topic of focus
+    subject                                    array, subject(s) relevant to the report
     geographic        subject.geographic       varchar(), geographic designation
     report_year_type  NA                       year_type, ENUM
-    report_year_start NA                       datetime, start date
-    report_year_end   NA                       datetime, end date
+    report_year_start NA                       datetime, temporal coverage start date
+    report_year_end   NA                       datetime, temporal coverage end date
         
     language codes are retrieved from https://www.loc.gov/standards/iso639-2/php/code_list.php
     
@@ -70,7 +70,7 @@ class Document(db.Model):
         ),
         nullable=False
     )
-    topic = db.Column(ARRAY(db.String(120)), nullable=False)
+    subject = db.Column(ARRAY(db.String(120)), nullable=False)
     # TODO: geographic = db.Column(db.String())
     report_year_type = db.Column(
         db.Enum(
@@ -129,8 +129,7 @@ class Document(db.Model):
                  type_,
                  publisher,
                  doc_language,
-                 topic,
-                 temporal,
+                 subject,
                  year_type,
                  report_year_start,
                  report_year_end,
@@ -144,8 +143,7 @@ class Document(db.Model):
         self.type = type_
         self.publisher = publisher
         self.language = doc_language
-        self.topic = topic
-        self.temporal = temporal
+        self.subject = subject
         self.report_year_type = year_type
         self.report_year_start = report_year_start
         self.report_year_end = report_year_end

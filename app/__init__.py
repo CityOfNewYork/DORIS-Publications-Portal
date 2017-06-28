@@ -46,7 +46,7 @@ def create_app(conf_type):
     from .main.views import main
 
     # Add resource routes
-    v1.api.add_resource(v1.Document, '/document', '/document/<int:id>')
+    v1.api.add_resource(v1.Documents, '/documents', '/documents/<int:id>')
     v1.api.add_resource(v1.Upload, '/upload/<string:dirname>', '/upload/<string:dirname>/<string:filename>')
     v1.api.add_resource(v1.Subjects, '/subjects')
     v1.api.add_resource(v1.ReportTypes, '/report_types')
