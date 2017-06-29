@@ -166,7 +166,8 @@ class SubmitForm extends Component {
             <Form.Input
               label={
                 <TooltippedLabel
-                  tooltipContent="On the front page of the document, what is it called? 150 characters or less."
+                  tooltipContent="On the front page, the first page or in the Executive Summary (if any) of
+                  the document, what is it called? 150 characters or fewer."
                   labelContent="Title"
                 />
               }
@@ -188,7 +189,7 @@ class SubmitForm extends Component {
             <Form.Input
               label={
                 <TooltippedLabel
-                  tooltipContent="The remainder of the document's title, if any. 150 characters or less."
+                  tooltipContent="The remainder of the document's title, if any. 150 characters or fewer."
                   labelContent="Sub-Title"/>
               }
               placeholder="Follow-up Audit Report"
@@ -258,8 +259,8 @@ class SubmitForm extends Component {
             <Form.Select
               label={
                 <TooltippedLabel
-                  tooltipContent="See dropdown for a list of the most common kinds of reports and pick the one
-                  closest to what you are submitting."
+                  tooltipContent="Start typing in the box (which will autofill) or use dropdown for a list
+                  of the most common kinds of reports and pick the one closest to what you are submitting."
                   labelContent="Report Type"
                 />
               }

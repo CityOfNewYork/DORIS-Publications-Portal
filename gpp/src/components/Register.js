@@ -109,8 +109,8 @@ class Register extends Component {
             <h1>Portal Registration</h1>
             <p>
               Welcome to the New York City Government Publications Portal. Each New York City agency should have at
-              least one staff member authorized by their agency to submit documents to the Portal in compliance with
-              Charter Section 1133 requirements.
+              least one staff member authorized by their agency to submit documents to the Portal in compliance with <a href="http://library.amlegal.com/nxt/gateway.dll/New%20York/charter/newyorkcitycharter/chapter49officersandemployees?f=templates$fn=default.htm$3.0$vid=amlegal:newyork_ny$anc=JD_1133" target="_blank">
+                New York City Charter, Title 49, Section 1133</a> requirements.
             </p>
             <p>
               Please fill out the form to register here as an authorized user for your agency. Most fields have been
