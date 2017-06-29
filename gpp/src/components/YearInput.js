@@ -77,7 +77,8 @@ class YearInput extends Component {
           <Form.Input
             label={
               <TooltippedLabel
-                tooltipContent="The year covered by this document."
+                tooltipContent='The year covered by this publication. If multiple years are covered, pick
+                "Other" in the dropdown to the right.'
                 labelContent="Associated Year"
               />
             }

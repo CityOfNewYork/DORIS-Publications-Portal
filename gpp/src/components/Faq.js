@@ -15,7 +15,7 @@ const Faq = () => (
     <p>
       The Government Documents Portal is a permanent searchable digital repository for all of New York City’s recent
       agency publications, maintained by the Municipal Library at the New York City Department of Records and
-      Information Services. The <a href="http://www.nyc.gov/html/records/pdf/section%201133_citycharter.pdf#page=240">
+      Information Services. The <a href="http://www.nyc.gov/html/records/pdf/section%201133_citycharter.pdf#page=240" target="_blank">
       New York City Charter, Section 1133</a>, requires agencies to submit copies of any publication to us for permanent
       access and storage. This is part of the New York City government’s ongoing effort to be open and accessible for
       all citizens.
@@ -38,12 +38,12 @@ const Faq = () => (
     </p>
     <h3 id="3">What is the New York City Department of Records and Information Services?</h3>
     <p>
-      Established in 1977, the <a href="http://nyc.gov/records">Department of Records and Information Services </a>
+      Established in 1977, the <a href="http://nyc.gov/records" target="_blank">Department of Records and Information Services </a>
       preserves and provides public access to a vast and incomparable collection of historical and contemporary records
       and information about New York City government through the <a
-      href="http://www.nyc.gov/html/records/html/archives/archives.shtml">Municipal Archives</a> which
+      href="http://www.nyc.gov/html/records/html/archives/archives.shtml" target="_blank">Municipal Archives</a> which
       contains internal New York City records, including Mayoral papers), the <a
-      href="http://www.nyc.gov/html/records/html/library/chlibrary.shtml">Municipal Library</a> which contains all of
+      href="http://www.nyc.gov/html/records/html/library/chlibrary.shtml" target="_blank">Municipal Library</a> which contains all of
       New York City agencies’ published materials) and the Records Management Division. The Records Management Division
       operates records storage facilities in two locations with a combined capacity of 700,000 cubic feet, and provides
       records management services to fifty City agencies, ten courts, and the five district attorneys’ offices. Records
