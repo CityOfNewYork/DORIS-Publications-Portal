@@ -118,6 +118,13 @@ class Document(db.Model):
         return {
             "title": self.title,
             "subtitle": self.subtitle,
+            "names": self.names,
+            "type": self.type,
+            "language": self.language,
+            "subject": self.subject,
+            "report_year_type": self.report_year_type,
+            "report_year_start": self.report_year_start,
+            "report_year_end": self.report_year_end
             # ...
         }
 
@@ -127,7 +134,6 @@ class Document(db.Model):
                  title,
                  names,
                  type_,
-                 publisher,
                  doc_language,
                  subject,
                  year_type,
@@ -141,7 +147,6 @@ class Document(db.Model):
         self.subtitle = subtitle
         self.names = names
         self.type = type_
-        self.publisher = publisher
         self.language = doc_language
         self.subject = subject
         self.report_year_type = year_type
