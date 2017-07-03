@@ -18,6 +18,7 @@ class Config(object):
     SQLALCHEMY_TRACK_MODIFICATIONS = False  # disables warning
 
     AGENCY_DATA_CSV = env.get('AGENCY_DATA_CSV') or os.path.join(basedir, 'data', 'agencies.csv')
+    REPORT_TYPE_CSV = env.get('REPORT_TYPE_CSV') or os.path.join(basedir, 'data', 'report_type.csv')
 
     UPLOAD_DIRECTORY = env.get('UPLOAD_DIRECORY') or os.path.join(basedir, 'uploads')
 

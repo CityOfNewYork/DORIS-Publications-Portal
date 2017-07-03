@@ -42,6 +42,7 @@ class Document(db.Model):
             ("user_guid", "user_auth_type"),
             ("auth_user.guid", "auth_user.auth_type")
         ),
+        db.UniqueConstraint("id", "type"),
     )
     # columns
     id = db.Column(db.Integer, primary_key=True)
@@ -112,9 +113,9 @@ class Document(db.Model):
         Returns the portal publication date of the document.
         :rtype: datetime
         """
-        return self.events.filter_by(document_action.PUBLISHED).one().timestamp
+        return self.events.filter_by(action=document_action.PUBLISHED).one().timestamp
 
-    def as_dict(self, event_type):  # TODO: for DocumentEvent.state, possibly use DataDiff
+    def as_dict(self):  # TODO: for DocumentEvent.state, possibly use DataDiff
         return {
             "title": self.title,
             "subtitle": self.subtitle,
@@ -123,9 +124,8 @@ class Document(db.Model):
             "language": self.language,
             "subject": self.subject,
             "report_year_type": self.report_year_type,
-            "report_year_start": self.report_year_start,
-            "report_year_end": self.report_year_end
-            # ...
+            "report_year_start": self.report_year_start.isoformat(),
+            "report_year_end": self.report_year_end.isoformat()
         }
 
     def __init__(self,

@@ -4,3 +4,4 @@ from .file import File
 from .agency import Agency
 from .registration import Registration
 from .event import DocumentEvent, RegistrationEvent
+from .report_type import ReportType
