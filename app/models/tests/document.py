@@ -30,10 +30,9 @@ class DocumentModelTests(BaseTestCase):
             datetime.now() - relativedelta(years=1),
             datetime.now(),
         )
+
         self.document = document.create(*document_args,
                                         subtitle="Report on Vital Records Printing")
-
-        args = (self.USER_GUID, self.USER_AUTH_TYPE)
 
         self.event_args = (
             self.USER_GUID,
@@ -41,11 +40,20 @@ class DocumentModelTests(BaseTestCase):
             self.document.id
         )
 
+        args = (self.USER_GUID, self.USER_AUTH_TYPE)
+
+        # created document
+        self.created_document = document.create(*document_args)
+        self.created_document_submission = document_event.create(
+            *(args + (self.created_document.id, document_action.SUBMITTED, self.created_document.as_dict())))
+
+        # published document
         self.published_document = document.create(*document_args)
-        self.document_submission = document_event.create(
+        self.published_document_submission = document_event.create(
             *(args + (self.published_document.id, document_action.PUBLISHED, self.published_document.as_dict())))
 
     def test_relationship_files(self):
+        # TODO
         pass
 
     def test_relationship_events(self):
@@ -58,13 +66,14 @@ class DocumentModelTests(BaseTestCase):
         self.assertEqual(self.document.submitter, submitter)
 
     def test_property_status(self):
-        pass
+        self.assertEqual(self.created_document.status, document_action.SUBMITTED)
+        self.assertEqual(self.published_document.status, document_action.PUBLISHED)
 
     def test_property_date_created(self):
-        pass
+        self.assertEqual(self.created_document_submission.timestamp, self.created_document.date_created)
 
     def test_property_date_published(self):
-        self.assertEqual(self.document_submission.timestamp, self.published_document.date_published)
+        self.assertEqual(self.published_document_submission.timestamp, self.published_document.date_published)
 
 if __name__ == "__main__":
     unittest.main()
