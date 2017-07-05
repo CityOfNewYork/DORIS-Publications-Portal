@@ -320,7 +320,9 @@ class SubmitForm extends Component {
               required
               label={
                 <TooltippedLabel
-                  tooltipContent="Testing 123"
+                  tooltipContent="If the publication is written in a language other than English, pick the language
+                  from the dropdown list. English is the default choice, so leave this box blank if the publication
+                  is in English. "
                   labelContent="Language"
                 />
               }
