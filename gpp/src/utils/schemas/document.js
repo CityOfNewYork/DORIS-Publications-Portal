@@ -35,12 +35,11 @@ export default {
         "type": "object",
         "properties": {
           "name": {
-            "type": "string",
-            "maxLength": 64
+            "type": "string"
           },
           "title": {
             "type": "string",
-            "maxLength": 64,
+            "maxLength": 140,
             "minLength": 3
           }
         },
@@ -327,6 +326,28 @@ export default {
     },
     "year_type": {
       "type": "string"
+    },
+    "language": {
+      "type": "string",
+      "enum": [
+        "english",
+        "spanish",
+        "chinese",
+        "russian",
+        "arabic",
+        "bengali",
+        "french",
+        "haitian_creole",
+        "italian",
+        "korean",
+        "polish",
+        "urdu",
+        "yiddish"
+      ],
+      "error": {
+        "enum": "This is not a valid language.",
+        "required": "You must choose a language."
+      }
     }
   },
   "required": [
@@ -336,6 +357,7 @@ export default {
     "title",
     "date_published",
     "subjects",
+    "language",
     "report_type",
     "year_type"
   ],
