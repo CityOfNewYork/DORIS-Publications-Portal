@@ -21,6 +21,7 @@ def create(user_guid,
            year_type,
            report_year_start,
            report_year_end,
+           status,
            subtitle=None):
     """
     Creates a document database record and returns the created document object.
@@ -38,5 +39,6 @@ def create(user_guid,
         year_type,
         report_year_start,
         report_year_end,
+        status,
         subtitle
     )

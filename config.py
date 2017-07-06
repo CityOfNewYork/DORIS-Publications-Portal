@@ -14,9 +14,11 @@ PRD = 'production'
 class Config(object):
     SECRET_KEY = env.get('SECRET_KEY') or 'you better change me or else'
 
+    # Flask-SQLAlchemy
     SQLALCHEMY_DATABASE_URI = env.get('SQLALCHEMY_DATABASE_URI') or 'postgresql://gpp_db@127.0.0.1:5432/gpp'
     SQLALCHEMY_TRACK_MODIFICATIONS = False  # disables warning
 
+    # Data
     AGENCY_DATA_CSV = env.get('AGENCY_DATA_CSV') or os.path.join(basedir, 'data', 'agencies.csv')
     REPORT_TYPE_CSV = env.get('REPORT_TYPE_CSV') or os.path.join(basedir, 'data', 'report_type.csv')
 

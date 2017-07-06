@@ -10,10 +10,12 @@ class ReportType(db.Model):
     """
     __tablename__ = "report_type"
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(64), unique=True, nullable=False)
+    name = db.Column(db.String(64), nullable=False)
+    value = db.Column(db.String(64), unique=True, nullable=False)
 
-    def __init__(self, name):
+    def __init__(self, name, value):
         self.name = name
+        self.value = value
 
     def __repr__(self):
         return '<Report Type %r>' % self.name

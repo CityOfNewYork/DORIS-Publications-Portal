@@ -29,6 +29,7 @@ class DocumentModelTests(BaseTestCase):
             "calendar",
             datetime.now() - relativedelta(years=1),
             datetime.now(),
+            document_action.SUBMITTED,
         )
 
         self.document = document.create(*document_args,
@@ -39,18 +40,6 @@ class DocumentModelTests(BaseTestCase):
             self.USER_AUTH_TYPE,
             self.document.id
         )
-
-        args = (self.USER_GUID, self.USER_AUTH_TYPE)
-
-        # created document
-        self.created_document = document.create(*document_args)
-        self.created_document_submission = document_event.create(
-            *(args + (self.created_document.id, document_action.SUBMITTED, self.created_document.as_dict())))
-
-        # published document
-        self.published_document = document.create(*document_args)
-        self.published_document_submission = document_event.create(
-            *(args + (self.published_document.id, document_action.PUBLISHED, self.published_document.as_dict())))
 
     def test_relationship_files(self):
         # TODO
@@ -64,16 +53,6 @@ class DocumentModelTests(BaseTestCase):
     def test_relationship_submitter(self):
         submitter = user.get(self.USER_GUID, self.USER_AUTH_TYPE)
         self.assertEqual(self.document.submitter, submitter)
-
-    def test_property_status(self):
-        self.assertEqual(self.created_document.status, document_action.SUBMITTED)
-        self.assertEqual(self.published_document.status, document_action.PUBLISHED)
-
-    def test_property_date_created(self):
-        self.assertEqual(self.created_document_submission.timestamp, self.created_document.date_created)
-
-    def test_property_date_published(self):
-        self.assertEqual(self.published_document_submission.timestamp, self.published_document.date_published)
 
 if __name__ == "__main__":
     unittest.main()

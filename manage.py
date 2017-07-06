@@ -1,11 +1,11 @@
 import subprocess
 
-from flask_migrate import Migrate, MigrateCommand
+from flask_migrate import Migrate, MigrateCommand, upgrade
 from flask_script import Manager, Server, Shell
 
 from config import DEV
 from app import create_app
-from app.database import db, user
+from app.database import db, user, agency, report_type
 
 app = create_app(DEV)
 manager = Manager(app)
@@ -31,6 +31,17 @@ def create_user(first_name, last_name, middle_initial=None, email=None):
         last_name,
         "{}{}@email.com".format(first_name[0], last_name)
     )
+
+# deploy ---------------------------------------------------------------------------------------------------------------
+@manager.command
+def deploy():
+    """Run deployment tasks."""
+    # migrate database to the latest revision
+    upgrade()
+
+    # populate database
+    agency.populate_from_csv()
+    report_type.populate_from_csv()
 
 
 # runserver ------------------------------------------------------------------------------------------------------------
