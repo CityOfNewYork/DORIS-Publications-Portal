@@ -321,8 +321,7 @@ class SubmitForm extends Component {
               label={
                 <TooltippedLabel
                   tooltipContent="If the publication is written in a language other than English, pick the language
-                  from the dropdown list. English is the default choice, so leave this box blank if the publication
-                  is in English. "
+                  from the dropdown list. English is the default choice."
                   labelContent="Language"
                 />
               }
