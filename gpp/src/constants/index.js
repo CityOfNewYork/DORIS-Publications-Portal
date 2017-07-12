@@ -13,6 +13,7 @@ export const ROUTE = {
   about: "/about",
   contact: "/contact",
   // menu item routes
+  home: "/home",
   search: "/search",
   submit: "/submit",
   register: "/register",
@@ -25,6 +26,7 @@ export const ROUTE = {
 
 // home menu items
 export const MENU_ITEM = {
+  home: "home",
   search: "search",
   submit: "submit",
   register: "register",

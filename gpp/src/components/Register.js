@@ -81,7 +81,7 @@ class Register extends Component {
                 </Table.Row>
                 {/* Phone */}
                 <Table.Row>
-                  <Table.Cell>
+                  <Table.Cell >
                     Phone
                   </Table.Cell>
                   <Table.Cell>

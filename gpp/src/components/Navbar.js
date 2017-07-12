@@ -58,6 +58,13 @@ class Navbar extends Component {
           </Link>
           <Menu.Menu position="right">
             <Link
+              className={"item " + this.activeClassIfPath("/search")}
+              to="/search"
+              onClick={this.setActivePath}
+            >
+              Search
+            </Link>
+            <Link
               className={"item " + this.activeClassIfPath("/faq")}
               to="/faq"
               onClick={this.setActivePath}

@@ -2,15 +2,17 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {Menu, Container, Grid} from 'semantic-ui-react';
 import {ROUTE, MENU_ITEM} from "../constants/index";
-import {mapStateToProps, mapDispatchToProps} from '../utils/reduxMappers'
-import Submit from './Submit'
-import Search from './Search'
-import Register from './Register'
+import {mapStateToProps, mapDispatchToProps} from '../utils/reduxMappers';
+import Submit from './Submit';
+import Search from './Search';
+import Register from './Register';
+import SubmissionHome from './SubmissionHome';
 
 
 class Home extends Component {
 
   static ITEM_TO_ROUTE = {
+    [MENU_ITEM.home]: ROUTE.home,
     [MENU_ITEM.search]: ROUTE.search,
     [MENU_ITEM.submit]: ROUTE.submit,
     [MENU_ITEM.register]: ROUTE.register,
@@ -22,7 +24,7 @@ class Home extends Component {
   };
 
   state = {
-    activeItem: this.props.activeItem || (this.props.approved ? MENU_ITEM.submit : MENU_ITEM.register)
+    activeItem: this.props.activeItem || (this.props.approved ? MENU_ITEM.home : MENU_ITEM.register)
   };
 
   activeComponent = () => {
@@ -31,6 +33,8 @@ class Home extends Component {
         return <Register
           registered={this.props.registered}
         />;
+      case MENU_ITEM.home:
+        return <SubmissionHome/>;
       case MENU_ITEM.submit:
         return this.props.authenticatedFE && <Submit/>;
       case MENU_ITEM.search:
@@ -99,6 +103,7 @@ class Home extends Component {
             <Grid.Column width={3}>
               { approved ? (
                 <Menu fluid vertical tabular>
+                  <MenuItem item={MENU_ITEM.home} icon="home" />
                   <MenuItem item={MENU_ITEM.submit} icon="upload"/>
                   <MenuItem item={MENU_ITEM.dashboard} icon="dashboard"/>
                   <MenuItem item={MENU_ITEM.publications} icon="file text outline"/>

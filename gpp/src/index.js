@@ -1,15 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {BrowserRouter, Route} from 'react-router-dom';
-import {ROUTE, MENU_ITEM} from "./constants/index"
+import {ROUTE, MENU_ITEM} from "./constants/index";
 import Home from './components/Home';
 import {Provider} from 'react-redux';
-import store from './store/index'
-import Nyc4dHeader from './components/Nyc4dHeader/Nyc4dHeader'
-import Navbar from './components/Navbar'
-import Faq from './components/Faq'
-import About from './components/About'
-import Contact from './components/Contact'
+import store from './store/index';
+import Nyc4dHeader from './components/Nyc4dHeader/Nyc4dHeader';
+import Navbar from './components/Navbar';
+import Faq from './components/Faq';
+import About from './components/About';
+import Contact from './components/Contact';
 import './index.css';
 
 const App = () => (
@@ -17,6 +17,10 @@ const App = () => (
     <Nyc4dHeader/>
     <Navbar/>
   </div>
+);
+
+const SubmissionHome = (props) => (
+  <Home activeItem={MENU_ITEM.home} {...props}/>
 );
 
 const Search = (props) => (
@@ -59,6 +63,7 @@ ReactDOM.render(
       <div>
         <App/>
         <Route exact path={ROUTE.index} component={Home}/>
+        <Route path={ROUTE.home} component={SubmissionHome}/>
         <Route path={ROUTE.search} component={Search}/>
         <Route path={ROUTE.register} component={Register}/>
         <Route path={ROUTE.submit} component={Submit}/>

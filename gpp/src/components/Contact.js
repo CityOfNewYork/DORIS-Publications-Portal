@@ -1,16 +1,35 @@
-import React from 'react';
+import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 import {Container} from 'semantic-ui-react';
 
 
-const Contact = () => (
-  <Container>
-    <h1>Contact Us</h1>
-    <p>
-      Maecenas sed diam eget risus varius blandit sit amet non magna. Cum sociis natoque penatibus et magnis dis
-      parturient montes, nascetur ridiculus mus. Donec sed odio dui. Nulla vitae elit libero, a pharetra augue.
-    </p>
-    <p>(Contact Form)</p>
-  </Container>
-);
+class Contact extends Component {
+  static propTypes = {
+    authenticatedFE : PropTypes.bool.isRequired,
+  };
+
+  render() {
+    const {authenticatedFE} = this.props;
+
+    return (
+      <Container>
+        <h1>Contact Us</h1>
+        {/* Agency Contact */}
+        { authenticatedFE ? (
+          <div>
+            <p>
+              Contact us <a href="mailto:munilib@records.nyc.gov">here</a> or call us at 212-788-8950.
+            </p>
+          </div>
+        ) : (
+          <div>
+            <p>(Contact Form)</p>
+          </div>
+        )
+        }
+      </Container>
+    )
+  }
+}
 
 export default Contact;

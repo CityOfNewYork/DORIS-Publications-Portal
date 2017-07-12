@@ -15,7 +15,7 @@ const Faq = () => (
     <p>
       The Government Documents Portal is a permanent searchable digital repository for all of New York City’s recent
       agency publications, maintained by the Municipal Library at the New York City Department of Records and
-      Information Services. The <a href="http://www.nyc.gov/html/records/pdf/section%201133_citycharter.pdf#page=240" target="_blank">
+      Information Services. The <a href="http://library.amlegal.com/nxt/gateway.dll/New%20York/charter/newyorkcitycharter/chapter49officersandemployees?f=templates$fn=default.htm$3.0$vid=amlegal:newyork_ny$anc=JD_1133" target="_blank">
       New York City Charter, Section 1133</a>, requires agencies to submit copies of any publication to us for permanent
       access and storage. This is part of the New York City government’s ongoing effort to be open and accessible for
       all citizens.
