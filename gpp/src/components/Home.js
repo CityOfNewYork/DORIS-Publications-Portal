@@ -59,8 +59,8 @@ class Home extends Component {
    */
   componentWillUpdate(nextProps, nextState) {
     // TODO: dashboard for library and super(?)
-    if ([MENU_ITEM.register, MENU_ITEM.submit].includes(nextState.activeItem)) {
-      const nextActiveItem = nextProps.approved ? MENU_ITEM.submit : MENU_ITEM.register;
+    if ([MENU_ITEM.register, MENU_ITEM.home].includes(nextState.activeItem)) {
+      const nextActiveItem = nextProps.approved ? MENU_ITEM.home : MENU_ITEM.register;
       if (nextState.activeItem !== nextActiveItem) {
         this.setState({activeItem: nextActiveItem});
       }
