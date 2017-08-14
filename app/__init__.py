@@ -44,17 +44,22 @@ def create_app(conf_type):
 
     from .resources import v1
     from .main.views import main
+    from flask import Blueprint
+    from flask_restful import Api
+
+    blueprint = Blueprint('1.0', __name__)
+    api = Api(blueprint)
 
     # Add resource routes
-    v1.api.add_resource(v1.Documents, '/documents', '/documents/<int:id>')
-    v1.api.add_resource(v1.Upload, '/upload/<string:dirname>', '/upload/<string:dirname>/<string:filename>')
-    v1.api.add_resource(v1.Subjects, '/subjects')
-    v1.api.add_resource(v1.ReportTypes, '/report_types')
-    v1.api.add_resource(v1.Auth, '/auth')
-    v1.api.add_resource(v1.Languages, '/languages')
+    api.add_resource(v1.Documents, '/documents', '/documents/<int:id>')
+    api.add_resource(v1.Upload, '/upload/<string:dirname>', '/upload/<string:dirname>/<string:filename>')
+    api.add_resource(v1.Subjects, '/subjects')
+    api.add_resource(v1.ReportTypes, '/report_types')
+    api.add_resource(v1.Auth, '/auth')
+    api.add_resource(v1.Languages, '/languages')
 
     # Register blueprints
-    app.register_blueprint(v1.blueprint, url_prefix="/api/v1.0")
+    app.register_blueprint(blueprint, url_prefix="/api/v1.0")
     app.register_blueprint(main)
 
     return app
