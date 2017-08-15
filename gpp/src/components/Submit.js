@@ -87,6 +87,7 @@ class SubmitForm extends Component {
         };
       }),
       creators: this.creatorList.state.items,
+      language: this.state.language,
       date_published: formatDate(this.datePublished),
       year_type: this.year.state.yearType
     };
@@ -419,6 +420,6 @@ class SubmitForm extends Component {
 
 export default withValidation(
   "post",
-  "api/v1.0/document",
+  "api/v1.0/documents",
   SubmitForm
 );

@@ -1,4 +1,4 @@
-# import unittest
+import unittest
 from app.database import user, registration
 from app.database.agency import get as get_agency
 from app.tests.base import BaseTestCase
@@ -29,5 +29,5 @@ class AgencyModelTests(BaseTestCase):
         self.assertIsNone(parent_agency.parent)
 
 
-# if __name__ == "__main__":
-#     unittest.main()
+if __name__ == "__main__":
+    unittest.main()

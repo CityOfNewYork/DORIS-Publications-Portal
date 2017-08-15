@@ -47,6 +47,7 @@ def create_app(conf_type):
     from flask import Blueprint
     from flask_restful import Api
 
+    # initialize blueprint
     blueprint = Blueprint('1.0', __name__)
     api = Api(blueprint)
 
