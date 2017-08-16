@@ -48,6 +48,7 @@ def create_app(conf_type):
     from flask_restful import Api
 
     # initialize blueprint
+    # https://stackoverflow.com/questions/31142994/running-single-flask-unittest-passes-but-running-all-tests-gives-assertionerror
     blueprint = Blueprint('1.0', __name__)
     api = Api(blueprint)
 

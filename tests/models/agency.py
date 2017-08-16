@@ -1,8 +1,9 @@
 import unittest
+
+from app.constants.user_auth_type import NYC_EMPLOYEES
 from app.database import user, registration
 from app.database.agency import get as get_agency
-from app.tests.base import BaseTestCase
-from app.constants.user_auth_type import NYC_EMPLOYEES
+from tests.lib.base import BaseTestCase
 
 
 class AgencyModelTests(BaseTestCase):

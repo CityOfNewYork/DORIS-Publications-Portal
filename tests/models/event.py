@@ -1,5 +1,6 @@
 import unittest
-from app.tests.base import BaseTestCase
+
+from tests.lib.base import BaseTestCase
 
 
 class DocumentEventTests(BaseTestCase):

@@ -1,10 +1,12 @@
 import unittest
 from datetime import datetime
+
 from dateutil.relativedelta import relativedelta
-from app.database import document, document_event, user
-from app.tests.base import BaseTestCase
+
 from app.constants import document_action
 from app.constants.user_auth_type import NYC_EMPLOYEES
+from app.database import document, document_event, user
+from tests.lib.base import BaseTestCase
 
 
 class DocumentModelTests(BaseTestCase):

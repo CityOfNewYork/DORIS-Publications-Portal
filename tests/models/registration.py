@@ -1,9 +1,11 @@
 import unittest
-from app.constants import registration_action
-from app.database import registration, agency, user, registration_event
-from app.tests.base import BaseTestCase
-from app.constants.user_auth_type import NYC_EMPLOYEES
+
 from sqlalchemy.exc import SQLAlchemyError
+
+from app.constants import registration_action
+from app.constants.user_auth_type import NYC_EMPLOYEES
+from app.database import registration, agency, user, registration_event
+from tests.lib.base import BaseTestCase
 
 
 class RegistrationModelTests(BaseTestCase):

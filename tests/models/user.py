@@ -1,8 +1,9 @@
 import unittest
+
 from app.constants import USER_ID_DELIMETER
 from app.constants.user_auth_type import NYC_EMPLOYEES
 from app.database import user, registration
-from app.tests.base import BaseTestCase
+from tests.lib.base import BaseTestCase
 
 
 class UserModelTests(BaseTestCase):

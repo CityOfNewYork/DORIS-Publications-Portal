@@ -9,7 +9,7 @@ from app import create_app
 from app.database import db, user, agency, report_type
 
 COV = None
-if os.environ.get('FLASK_COVERAGE') is True:
+if os.environ.get('FLASK_COVERAGE') == 'True':
     import coverage
 
     COV = coverage.coverage(branch=True, include='app/*', config_file=os.path.join(os.curdir, '.coveragerc'))
@@ -68,9 +68,9 @@ def test(cov=False, test_name=None):
         os.execvp(sys.executable, [sys.executable] + sys.argv)
     import unittest
     if not test_name:
-        tests = unittest.TestLoader().discover('app.models.tests', pattern='*.py')
+        tests = unittest.TestLoader().discover('tests', pattern='*.py')
     else:
-        tests = unittest.TestLoader().loadTestsFromName('app.models.tests.' + test_name)
+        tests = unittest.TestLoader().loadTestsFromName('tests.' + test_name)
     unittest.TextTestRunner(verbosity=2).run(tests)
 
     if COV:
