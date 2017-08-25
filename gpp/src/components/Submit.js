@@ -107,6 +107,11 @@ class SubmitForm extends Component {
     this.props.submitFormData(formData);
   };
 
+  // TODO: POST to api
+  handleSave = (e) => {
+    e.preventDefault();
+  };
+
   onDescriptionChange = (e, {name, value}) => {
     this.setState({
       descriptionCharCount: value.length
@@ -403,7 +408,7 @@ class SubmitForm extends Component {
         <Button.Group widths="2">
           <Button color="blue" icon="send" content="Submit"/>
           <Button.Or/>
-          <Button color="green" icon="save" content="Save"/>
+          <Button color="green" icon="save" onClick={this.handleSave} content="Save"/>
         </Button.Group>
 
         { typeof stateError === "string" &&

@@ -26,6 +26,34 @@ class Config(object):
 
     SCHEMAS_DIRECTORY = env.get('SCHEMAS_DIRECTORY') or os.path.join(basedir, 'app/schemas')
 
+    # Redis Settings
+    REDIS_HOST = os.environ.get('REDIS_HOST') or 'localhost'
+    REDIS_PORT = os.environ.get('REDIS_PORT') or '6379'
+    CELERY_REDIS_DB = 0
+    SESSION_REDIS_DB = 1
+    EMAIL_REDIS_DB = 2
+
+    # Celery Settings
+    CELERY_BROKER_URL = 'redis://{redis_host}:{redis_port}/{celery_redis_db}'.format(
+        redis_host=REDIS_HOST,
+        redis_port=REDIS_PORT,
+        celery_redis_db=CELERY_REDIS_DB
+    )
+    CELERY_RESULT_BACKEND = 'redis://{redis_host}:{redis_port}/{celery_redis_db}'.format(
+        redis_host=REDIS_HOST,
+        redis_port=REDIS_PORT,
+        celery_redis_db=CELERY_REDIS_DB
+    )
+
+    # Flask-Mail Settings
+    MAIL_SERVER = os.environ.get('MAIL_SERVER') or 'localhost'
+    MAIL_PORT = os.environ.get('MAIL_PORT') or 2500
+    MAIL_USE_TLS = os.environ.get('MAIL_USE_TLS', 'True') == 'True'
+    MAIL_USERNAME = os.environ.get('MAIL_USERNAME')
+    MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD')
+    MAIL_SUBJECT_PREFIX = os.environ.get('MAIL_SUBJECT_PREFIX') or '[Submissions Portal]'
+    MAIL_SENDER = os.environ.get('MAIL_SENDER') or 'Submissions Portal <donotreply@records.nyc.gov>'
+
 
 class ConfigDevelopment(Config):
     DEBUG = True

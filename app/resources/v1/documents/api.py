@@ -11,6 +11,7 @@ from app.constants.document_action import SUBMITTED
 from app.constants import report_year_type
 from app.database.document import create
 from app.resources.lib import api_response
+from app.resources.lib.email_utils import send_email
 from app.resources.lib.schema_utils import validate_json
 
 SCHEMA_PATH = 'v1/document/'
@@ -160,6 +161,7 @@ class DocumentsAPI(Resource):
                          json['description'],
                          json.get('subtitle')
                          )
+            send_email('Document Submitted', 'email_templates/test', to=['gzhou@records.nyc.gov'])
             return api_response.success({
                 "document": doc.as_dict(),
                 "success_message": {

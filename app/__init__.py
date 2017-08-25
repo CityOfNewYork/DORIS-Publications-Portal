@@ -1,22 +1,28 @@
 import redis
+from celery import Celery
 from flask import Flask
 from flask_login import LoginManager
+from flask_mail import Mail
 from flask_kvsession import KVSessionExtension
 from flask_wtf.csrf import CSRFProtect
 from simplekv.decorator import PrefixDecorator
 from simplekv.memory.redisstore import RedisStore
-from config import config
+from config import config, Config
 from app.database import db
 from app.models import User
 from app.constants import USER_ID_DELIMETER
 from app.resources.lib import api_response
 
-store = RedisStore(redis.StrictRedis(db=0, host='localhost', port='6379'))
+store = RedisStore(redis.StrictRedis(db=Config.SESSION_REDIS_DB, host=Config.REDIS_HOST, port=Config.REDIS_PORT))
 prefixed_store = PrefixDecorator("session_", store)
 
 csrf = CSRFProtect()
+mail = Mail()
 login_manager = LoginManager()
 session = KVSessionExtension()
+celery = Celery(__name__, broker=Config.CELERY_BROKER_URL)
+
+email_redis = redis.StrictRedis(db=Config.EMAIL_REDIS_DB, host=Config.REDIS_HOST, port=Config.REDIS_PORT)
 
 
 @login_manager.user_loader
@@ -40,6 +46,7 @@ def create_app(conf_type):
     db.init_app(app)
     csrf.init_app(app)
     login_manager.init_app(app)
+    celery.conf.update(app.config)
     session.init_app(app, prefixed_store)
 
     from .resources import v1
