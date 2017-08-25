@@ -3,12 +3,15 @@ from flask import (
     request,
     current_app
 )
+from flask_login import login_required, current_user
 from flask_restful import Resource
 from werkzeug.utils import secure_filename
 from datetime import datetime
+from app.constants.document_action import SUBMITTED
+from app.constants import report_year_type
+from app.database.document import create
 from app.resources.lib import api_response
 from app.resources.lib.schema_utils import validate_json
-from flask_login import login_required
 
 SCHEMA_PATH = 'v1/document/'
 
@@ -113,7 +116,10 @@ class DocumentsAPI(Resource):
                 errors["date_published"] = ["This value exceeds the maximum allowable date."]
 
         # validate start and end dates
-        if errors.get("start_date") is None and errors.get("end_date") is None:
+        start = None
+        end = None
+        if json['year_type'] == report_year_type.OTHER and errors.get("start_date") is None and errors.get(
+                "end_date") is None:
             start = json.get("start_date")
             end = json.get("end_date")
             if start is not None and end is not None:
@@ -124,37 +130,38 @@ class DocumentsAPI(Resource):
                     errors["start_date"] = ["This date must be earlier than the end date."]
                     errors["end_date"] = ["This date must be later than the start date."]
 
+        if json['year_type'] in (report_year_type.CALENDAR, report_year_type.FISCAL):
+            year = json['year']
+            start_string = '{}/{}/{}'.format('01', '01', year)
+            end_string = '{}/{}/{}'.format('12', '12', year)
+            start = datetime.strptime(start_string, '%m/%d/%Y')
+            end = datetime.strptime(end_string, '%m/%d/%Y')
+
+        # create creators
+        creators = {
+            "primary_agency": json['agency'],
+            "additional_creators": json.get('creators')
+        }
+
         if not errors:
             # create document
-            doc = Document(1,  # id
-                           json["title"],
-                           json.get("subtitle"),
-                           json["agency"],
-                           json.get("creators"),
-                           json["report_type"],
-                           json["subjects"],
-                           json["language"],
-                           json["date_published"],
-                           json.get("year"),
-                           json.get("start_date"),
-                           json.get("end_date"),
-                           json["description"])
+            doc = create(current_user.guid,
+                         current_user.auth_type,
+                         json['title'],
+                         creators,
+                         json['report_type'],
+                         json['subjects'],
+                         json['language'],
+                         json['date_published'],
+                         json['year_type'],
+                         start,
+                         end,
+                         SUBMITTED,
+                         json['description'],
+                         json.get('subtitle')
+                         )
             return api_response.success({
-                "document": {
-                    "id": doc.id,
-                    "title": doc.title,
-                    "subtitle": doc.subtitle,
-                    "agency": doc.agency,
-                    "creators": doc.creators,
-                    "report_type": doc.report_type,
-                    "subjects": doc.subjects,
-                    "language": doc.language,
-                    "date_published": doc.date_published,
-                    "year": doc.year,
-                    "start_date": doc.start_date,
-                    "end_date": doc.end_date,
-                    "description": doc.description
-                },
+                "document": doc.as_dict(),
                 "success_message": {
                     "text": "Your publication has been submitted for approval."
                 }
