@@ -9,6 +9,9 @@ __pycache__/
 
 # Distribution / packaging
 .Python
+.python-version
+.env
+Vagrantfile
 env/
 develop-eggs/
 dist/
@@ -85,3 +88,9 @@ conf/certs/*
 agencies.txt
 type.txt
 private/*
+tmp/
+uploads/
+node_modules/
+*.crt
+*.key
+*.pem

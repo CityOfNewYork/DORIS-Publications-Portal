@@ -54,8 +54,8 @@ network.host: localhost
 node.local: true
 
 # Path Configuration
-path.logs: /db/es_logs
-path.data: /db/es_data
+path.logs: /data/es_logs
+path.data: /data/es_data
 
 # Set a custom allowed content length: 
 http.max_content_length: 500mb

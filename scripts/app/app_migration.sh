@@ -8,18 +8,18 @@
 export CWD=$PWD
 
 # Activate virtualenv
-source /var/www/virtualenvs/gpp_venv/bin/activate
+source /home/vagrant/.virtualenvs/gpp/bin/activate
 
 # Suspend Process
-service nginx stop
+service rh-nginx18-nginx stop
 killall -s INT /usr/bin/uwsgi
 
 # Setup Application
 rm -rf /var/www/gpp_root/*
-cp -r $CWD/../../application/doris_gpp-2.0.0/* /var/www/gpp_root
+cp -r /vagrant/application/doris_gpp-2.0.0/* /var/www/gpp_root
 cd /var/www/gpp_root
 python manage.py syncdb --noinput
 
 # Resume Processes
-service nginx restart
+service rh-nginx18-nginx restart
 sh /var/www/gpp_root/restart_gpp.sh

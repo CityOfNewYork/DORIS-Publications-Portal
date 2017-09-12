@@ -10,7 +10,7 @@ tracer.setLevel(logging.DEBUG)
 tracer.addHandler(logging.FileHandler('/tmp/out.sh'))
 
 DB = MySQLdb.connect(
-    host='localhost', user='index', passwd=os.environ['DB_NDX'], db='publications')
+    host='localhost', user='index', db='publications')
 C = DB.cursor()
 INDEX = 'publications'
 DOCTYPE = 'document'
