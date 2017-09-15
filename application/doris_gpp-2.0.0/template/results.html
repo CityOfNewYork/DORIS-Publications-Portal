@@ -544,12 +544,14 @@
                                     <p> <b>FULL TEXT SNIPPET:</b> {{ result.file | safe }} </p>
                                 {% endif %}
                                 <p>
-                                <form method="post" action="/publication/" style="display: inline-block;">
-                                    {% csrf_token %}
-                                    <button type="submit" class="btn btn-sm btn-nyc" name="view" value="{{ result.url }}">
-                                        <span class="glyphicon glyphicon-eye-open"></span> View
-                                    </button>
-                                </form>
+                                    {% if result.url|slice:"-4:" == '.pdf' %}
+                                    <form method="post" action="/publication/" style="display: inline-block;">
+                                        {% csrf_token %}
+                                        <button type="submit" class="btn btn-sm btn-nyc" name="view" value="{{ result.url }}">
+                                            <span class="glyphicon glyphicon-eye-open"></span> View
+                                        </button>
+                                    </form>
+                                    {% endif %}
                                 <a onclick="window.open( '{{ result.url }}' )" class="btn btn-sm btn-nyc">
                                     <span class="glyphicon glyphicon-save"></span> Save
                                 </a>
